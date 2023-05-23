@@ -5,7 +5,7 @@ import { Box, TextField, Button, recomposeColor } from "@mui/material";
 import Pusher from "pusher-js";
 import NavBar from "@/components/NavBar";
 
-import NewAxios from "@/lib/NewAxios";
+import newAxios from "@/lib/new-axios";
 
 const LoginPage = () => {
   // let pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
@@ -29,7 +29,7 @@ const LoginPage = () => {
   // }, []);
 
   useEffect(() => {
-    const response = NewAxios.get("/api/test-response", {
+    const response = newAxios.get("/api/test-response", {
       // headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
     console.log(response.data);
