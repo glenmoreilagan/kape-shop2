@@ -12,6 +12,8 @@
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.13.0",
+    "@mui/x-data-grid": "^6.5.0",
+    "@mui/x-date-pickers": "^5.0.20",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "moment": "^2.29.4",
@@ -22,6 +24,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
     "react-items-carousel": "^2.8.0",
+    "react-pro-sidebar": "^1.0.0",
     "react-query": "^3.39.3",
     "swr": "^2.1.5",
     "tailwindcss": "3.3.2"

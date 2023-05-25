@@ -1,16 +1,18 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
+'use client'
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { useRouter, usePathname } from 'next/navigation'
 
-import themes from "@/configs/themes";
-import { AuthConfig } from "@/lib/auth";
+import themes from '@/configs/themes'
+import { AuthConfig } from '@/lib/auth'
 
-import { Button } from "@mui/material";
+import { Button } from '@mui/material'
 // import { AuthConfig } from '@/auth';
 
 function NavBar() {
-  const router = useRouter();
-  const token = AuthConfig().token;
+  const router = useRouter()
+  const pathname = usePathname()
+  const token = AuthConfig().token
 
   // if (!token) {
   //   return null;
@@ -18,26 +20,22 @@ function NavBar() {
 
   const navLinks = [
     {
-      path: "/home",
-      label: "Home",
+      path: '/home',
+      label: 'Home',
     },
     {
-      path: "/home#services",
-      label: "Services",
+      path: '/home#services',
+      label: 'Services',
     },
     {
-      path: "/about",
-      label: "About",
+      path: '/about',
+      label: 'About',
     },
     {
-      path: "/contact",
-      label: "Contact",
+      path: '/contact',
+      label: 'Contact',
     },
-  ];
-
-  const goToLogin = () => {
-    router.replace("/login");
-  };
+  ]
 
   return (
     <>
@@ -51,24 +49,20 @@ function NavBar() {
           </div>
           <div className="flex justify-around items-center w-1/3 font-semibold text-[#B3B3B3]">
             {navLinks.map((nav) => {
-              const isActive = false;
               return (
                 <div key={nav.label}>
-                  <Link
-                    href={nav.path}
-                    className="text-sm hover:text-[#333333]"
-                  >
+                  <Link href={nav.path} className="text-sm hover:text-[#333333]">
                     {nav.label}
                   </Link>
                 </div>
-              );
+              )
             })}
 
             <Button
-              className={`${router.pathname === "/login" ? "invisible" : "visible"}`}
-              onClick={goToLogin}
+              className={`${pathname === '/login' ? 'invisible' : 'visible'}`}
+              onClick={() => router.replace('/login')}
               variant="contained"
-              style={{ backgroundColor: "#BE8A5E", color: "#FFEDBC" }}
+              style={{ backgroundColor: '#BE8A5E', color: '#FFEDBC' }}
               size="small"
             >
               Login
@@ -77,7 +71,7 @@ function NavBar() {
         </nav>
       </div>
     </>
-  );
+  )
 }
 
-export default NavBar;
+export default NavBar
