@@ -47,7 +47,7 @@ function NavBar() {
           <div className="flex-1">
             <h1 className="font-extrabold text-[#616161]">KAPE-SHOP</h1>
           </div>
-          <div className="flex justify-around items-center w-1/3 font-semibold text-[#B3B3B3]">
+          <div className="flex justify-around items-center w-1/3 font-light text-[#B3B3B3]">
             {navLinks.map((nav) => {
               return (
                 <div key={nav.label}>
@@ -62,7 +62,7 @@ function NavBar() {
               className={`${pathname === '/login' ? 'invisible' : 'visible'}`}
               onClick={() => router.replace('/login')}
               variant="contained"
-              style={{ backgroundColor: '#BE8A5E', color: '#FFEDBC' }}
+              style={{ backgroundColor: '#333333', color: '#fff' }}
               size="small"
             >
               Login

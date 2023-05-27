@@ -22,7 +22,7 @@ export default function ProductTable() {
     //   headerName: 'ID',
     //   hide: true,
     // },
-    { field: 'productName', headerName: 'Product Name', flex: 1, minWidth: 80, headerAlign: 'center' },
+    { field: 'productName', headerName: 'Product Name', minWidth: 250, headerAlign: 'center' },
     {
       field: 'action',
       headerName: '',
@@ -32,11 +32,11 @@ export default function ProductTable() {
       align: 'center',
       renderCell: ({ row }) => (
         <>
-          <IconButton aria-label="edit" size="medium">
-            <MdOutlineEdit className="cursor-pointer" onClick={() => console.log(row)} title="Edit" />
+          <IconButton aria-label='edit' size='medium' onClick={() => console.log(row)}>
+            <MdOutlineEdit className='cursor-pointer' title='Edit' />
           </IconButton>
-          <IconButton aria-label="delete" size="medium">
-            <MdOutlineDelete className="cursor-pointer" onClick={() => console.log(row)} title="Delete" />
+          <IconButton aria-label='delete' size='medium' onClick={() => console.log(row)}>
+            <MdOutlineDelete className='cursor-pointer' title='Delete' />
           </IconButton>
         </>
       ),
@@ -49,7 +49,7 @@ export default function ProductTable() {
         // onRowClick={editUser}
         rows={produsts || []}
         columns={header}
-        density="compact"
+        density='compact'
         pageSize={pageSize}
         onPageSizeChange={handlePageSizeChange}
         rowsPerPageOptions={[10, 15, 20, 50, 100]}

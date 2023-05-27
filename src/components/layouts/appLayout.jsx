@@ -22,7 +22,7 @@ export default function AppLayout({ children }) {
           <HeadNav />
           <div className="p-5">
             <LocalizationProvider dateAdapter={AdapterMoment}>
-              <div className="bg-white p-3">{children}</div>
+              <div className="">{children}</div>
             </LocalizationProvider>
           </div>
         </div>

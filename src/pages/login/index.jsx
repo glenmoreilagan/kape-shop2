@@ -71,7 +71,7 @@ const LoginPage = () => {
                 <div className="">
                   <Button
                     variant="contained"
-                    style={{ backgroundColor: '#BE8A5E', color: '#FFEDBC' }}
+                    style={{ backgroundColor: '#333333', color: '#fff' }}
                     size="small"
                     onClick={() => router.replace('/dashboard')}
                   >
