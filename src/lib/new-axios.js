@@ -6,7 +6,7 @@ const newAxios = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
       ? "https://kape-shop.app"
-      : "http://127.0.0.1:8000",
+      : process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
 newAxios.interceptors.request.use((config) => {

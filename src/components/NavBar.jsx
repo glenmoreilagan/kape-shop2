@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 
 import themes from '@/configs/themes'
-import { AuthConfig } from '@/lib/auth'
+// import { AuthConfig } from '@/lib/auth'
 
 import { Button } from '@mui/material'
 // import { AuthConfig } from '@/auth';
@@ -12,7 +12,7 @@ import { Button } from '@mui/material'
 function NavBar() {
   const router = useRouter()
   const pathname = usePathname()
-  const token = AuthConfig().token
+  // const token = AuthConfig().token
 
   // if (!token) {
   //   return null;

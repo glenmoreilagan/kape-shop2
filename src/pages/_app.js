@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-quer
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000,
+      // staleTime: 5 * 60 * 1000,
       keepPreviousData: true,
       refetchInterval: 0,
       refetchOnMount: true,

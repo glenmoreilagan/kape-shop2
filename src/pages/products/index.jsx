@@ -1,11 +1,13 @@
 'use client'
 import React from 'react'
-import AppLayout from '@/components/layouts/appLayout'
-import { Button } from '@mui/material'
-
-import { MdOutlineAdd } from 'react-icons/md'
-import ProductTable from './productTable'
 import { useRouter } from 'next/navigation'
+
+// components
+import AppLayout from '@/components/layouts/appLayout'
+import ProductTable from './productTable'
+
+import { Button } from '@mui/material'
+import { MdOutlineAdd } from 'react-icons/md'
 
 export default function IndexProducts() {
   const router = useRouter()

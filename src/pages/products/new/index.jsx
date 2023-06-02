@@ -30,8 +30,8 @@ export default function IndexNewProduct() {
       additionalInfo: '',
       price: '',
       quantity: '',
-      coffeeType: ['Arabica'],
-      roastLevel: ['Light'],
+      coffeeType: [],
+      roastLevel: [],
       productImage: '',
       productStatus: { value: 'active', label: 'Active' },
     },
@@ -59,10 +59,10 @@ export default function IndexNewProduct() {
     } catch (error) {}
   }
 
-  const { isLoading, error, data } = useQuery({
-    queryKey: ['repoData'],
-    queryFn: () => newAxios.get('https://jsonplaceholder.typicode.com/todos/1'),
-  })
+  // const { isLoading, error, data } = useQuery({
+  //   queryKey: ['repoData'],
+  //   queryFn: () => newAxios.get('https://jsonplaceholder.typicode.com/todos/1'),
+  // })
 
   const options = [
     { value: 'active', label: 'Active' },
@@ -80,6 +80,7 @@ export default function IndexNewProduct() {
   const handleFileChange = (e) => {
     if (!e.target.files || !e.target.files[0]) {
       setDisplayImage('/noimage.jpg')
+      setProductImage(null)
       return
     }
 
@@ -89,8 +90,8 @@ export default function IndexNewProduct() {
 
   return (
     <AppLayout>
-      {isLoading && <h1>Loading...</h1>}
-      {error && <h1>An error has occurred: {JSON.stringify(error.message)}</h1>}
+      {/* {isLoading && <h1>Loading...</h1>}
+      {error && <h1>An error has occurred: {JSON.stringify(error.message)}</h1>} */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='p-3 mb-3 bg-white flex justify-between items-center'>
           <div>
@@ -180,8 +181,8 @@ export default function IndexNewProduct() {
           </div>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
             <img src={displayImage} alt={productImage?.name} className='w-full h-36' />
-            <Button variant='contained' onClick={handleUploadClick} title={productImage?.name}>
-              {productImage ? `${productImage.name.slice(0, 20)}...` : 'Click to select'}
+            <Button variant='outlined' onClick={handleUploadClick} title={productImage?.name}>
+              {productImage ? `${productImage.name.slice(0, 20)}...` : 'Browse Image'}
             </Button>
             <input type='file' ref={inputRef} onChange={handleFileChange} style={{ display: 'none' }} />
           </div>
