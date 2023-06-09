@@ -1,6 +1,10 @@
 'use client'
 import React, { useState, useRef } from 'react'
+import Link from 'next/link'
+
+// components
 import AppLayout from '@/components/layouts/appLayout'
+import BreadcrumbsComponent from '@/components/reusable/breadcrumbs'
 
 import { TextField, Autocomplete, Button } from '@mui/material'
 
@@ -10,6 +14,7 @@ import newAxios from '@/lib/new-axios'
 import { useForm, Controller } from 'react-hook-form'
 
 import { MdOutlineSave } from 'react-icons/md'
+
 
 export default function IndexNewProduct() {
   const [productImage, setProductImage] = useState()
@@ -95,7 +100,12 @@ export default function IndexNewProduct() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='p-3 mb-3 bg-white flex justify-between items-center'>
           <div>
-            <h1 className='font-semibold'>New Product</h1>
+            <BreadcrumbsComponent>
+              <Link href='/products' className='text-sm'>
+                Products
+              </Link>
+              <span className='text-sm'>New Products</span>
+            </BreadcrumbsComponent>
           </div>
           <div>
             <Button className='font-bold' type='submit' variant='contained' size='small' startIcon={<MdOutlineSave />}>

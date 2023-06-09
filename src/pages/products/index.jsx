@@ -1,13 +1,15 @@
 'use client'
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 // components
 import AppLayout from '@/components/layouts/appLayout'
 import ProductTable from './productTable'
+import BreadcrumbsComponent from '@/components/reusable/breadcrumbs'
 
 import { Button } from '@mui/material'
-import { MdOutlineAdd } from 'react-icons/md'
+import { MdOutlineAdd, MdOutlineHome } from 'react-icons/md'
 
 export default function IndexProducts() {
   const router = useRouter()
@@ -17,7 +19,9 @@ export default function IndexProducts() {
       <AppLayout>
         <div className='flex justify-between items-center bg-white p-3 mb-3'>
           <div>
-            <h1 className='font-semibold'>Products</h1>
+            <BreadcrumbsComponent>
+              <span className='text-sm'>Products</span>
+            </BreadcrumbsComponent>
           </div>
           <div>
             <Button

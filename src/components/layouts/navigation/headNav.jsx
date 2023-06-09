@@ -51,11 +51,11 @@ export default function HeadNav() {
           }}
         >
           <div>
-            <MdOutlineMenu className="text-[#865A31] text-xl cursor-pointer" onClick={() => collapseSidebar()} />
+            <MdOutlineMenu className="text-[#333333] text-xl cursor-pointer" onClick={() => collapseSidebar()} />
           </div>
           <div>
             <Button
-              className="text-[#865A31]"
+              className="text-[#333333]"
               size="small"
               id="demo-customized-button"
               aria-controls={open ? 'demo-customized-menu' : undefined}
