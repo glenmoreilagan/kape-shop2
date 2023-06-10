@@ -23,7 +23,7 @@ import { MdOutlineShoppingCart } from 'react-icons/md'
 import { ProductFakeAPI } from '@/api/product'
 
 // store
-import useCartStore from '@/store/products'
+import useCartStore from '@/store/useCartStore'
 
 const ITEM_HEIGHT = 60
 const ITEM_PADDING_TOP = 8
