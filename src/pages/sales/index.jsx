@@ -6,11 +6,24 @@ import AppLayout from '@/components/layouts/appLayout'
 import BreadcrumbsComponent from '@/components/reusable/breadcrumbs'
 import Loader from '@/components/reusable/loader'
 
-import { Button, OutlinedInput, InputLabel, MenuItem, FormControl, ListItemText, Select, Checkbox } from '@mui/material'
+import {
+  Button,
+  OutlinedInput,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  ListItemText,
+  Select,
+  Checkbox,
+  Badge,
+} from '@mui/material'
 
 import { MdOutlineShoppingCart } from 'react-icons/md'
 
 import { ProductFakeAPI } from '@/api/product'
+
+// store
+import useCartStore from '@/store/products'
 
 const ITEM_HEIGHT = 60
 const ITEM_PADDING_TOP = 8
@@ -40,6 +53,10 @@ export default function IndexSales() {
   const { isLoading, error, data: products } = ProductFakeAPI()
   // if (isLoading) return <h1>Loading...</h1>
 
+  const addToCart = useCartStore((state) => state.addToCart)
+  const removeToCart = useCartStore((state) => state.removeToCart)
+  const viewCart = useCartStore((state) => state.cart)
+  const cartCount = useCartStore((state) => state.cartCount)
   const [personName, setPersonName] = useState([])
 
   const handleChange = (event) => {
@@ -54,6 +71,14 @@ export default function IndexSales() {
 
   if (error) return <h1>Error...</h1>
 
+  const handleAddToCart = async (product) => {
+    addToCart(product)
+  }
+
+  const handleRemoveToCart = async (product) => {
+    removeToCart(product)
+  }
+
   return (
     <AppLayout>
       <div className='flex justify-between items-center bg-white p-3 mb-3 sticky top-0 z-10'>
@@ -63,15 +88,17 @@ export default function IndexSales() {
           </BreadcrumbsComponent>
         </div>
         <div>
-          <Button
-            onClick={() => router.push('/products/new')}
-            className='font-bold'
-            size='small'
-            variant='contained'
-            startIcon={<MdOutlineShoppingCart />}
-          >
-            View Cart
-          </Button>
+          <Badge color='error' badgeContent={cartCount()}>
+            <Button
+              onClick={() => router.push('/products/new')}
+              className='font-bold'
+              size='small'
+              variant='contained'
+              startIcon={<MdOutlineShoppingCart />}
+            >
+              View Cart
+            </Button>
+          </Badge>
         </div>
       </div>
 
@@ -105,22 +132,37 @@ export default function IndexSales() {
           {products?.map((product) => {
             return (
               <div key={product.id} className='w-1/2 md:w-1/6 min-h-[350px] p-3 relative'>
-                <div className='shadow-md h-full p-3'>
+                <div className='shadow-md h-full p-3' title={product.title}>
                   <div className='mb-3'>
                     <img src={`${product?.image}`} alt={`${product.title}`} className='w-full h-32' />
                   </div>
                   <div className='mt-5 mb-3'>
                     <div>
-                      <span className='text-sm font-semibold'>{product.title}</span>
+                      <span className='text-xs font-thin'>
+                        {product.title.length > 50 ? product.title.slice(0, 25) + '...' : product.title}
+                      </span>
                     </div>
                     <div>
-                      <span className='text-sm font-light'>PHP {product.price}</span>
+                      <span className='text-xs font-medium'>PHP {product.price}</span>
                     </div>
                   </div>
                   <div className='absolute bottom-0 left-0 right-0 p-3'>
-                    <Button variant='contained' size='small' className='w-full'>
+                    <Button
+                      variant='contained'
+                      size='small'
+                      className='w-full'
+                      onClick={() => handleAddToCart(product)}
+                    >
                       Add to cart
                     </Button>
+                    {/* <Button
+                      variant='contained'
+                      size='small'
+                      className='w-full'
+                      onClick={() => handleRemoveToCart(product)}
+                    >
+                      Remove to cart
+                    </Button> */}
                   </div>
                 </div>
               </div>
