@@ -12,6 +12,8 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 export default function AppLayout({ children }) {
   const router = useRouter()
 
+  // console.log('AppLayout')
+
   return (
     <>
       <div style={{ display: 'flex', height: '100%' }}>
