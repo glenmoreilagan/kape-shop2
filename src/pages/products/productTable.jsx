@@ -1,9 +1,10 @@
 'use client'
 import React, { useState } from 'react'
-import { DataGrid } from '@mui/x-data-grid'
 
+// MUI
 import IconButton from '@mui/material/IconButton'
 import { MdOutlineEdit, MdOutlineDelete } from 'react-icons/md'
+import { DataGrid } from '@mui/x-data-grid'
 
 // API's
 import { productAPI } from '@/api/product'

@@ -139,7 +139,7 @@ export default function IndexSales() {
                   <div className='mt-5 mb-3'>
                     <div>
                       <span className='text-xs font-thin'>
-                        {product.title.length > 50 ? product.title.slice(0, 25) + '...' : product.title}
+                        {product.title?.length > 50 ? product.title.slice(0, 25) + '...' : product.title}
                       </span>
                     </div>
                     <div>

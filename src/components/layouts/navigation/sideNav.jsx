@@ -24,16 +24,6 @@ export default function SideNav() {
   const router = useRouter()
   const pathname = usePathname()
 
-  const navs = [
-    { path: '/dashboard', label: 'Dashboard', icon: <MdOutlineDashboard className='text-xl' /> },
-    {
-      path: '/products',
-      label: 'Products',
-      icon: <MdOutlineProductionQuantityLimits className='text-xl' />,
-    },
-    { path: '/sales', label: 'Sales', icon: <MdOutlineAddchart className='text-xl' /> },
-  ]
-
   const navss = [
     { path: '/dashboard', label: 'Dashboard', icon: <MdOutlineBarChart className='text-xl' /> },
     {
@@ -54,11 +44,11 @@ export default function SideNav() {
       icon: <MdWorkspacesOutline className='text-xl' />,
       children: [
         { path: '/products', label: 'Products', icon: <MdOutlineRemove className='text-sm' /> },
-        {
-          path: '/products/new',
-          label: 'Add Product',
-          icon: <MdOutlineRemove className='text-sm' />,
-        },
+        // {
+        //   path: '/products/new',
+        //   label: 'Add Product',
+        //   icon: <MdOutlineRemove className='text-sm' />,
+        // },
       ],
     },
     {
