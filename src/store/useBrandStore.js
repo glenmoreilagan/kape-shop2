@@ -2,13 +2,13 @@ import newAxios from '@/lib/new-axios'
 import { create } from 'zustand'
 // import { persist, createJSONStorage } from 'zustand/middleware'
 
-const useCategoryStore = create((set, get) => ({
-  selectedCategory: null,
+const useBrandStore = create((set, get) => ({
+  selectedBrand: null,
   openModal: false,
-  addCategory: async (category) => {
+  addBrand: async (brand) => {
     set(() => ({ isLoading: true }))
     try {
-      const reponse = await newAxios.post('/api/categories', category)
+      const reponse = await newAxios.post('/api/brands', brand)
       const { data } = reponse.data
 
       console.log(data)
@@ -18,14 +18,14 @@ const useCategoryStore = create((set, get) => ({
       throw error
     }
   },
-  editCategory: (category) => {
-    set(() => ({ selectedCategory: category }))
+  editBrand: (brand) => {
+    set(() => ({ selectedBrand: brand }))
   },
 
-  updateCategory: async (category, categoryId) => {
+  updateBrand: async (brand, brandId) => {
     set(() => ({ isLoading: true }))
     try {
-      const reponse = await newAxios.put(`/api/categories/${categoryId}`, category)
+      const reponse = await newAxios.put(`/api/brands/${brandId}`, brand)
       const { data } = reponse.data
 
       console.log(data)
@@ -41,9 +41,9 @@ const useCategoryStore = create((set, get) => ({
   },
 
 
-  resetSelectedCategory: () => {
-    set({ selectedCategory: null })
+  resetSelectedBrand: () => {
+    set({ selectedBrand: null })
   },
 }))
 
-export default useCategoryStore
+export default useBrandStore

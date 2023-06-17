@@ -4,7 +4,7 @@ import React, { useState, forwardRef } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Slide } from '@mui/material'
 
 // store
-import useCategoryStore from '@/store/useCategoryStore'
+import useBrandStore from '@/store/useBrandStore'
 
 // react hook form
 import { useForm, Controller } from 'react-hook-form'
@@ -12,18 +12,18 @@ import { useForm, Controller } from 'react-hook-form'
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })
-import { addCategoryAPI, updateCategoryAPI } from '@/api/categories'
+import { addBrandAPI, updateBrandAPI } from '@/api/brands'
 
-export default function AddEditCategoryModal({ actionStatus }) {
-  const { mutateAsync: addCategory } = addCategoryAPI()
-  const { mutateAsync: updateCategory } = updateCategoryAPI()
+export default function AddEditBrandModal({ actionStatus }) {
+  const { mutateAsync: addBrand } = addBrandAPI()
+  const { mutateAsync: updateBrand } = updateBrandAPI()
 
-  const { openModal, setShowHideModal } = useCategoryStore((state) => state)
-  const selectedCategory = useCategoryStore((state) => state.selectedCategory)
+  const { openModal, setShowHideModal } = useBrandStore((state) => state)
+  const selectedBrand = useBrandStore((state) => state.selectedBrand)
 
   const { register, handleSubmit, control } = useForm({
     defaultValues: {
-      category: actionStatus === 'edit' ? selectedCategory.category : '',
+      brand: actionStatus === 'edit' ? selectedBrand.brand : '',
     },
   })
 
@@ -31,18 +31,18 @@ export default function AddEditCategoryModal({ actionStatus }) {
     setShowHideModal()
   }
 
-  const handleSaveCategory = async (data) => {
+  const handleSaveBrand = async (data) => {
     switch (actionStatus) {
       case 'add':
         try {
-          await addCategory(data) // this is mutations only 1 parameters needed
+          await addBrand(data) // this is mutations only 1 parameters needed
         } catch (error) {
           alert(error)
         }
         break
       case 'edit':
         try {
-          await updateCategory({ catId: selectedCategory._id, category: data }) // this is mutations only 1 parameters needed
+          await updateBrand({ brandId: selectedBrand._id, brand: data }) // this is mutations only 1 parameters needed
         } catch (error) {
           alert(error)
         }
@@ -60,17 +60,17 @@ export default function AddEditCategoryModal({ actionStatus }) {
   return (
     <React.Fragment>
       <Dialog fullWidth={true} maxWidth={'sm'} open={openModal} onClose={handleClose} TransitionComponent={Transition}>
-        <form onSubmit={handleSubmit(handleSaveCategory)}>
-          <DialogTitle>{actionStatus === 'edit' ? 'Edit Category' : 'Add New Category'}</DialogTitle>
+        <form onSubmit={handleSubmit(handleSaveBrand)}>
+          <DialogTitle>{actionStatus === 'edit' ? 'Edit Brand' : 'Add New Brand'}</DialogTitle>
           <DialogContent>
             <Box className='mt-3'>
               <TextField
                 className='w-full'
-                id='category'
-                label='Category'
-                placeholder='Category'
+                id='brand'
+                label='Brand'
+                placeholder='Brand'
                 variant='outlined'
-                {...register('category')}
+                {...register('brand')}
               />
             </Box>
           </DialogContent>

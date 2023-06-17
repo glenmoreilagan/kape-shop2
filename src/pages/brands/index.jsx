@@ -10,36 +10,36 @@ import { DataGrid } from '@mui/x-data-grid'
 // components
 import AppLayout from '@/components/layouts/appLayout'
 import BreadcrumbsComponent from '@/components/reusable/breadcrumbs'
-import AddEditCategoryModal from '@/components/categories/addEditCategoryModal'
+import AddEditBrandModal from '@/components/brands/addEditBrandModal'
 import Loader from '@/components/reusable/loader'
 
 // API's
-import { categoryAPI, categoryFakeAPI } from '@/api/categories'
+import { brandAPI } from '@/api/brands'
 
 // store
-import useCategoryStore from '@/store/useCategoryStore'
+import useBrandStore from '@/store/useBrandStore'
 
 import moment from 'moment'
 
-export default function IndexCategory() {
-  const { isLoading, error, data: categories } = categoryAPI()
+export default function IndexBrand() {
+  const { isLoading, error, data: brands } = brandAPI()
 
-  const { openModal, setShowHideModal } = useCategoryStore((state) => state)
-  const editCategory = useCategoryStore((state) => state.editCategory)
-  const resetSelectedCategory = useCategoryStore((state) => state.resetSelectedCategory)
+  const { openModal, setShowHideModal } = useBrandStore((state) => state)
+  const editBrand = useBrandStore((state) => state.editBrand)
+  const resetSelectedBrand = useBrandStore((state) => state.resetSelectedBrand)
 
   const [actionStatus, setActionStatus] = useState(null)
 
   const handleAddCategoryModal = () => {
-    resetSelectedCategory()
+    resetSelectedBrand()
     setActionStatus('add')
     setShowHideModal()
   }
 
-  const handleEditCategoryModal = (data) => {
-    resetSelectedCategory()
+  const handleEditBrandModal = (data) => {
+    resetSelectedBrand()
     setActionStatus('edit')
-    editCategory(data)
+    editBrand(data)
     setShowHideModal()
   }
 
@@ -54,8 +54,8 @@ export default function IndexCategory() {
 
   const header = [
     {
-      field: 'category',
-      headerName: 'Category',
+      field: 'brand',
+      headerName: 'Brand',
       flex: 1,
       minWidth: 150,
     },
@@ -77,7 +77,7 @@ export default function IndexCategory() {
       align: 'right',
       renderCell: ({ row }) => (
         <>
-          <IconButton aria-label='edit' size='medium' onClick={() => handleEditCategoryModal(row)}>
+          <IconButton aria-label='edit' size='medium' onClick={() => handleEditBrandModal(row)}>
             <MdOutlineEdit className='cursor-pointer' title='Edit' />
           </IconButton>
           <IconButton aria-label='delete' size='medium' onClick={() => handleDelete(row)}>
@@ -101,7 +101,7 @@ export default function IndexCategory() {
         <div className='flex justify-between items-center bg-white p-3 mb-3'>
           <div>
             <BreadcrumbsComponent>
-              <span className='text-sm'>Categories</span>
+              <span className='text-sm'>brands</span>
             </BreadcrumbsComponent>
           </div>
           <div>
@@ -112,7 +112,7 @@ export default function IndexCategory() {
               variant='contained'
               startIcon={<MdOutlineAdd />}
             >
-              Add Categories
+              Add brands
             </Button>
           </div>
         </div>
@@ -122,9 +122,10 @@ export default function IndexCategory() {
           <div className='flex w-full h-96'>
             <DataGrid
               className='w-0 px-3' // this is important always add this width: 0
-              // getRowId={(row) => row.id}
+              // getRowId={(row) => row.id}import AddEditBrandModal from './../../components/brands/addEditBrandModal'
+
               getRowId={(row) => row._id}
-              rows={categories || []}
+              rows={brands || []}
               columns={header}
               density='compact'
               pageSize={pageSize}
@@ -135,7 +136,7 @@ export default function IndexCategory() {
             />
           </div>
 
-          {openModal && <AddEditCategoryModal actionStatus={actionStatus} />}
+          {openModal && <AddEditBrandModal actionStatus={actionStatus} />}
           <Loader isLoading={isLoading} />
         </div>
       </AppLayout>
