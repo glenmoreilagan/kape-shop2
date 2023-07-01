@@ -102,7 +102,7 @@ const Carousel = () => {
                 </div>
                 <div className="px-3 mb-3">
                   <Button
-                    className="w-full bg-[#333333] hover:bg-[#5C5C5C] text-white"
+                    className="w-full bg-primary-gray hover:bg-primary-darkgray text-white"
                     variant="contained"
                     size="small"
                   >

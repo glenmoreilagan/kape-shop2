@@ -8,32 +8,30 @@ import NavBar from '@/components/NavBar'
 
 import newAxios from '@/lib/new-axios'
 
+import useUserStore from '@/store/useUserStore'
+import { usersAPI } from '@/api/users'
+
+import { FaGoogle, FaGithub } from 'react-icons/fa'
+import axios from 'axios'
+
 const LoginPage = () => {
   const router = useRouter()
-  // let pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
-  //   cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
-  //   forceTLS: true,
-  //   channelAuthorization: {
-  //     endpoint: "http://localhost:3030/pusher/auth",
-  //   },
-  // });
+  const { isLoading, error, data: loggedUser } = usersAPI()
 
-  // useEffect(() => {
-  //   Pusher.logToConsole = true;
-  //   let pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
-  //     cluster: "ap1",
-  //   });
+  // if (loggedUser) {
+  //   router.push('/dashboard')
+  // }
 
-  //   let channel = pusher.subscribe(process.env.NEXT_PUBLIC_PUSHER_CHANNEL);
-  //   channel.bind("event-test-realtime", function (data) {
-  //     console.log(JSON.stringify(data));
-  //   });
-  // }, []);
+  const handleLogin = async () => {
+    try {
+      const reponse = await axios.get('https://jsonplaceholder.typicode.com/users/1')
+      const result = reponse.data
 
-  useEffect(() => {
-    // const response = newAxios.get("/api/test-response");
-    // console.log(response.data);
-  }, [])
+      router.replace('/dashboard')
+    } catch (error) {
+      throw error
+    }
+  }
 
   return (
     <>
@@ -68,14 +66,9 @@ const LoginPage = () => {
                   />
                 </div>
               </div>
-              <div className='flex justify-between items-center w-full'>
+              <div className='flex justify-between items-center w-full mb-3'>
                 <div className=''>
-                  <Button
-                    variant='contained'
-                    style={{ backgroundColor: '#333333', color: '#fff' }}
-                    size='small'
-                    onClick={() => router.replace('/dashboard')}
-                  >
+                  <Button variant='contained' className='bg-primary-gray text-white' size='small' onClick={handleLogin}>
                     Login
                   </Button>
                 </div>
@@ -83,6 +76,24 @@ const LoginPage = () => {
                   <a href='' className='font-light text-gray-500 text-sm'>
                     Forgot password?
                   </a>
+                </div>
+              </div>
+
+              <div className='flex justify-center mb-10'>
+                <div className='w-1/2 flex justify-center items-center flex-col gap-2'>
+                  <Button
+                    startIcon={<FaGoogle fontSize={22} />}
+                    className='flex items-center bg-white border border-gray-300 rounded-lg shadow-md w-full px-6 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500'
+                  >
+                    <span>Continue with Google</span>
+                  </Button>
+
+                  <Button
+                    startIcon={<FaGithub fontSize={22} />}
+                    className='flex items-center bg-white border border-gray-300 rounded-lg shadow-md w-full px-6 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500'
+                  >
+                    <span>Continue with Github</span>
+                  </Button>
                 </div>
               </div>
               <a href='' className='font-light text-gray-500 text-sm absolute bottom-5'>

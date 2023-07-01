@@ -4,6 +4,7 @@ import Footer from '@/components/Footer'
 import { ProSidebarProvider } from 'react-pro-sidebar'
 
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
+import AuthLayout from '@/components/layouts/authLayout'
 
 // Create a client
 const queryClient = new QueryClient({
@@ -25,7 +26,9 @@ export default function App({ Component, pageProps }) {
     <>
       <ProSidebarProvider>
         <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
+          <AuthLayout>
+            <Component {...pageProps} />
+          </AuthLayout>
         </QueryClientProvider>
         <Footer />
       </ProSidebarProvider>

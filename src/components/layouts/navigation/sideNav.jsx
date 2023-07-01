@@ -82,9 +82,9 @@ export default function SideNav() {
       <Sidebar backgroundColor='#FAFAFA'>
         <div className='flex justify-center items-center'>
           <img
-            src={`${process.env.NEXT_PUBLIC_FRONTEND_URL}/applogo/${!collapsed ? 'logo.png' : 'favicon.png'}`}
+            src={`${process.env.NEXT_PUBLIC_FRONTEND_URL}/applogo/favicon.png`}
             alt='App Logo'
-            className={!collapsed ? 'w-full h-40' : ''}
+            className={`${!collapsed ? 'w-1/2 h-20' : ''} drop-shadow-xl`}
           />
         </div>
         <Menu

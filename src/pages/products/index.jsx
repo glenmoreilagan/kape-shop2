@@ -26,7 +26,7 @@ export default function IndexProducts() {
           <div>
             <Button
               onClick={() => router.push('/products/new')}
-              className='font-bold'
+              className='font-bold bg-primary-darkbrown'
               size='small'
               variant='contained'
               startIcon={<MdOutlineAdd />}

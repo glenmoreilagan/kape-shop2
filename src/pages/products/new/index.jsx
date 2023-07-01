@@ -15,6 +15,46 @@ import { useForm, Controller } from 'react-hook-form'
 
 import { MdOutlineSave } from 'react-icons/md'
 
+import crypto from 'crypto'
+
+const options = [
+  { value: 'active', label: 'Active' },
+  { value: 'inactive', label: 'Inactive' },
+]
+
+const categories = [
+  { id: 1, value: 111, label: 'Cat One' },
+  { id: 2, value: 222, label: 'Cat Two' },
+]
+const brands = [
+  { id: 1, value: 111, label: 'Brand One' },
+  { id: 2, value: 222, label: 'Brand Two' },
+]
+
+const MyController = ({ control, options = [], name, label, multiple }) => {
+  return (
+    <Controller
+      render={({ field }) => (
+        <Autocomplete
+          multiple={multiple}
+          disableCloseOnSelect
+          onChange={(e, newValue) => {
+            field.onChange(newValue)
+          }}
+          value={field.value || null}
+          options={options}
+          getOptionLabel={(option) => option.label}
+          isOptionEqualToValue={(option, value) => option.value === value.value}
+          renderInput={(params) => <TextField {...params} label={label} size='small' />}
+        />
+      )}
+      name={name}
+      control={control}
+    />
+  )
+}
+
+import AutoCompleteController from '@/components/AutoCompleteController'
 
 export default function IndexNewProduct() {
   const [productImage, setProductImage] = useState()
@@ -30,19 +70,21 @@ export default function IndexNewProduct() {
   } = useForm({
     defaultValues: {
       productName: '',
-      sku: '',
+      sku: crypto.randomBytes(6).toString('hex'),
       description: '',
       additionalInfo: '',
-      price: '',
-      quantity: '',
-      coffeeType: [],
-      roastLevel: [],
+      price: 0,
+      quantity: 0,
+      category: [],
+      brand: [],
       productImage: '',
-      productStatus: { value: 'active', label: 'Active' },
+      productStatus: 'active',
     },
   })
 
   const onSubmit = async (data) => {
+    console.log(data)
+    return
     const FORMDATA = new FormData()
     for (let key in data) {
       if (key === 'productStatus') {
@@ -68,14 +110,6 @@ export default function IndexNewProduct() {
   //   queryKey: ['repoData'],
   //   queryFn: () => newAxios.get('https://jsonplaceholder.typicode.com/todos/1'),
   // })
-
-  const options = [
-    { value: 'active', label: 'Active' },
-    { value: 'inactive', label: 'Inactive' },
-  ]
-
-  const coffeeTypes = ['Arabica', 'Robusta']
-  const roastLevels = ['Light', 'Medium', 'Dark']
 
   const handleUploadClick = () => {
     // 👇 We redirect the click event onto the hidden input element
@@ -108,7 +142,7 @@ export default function IndexNewProduct() {
             </BreadcrumbsComponent>
           </div>
           <div>
-            <Button className='font-bold' type='submit' variant='contained' size='small' startIcon={<MdOutlineSave />}>
+            <Button className='font-bold bg-primary-darkbrown' type='submit' variant='contained' size='small' startIcon={<MdOutlineSave />}>
               Save
             </Button>
           </div>
@@ -117,41 +151,9 @@ export default function IndexNewProduct() {
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
             <TextField label='Product Name' variant='outlined' size='small' {...register('productName')} />
             <TextField label='SKU' variant='outlined' size='small' {...register('sku')} />
-            <Controller
-              render={({ field }) => (
-                <Autocomplete
-                  multiple
-                  disableCloseOnSelect
-                  onChange={(e, newValue) => {
-                    field.onChange(newValue)
-                  }}
-                  value={field.value || null}
-                  options={coffeeTypes}
-                  isOptionEqualToValue={(option, value) => option === value}
-                  renderInput={(params) => <TextField {...params} label='Coffee Type' size='small' />}
-                />
-              )}
-              name='coffeeType'
-              control={control}
-            />
 
-            <Controller
-              render={({ field }) => (
-                <Autocomplete
-                  multiple
-                  disableCloseOnSelect
-                  onChange={(e, newValue) => {
-                    field.onChange(newValue)
-                  }}
-                  value={field.value || null}
-                  options={roastLevels}
-                  isOptionEqualToValue={(option, value) => option === value}
-                  renderInput={(params) => <TextField {...params} label='Roast Level' size='small' />}
-                />
-              )}
-              name='roastLevel'
-              control={control}
-            />
+            <AutoCompleteController control={control} options={categories} name='category' label='Select Category' />
+            <AutoCompleteController control={control} options={brands} name='brand' label='Select Brand' />
           </div>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
             <TextField label='Price' variant='outlined' size='small' {...register('price')} />
@@ -162,22 +164,24 @@ export default function IndexNewProduct() {
               This is sample to get value from autocomplete when submited the form
               The getting value is the selected object
             */}
-            <Controller
+            {/* <Controller
               render={({ field }) => (
                 <Autocomplete
-                  // disableCloseOnSelect
-                  onChange={(e, newValue) => {
-                    field.onChange(newValue)
-                  }}
-                  value={field.value || null}
-                  options={options}
-                  isOptionEqualToValue={(option, value) => option.value === value.value}
-                  renderInput={(params) => <TextField {...params} label='Product Status' size='small' />}
+                // disableCloseOnSelect
+                onChange={(e, newValue) => {
+                  field.onChange(newValue)
+                }}
+                value={field.value || null}
+                options={options}
+                isOptionEqualToValue={(option, value) => option.value === value.value}
+                renderInput={(params) => <TextField {...params} label='Product Status' size='small' />}
                 />
-              )}
-              name='productStatus'
-              control={control}
-            />
+                )}
+                name='productStatus'
+                control={control}
+              /> */}
+
+            <AutoCompleteController control={control} options={options} name='productStatus' label='Product Status' />
           </div>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
             <TextField label='Description' variant='outlined' multiline maxRows={4} {...register('description')} />
@@ -191,7 +195,7 @@ export default function IndexNewProduct() {
           </div>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
             <img src={displayImage} alt={productImage?.name} className='w-full h-36' />
-            <Button variant='outlined' onClick={handleUploadClick} title={productImage?.name}>
+            <Button className='bg-primary-darkbrown text-white' variant='contained' onClick={handleUploadClick} title={productImage?.name}>
               {productImage ? `${productImage.name.slice(0, 20)}...` : 'Browse Image'}
             </Button>
             <input type='file' ref={inputRef} onChange={handleFileChange} style={{ display: 'none' }} />

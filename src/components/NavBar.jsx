@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 
@@ -9,14 +9,16 @@ import themes from '@/configs/themes'
 import { Button } from '@mui/material'
 // import { AuthConfig } from '@/auth';
 
+import useUserStore from '@/store/useUserStore'
+
 function NavBar() {
   const router = useRouter()
   const pathname = usePathname()
-  // const token = AuthConfig().token
+  const user = useUserStore((state) => state.user)
 
-  // if (!token) {
-  //   return null;
-  // }
+  // useEffect(() => {
+  //   console.log(user)
+  // }, [user])
 
   const navLinks = [
     {
@@ -40,33 +42,38 @@ function NavBar() {
   return (
     <>
       <div
-        className="hidden md:flex justify-center bg-white shadow-sm sticky top-0 z-50" //backdrop-blur-lg
+        className='hidden md:flex justify-center bg-white shadow-sm sticky top-0 z-50' //backdrop-blur-lg
         style={{ height: themes.navHeight }}
       >
         <nav className={`flex justify-evenly px-5 items-center w-11/12`}>
-          <div className="flex-1">
-            <h1 className="font-extrabold text-[#616161]">KAPE-SHOP</h1>
+          <div className='flex-1'>
+            <h1 className='font-extrabold text-[#616161]'>KAPE-SHOP</h1>
           </div>
-          <div className="flex justify-around items-center w-1/3 font-light text-[#B3B3B3]">
+          <div className='flex justify-around items-center w-1/3 font-light text-[#B3B3B3]'>
             {navLinks.map((nav) => {
               return (
                 <div key={nav.label}>
-                  <Link href={nav.path} className="text-sm hover:text-[#333333]">
+                  <Link href={nav.path} className='text-sm hover:text-[#333333]'>
                     {nav.label}
                   </Link>
                 </div>
               )
             })}
 
-            <Button
-              className={`${pathname === '/login' ? 'invisible' : 'visible'}`}
-              onClick={() => router.replace('/login')}
-              variant="contained"
-              style={{ backgroundColor: '#333333', color: '#fff' }}
-              size="small"
-            >
-              Login
-            </Button>
+            {!user ? (
+              <Button
+                className={`${pathname === '/login' ? 'invisible' : 'visible'} bg-primary-gray text-white`}
+                onClick={() => router.replace('/login')}
+                variant='contained'
+                size='small'
+              >
+                Login
+              </Button>
+            ) : (
+              <Link href='/dashboard' className='text-sm text-[#333333] font-semibold'>
+                Dashboard
+              </Link>
+            )}
           </div>
         </nav>
       </div>

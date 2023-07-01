@@ -17,6 +17,7 @@
     "@tanstack/react-query": "^4.29.7",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "crypto": "^1.0.1",
     "moment": "^2.29.4",
     "next": "13.4.3",
     "postcss": "8.4.23",
@@ -28,6 +29,7 @@
     "react-items-carousel": "^2.8.0",
     "react-pro-sidebar": "^1.0.0",
     "react-query": "^3.39.3",
+    "react-uuid": "^2.0.0",
     "swr": "^2.1.5",
     "tailwindcss": "3.3.2",
     "zustand": "^4.3.8"
