@@ -79,7 +79,7 @@ export default function SideNav() {
 
   return (
     <>
-      <Sidebar backgroundColor='#FAFAFA'>
+      <Sidebar backgroundColor={'rgb(255, 255, 255, 1)'}>
         <div className='flex justify-center items-center'>
           <img
             src={`${process.env.NEXT_PUBLIC_FRONTEND_URL}/applogo/favicon.png`}
