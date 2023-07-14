@@ -14,19 +14,24 @@ import { usersAPI } from '@/api/users'
 import { FaGoogle, FaGithub } from 'react-icons/fa'
 import axios from 'axios'
 
+import { login } from '@/api/auth'
+
 const LoginPage = () => {
   const router = useRouter()
-  const { isLoading, error, data: loggedUser } = usersAPI()
+  const user = useUserStore((state) => state.user)
+  const setUser = useUserStore((state) => state.setUser)
 
-  // if (loggedUser) {
-  //   router.push('/dashboard')
-  // }
+  useEffect(() => {
+    if (user) {
+      router.push('/dashboard')
+    }
+  }, [user])
 
   const handleLogin = async () => {
     try {
-      const reponse = await axios.get('https://jsonplaceholder.typicode.com/users/1')
-      const result = reponse.data
-
+      const result = await login({ email: 'testmail@gmail.com', password: 'password123' })
+      setUser(result.data.user)
+      localStorage.setItem('token', result.data.token)
       router.replace('/dashboard')
     } catch (error) {
       throw error
@@ -69,7 +74,7 @@ const LoginPage = () => {
               <div className='flex justify-between items-center w-full mb-3'>
                 <div className=''>
                   <Button variant='contained' className='bg-primary-gray text-white' size='small' onClick={handleLogin}>
-                    Login
+                    Sign In
                   </Button>
                 </div>
                 <div>
@@ -79,7 +84,7 @@ const LoginPage = () => {
                 </div>
               </div>
 
-              <div className='flex justify-center mb-10'>
+              {/* <div className='flex justify-center mb-10'>
                 <div className='w-1/2 flex justify-center items-center flex-col gap-2'>
                   <Button
                     startIcon={<FaGoogle fontSize={22} />}
@@ -95,7 +100,7 @@ const LoginPage = () => {
                     <span>Continue with Github</span>
                   </Button>
                 </div>
-              </div>
+              </div> */}
               <a href='' className='font-light text-gray-500 text-sm absolute bottom-5'>
                 Don't have an account yet? <span className='text-blue-700'>Sign Up</span>
               </a>

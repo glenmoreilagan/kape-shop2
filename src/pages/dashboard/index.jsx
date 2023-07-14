@@ -5,6 +5,8 @@ import React from 'react'
 import AppLayout from '@/components/layouts/appLayout'
 import BreadcrumbsComponent from '@/components/reusable/breadcrumbs'
 
+import { usersAPI } from '@/api/users'
+import { logout } from '@/api/auth'
 
 export default function IndexDashboard() {
   return (

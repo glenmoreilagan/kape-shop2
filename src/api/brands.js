@@ -28,7 +28,13 @@ export function addBrandAPI() {
     onSuccess: (data) => {
       // this will be trigger another request
       // queryClient.invalidateQueries('brands')
-      queryClient.setQueryData(['brands'], (oldQueryData) => [...oldQueryData, data.data])
+      queryClient.setQueryData(['brands'], (oldQueryData) => {
+        return {
+          status: oldQueryData.status,
+          message: oldQueryData.message,
+          data: [...oldQueryData.data, data?.data?.data],
+        }
+      })
     },
   })
 }
@@ -44,17 +50,22 @@ export function updateBrandAPI() {
       // queryClient.invalidateQueries('brands')
 
       // this is not trigger new request
-      queryClient.setQueryData(['brands'], (oldQueryData) =>
+      queryClient.setQueryData(['brands'], (oldQueryData) => {
         // https://bobbyhadz.com/blog/javascript-update-property-of-object-in-array
         // this if for single row updating need to find the item to change the key/value pair
-        oldQueryData.map((item) => {
-          if (item._id === variables.brandId) {
-            return { ...item, brand: data?.data?.brand }
-          }
 
-          return item
-        })
-      )
+        return {
+          status: oldQueryData.status,
+          message: oldQueryData.message,
+          data: oldQueryData.data.map((item) => {
+            if (item.id === variables.brandId) {
+              return { ...item, brand: data?.data?.data?.brand }
+            }
+
+            return item
+          }),
+        }
+      })
     },
   })
 }

@@ -14,6 +14,9 @@ const Transition = forwardRef(function Transition(props, ref) {
 })
 import { addCategoryAPI, updateCategoryAPI } from '@/api/categories'
 
+import MessageAlert from '@/components/MessageAlert'
+import { toast } from 'react-toastify'
+
 export default function AddEditCategoryModal({ actionStatus }) {
   const { mutateAsync: addCategory } = addCategoryAPI()
   const { mutateAsync: updateCategory } = updateCategoryAPI()
@@ -36,15 +39,19 @@ export default function AddEditCategoryModal({ actionStatus }) {
       case 'add':
         try {
           await addCategory(data) // this is mutations only 1 parameters needed
+          toast.success(<MessageAlert header='Success!' body='Success.' />)
         } catch (error) {
-          alert(error)
+          toast.error(<MessageAlert header='Error!' body='Something Wrong.' />)
+          throw error
         }
         break
       case 'edit':
         try {
-          await updateCategory({ catId: selectedCategory._id, category: data }) // this is mutations only 1 parameters needed
+          await updateCategory({ catId: selectedCategory.id, category: data }) // this is mutations only 1 parameters needed
+          toast.success(<MessageAlert header='Success!' body='Success.' />)
         } catch (error) {
-          alert(error)
+          toast.error(<MessageAlert header='Error!' body='Something Wrong.' />)
+          throw error
         }
         break
 

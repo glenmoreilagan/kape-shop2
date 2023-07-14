@@ -142,7 +142,7 @@ export default function IndexNewProduct() {
             </BreadcrumbsComponent>
           </div>
           <div>
-            <Button className='font-bold bg-primary-darkbrown' type='submit' variant='contained' size='small' startIcon={<MdOutlineSave />}>
+            <Button className='font-bold bg-primary-gray' type='submit' variant='contained' size='small' startIcon={<MdOutlineSave />}>
               Save
             </Button>
           </div>
@@ -195,7 +195,7 @@ export default function IndexNewProduct() {
           </div>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
             <img src={displayImage} alt={productImage?.name} className='w-full h-36' />
-            <Button className='bg-primary-darkbrown text-white' variant='contained' onClick={handleUploadClick} title={productImage?.name}>
+            <Button className='bg-primary-gray text-white' variant='contained' onClick={handleUploadClick} title={productImage?.name}>
               {productImage ? `${productImage.name.slice(0, 20)}...` : 'Browse Image'}
             </Button>
             <input type='file' ref={inputRef} onChange={handleFileChange} style={{ display: 'none' }} />

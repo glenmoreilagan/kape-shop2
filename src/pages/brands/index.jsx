@@ -88,13 +88,6 @@ export default function IndexBrand() {
     },
   ]
 
-  if (error)
-    return (
-      <AppLayout>
-        <h1>{error.message}</h1>
-      </AppLayout>
-    )
-
   return (
     <>
       <AppLayout>
@@ -107,7 +100,7 @@ export default function IndexBrand() {
           <div>
             <Button
               onClick={handleAddCategoryModal}
-              className='font-bold'
+              className='font-bold bg-primary-gray'
               size='small'
               variant='contained'
               startIcon={<MdOutlineAdd />}
@@ -124,8 +117,8 @@ export default function IndexBrand() {
               className='w-0 px-3' // this is important always add this width: 0
               // getRowId={(row) => row.id}import AddEditBrandModal from './../../components/brands/addEditBrandModal'
 
-              getRowId={(row) => row._id}
-              rows={brands || []}
+              // getRowId={(row) => row._id}
+              rows={brands?.data || []}
               columns={header}
               density='compact'
               pageSize={pageSize}

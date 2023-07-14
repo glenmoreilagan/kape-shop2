@@ -42,7 +42,7 @@ export default function AddEditBrandModal({ actionStatus }) {
         break
       case 'edit':
         try {
-          await updateBrand({ brandId: selectedBrand._id, brand: data }) // this is mutations only 1 parameters needed
+          await updateBrand({ brandId: selectedBrand.id, brand: data }) // this is mutations only 1 parameters needed
         } catch (error) {
           alert(error)
         }

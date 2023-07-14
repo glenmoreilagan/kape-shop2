@@ -25,6 +25,7 @@ export default function HeadNav() {
   const { collapseSidebar } = useProSidebar()
   const router = useRouter()
   const user = useUserStore((state) => state.user)
+  const setUser = useUserStore((state) => state.setUser)
 
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -43,6 +44,8 @@ export default function HeadNav() {
   }
 
   const handleLogout = async () => {
+    setUser(null)
+    localStorage.removeItem('token')
     router.replace('/')
     setAnchorEl(null)
   }

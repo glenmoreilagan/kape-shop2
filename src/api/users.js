@@ -7,7 +7,7 @@ export function usersAPI() {
   const { isLoading, error, data } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
-      const { data } = await axios.get('https://jsonplaceholder.typicode.com/users/1')
+      const { data } = await newAxios.get('/api/user')
       return data
     },
   })

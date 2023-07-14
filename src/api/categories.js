@@ -30,7 +30,13 @@ export function addCategoryAPI() {
       // queryClient.invalidateQueries('categories')
 
       // this is not trigger new request
-      queryClient.setQueryData(['categories'], (oldQueryData) => [...oldQueryData, data.data])
+      queryClient.setQueryData(['categories'], (oldQueryData) => {
+        return {
+          status: oldQueryData.status,
+          message: oldQueryData.message,
+          data: [...oldQueryData.data, data?.data?.data],
+        }
+      })
     },
   })
 }
@@ -46,17 +52,22 @@ export function updateCategoryAPI() {
       // queryClient.invalidateQueries('categories')
 
       // this is not trigger new request
-      queryClient.setQueryData(['categories'], (oldQueryData) =>
+      queryClient.setQueryData(['categories'], (oldQueryData) => {
         // https://bobbyhadz.com/blog/javascript-update-property-of-object-in-array
         // this if for single row updating need to find the item to change the key/value pair
-        oldQueryData.map((item) => {
-          if (item._id === variables.catId) {
-            return { ...item, category: data?.data?.category }
-          }
 
-          return item
-        })
-      )
+        return {
+          status: oldQueryData.status,
+          message: oldQueryData.message,
+          data: oldQueryData.data.map((item) => {
+            if (item.id === variables.catId) {
+              return { ...item, category: data?.data?.data?.category }
+            }
+
+            return item
+          }),
+        }
+      })
     },
   })
 }

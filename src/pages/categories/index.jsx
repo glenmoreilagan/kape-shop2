@@ -14,7 +14,7 @@ import AddEditCategoryModal from '@/components/categories/addEditCategoryModal'
 import Loader from '@/components/reusable/loader'
 
 // API's
-import { categoryAPI, categoryFakeAPI } from '@/api/categories'
+import { categoryAPI } from '@/api/categories'
 
 // store
 import useCategoryStore from '@/store/useCategoryStore'
@@ -23,7 +23,6 @@ import moment from 'moment'
 
 export default function IndexCategory() {
   const { isLoading, error, data: categories } = categoryAPI()
-
   const { openModal, setShowHideModal } = useCategoryStore((state) => state)
   const editCategory = useCategoryStore((state) => state.editCategory)
   const resetSelectedCategory = useCategoryStore((state) => state.resetSelectedCategory)
@@ -88,13 +87,6 @@ export default function IndexCategory() {
     },
   ]
 
-  if (error)
-    return (
-      <AppLayout>
-        <h1>{error.message}</h1>
-      </AppLayout>
-    )
-
   return (
     <>
       <AppLayout>
@@ -107,7 +99,7 @@ export default function IndexCategory() {
           <div>
             <Button
               onClick={handleAddCategoryModal}
-              className='font-bold'
+              className='font-bold bg-primary-gray'
               size='small'
               variant='contained'
               startIcon={<MdOutlineAdd />}
@@ -122,9 +114,10 @@ export default function IndexCategory() {
           <div className='flex w-full h-96'>
             <DataGrid
               className='w-0 px-3' // this is important always add this width: 0
-              // getRowId={(row) => row.id}
-              getRowId={(row) => row._id}
-              rows={categories || []}
+              // getRowId={(row) => row.id}import { persist } from 'zustand/middleware'
+
+              // getRowId={(row) => row._id}
+              rows={categories?.data || []}
               columns={header}
               density='compact'
               pageSize={pageSize}

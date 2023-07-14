@@ -14,9 +14,9 @@ const Footer = () => {
         <div className="px-5 flex flex-col md:flex-row justify-evenly items-center w-11/12">
           <div className="flex-1 flex flex-col items-center md:items-start">
             <p className="text-xs text-white">
-              © {moment().format('Y')} {themes.appName}. All rights reserved.
+              © {moment().format('Y')} {themes.appName}.
             </p>
-            <p className="text-gray-300 text-xs">Designed by Glenmore</p>
+            <p className="text-gray-300 text-xs">Developed by Glenmore</p>
             <div className="flex items-center mt-2">
               <GrFacebook className="mx-1 rounded-sm text-lg text-white" />
               <GrLinkedin className="mx-1 rounded-sm text-lg text-white" />
