@@ -12,19 +12,19 @@ import { productAPI } from '@/api/product'
 import { useRouter } from 'next/navigation'
 import moment from 'moment'
 
+const PHPFormatter = new Intl.NumberFormat('en-PH', {
+  style: 'currency',
+  currency: 'PHP',
+})
+
 export default function ProductTable() {
   const router = useRouter()
   const { isLoading, error, data: productsData } = productAPI()
 
-  const [pageSize, setPageSize] = useState(10)
+  const [pageSize, setPageSize] = useState(5)
   const handlePageSizeChange = (data) => {
     setPageSize(data)
   }
-
-  // const produsts = [
-  //   { id: 1, productName: 'Item 1' },
-  //   { id: 2, productName: 'Item 2' },
-  // ]
 
   const header = [
     // {
@@ -41,19 +41,17 @@ export default function ProductTable() {
       headerAlign: 'center',
       align: 'center',
       renderCell: ({ row }) => (
-          <img
-            src={
-              row.productImage
-                ? `${process.env.NEXT_PUBLIC_API_URL}/product/images/${row.productImage}`
-                : '/noimage.jpg'
-            }
-            width={50}
-            alt={`${row.productName}`}
-          />
+        <img
+          src={
+            row.productImage ? `${process.env.NEXT_PUBLIC_API_URL}/product/images/${row.productImage}` : '/noimage.jpg'
+          }
+          width={50}
+          alt={`${row.productName}`}
+        />
       ),
     },
     {
-      field: 'productName',
+      field: 'name',
       headerName: 'Product Name',
       flex: 1,
       minWidth: 250,
@@ -64,35 +62,35 @@ export default function ProductTable() {
       // ),
     },
     {
-      field: 'coffeeType',
-      headerName: 'Coffee Type',
+      field: 'category',
+      headerName: 'Category',
       flex: 1,
       minWidth: 150,
-      renderCell: ({ row }) => (
-        <div className=''>
-          <span>{row.coffeeType.join(', ')}</span>
-        </div>
-      ),
+      renderCell: ({ row }) => row.category?.category,
     },
     {
-      field: 'roastLevel',
-      headerName: 'Roast Leve',
+      field: 'brand',
+      headerName: 'Brand',
       flex: 1,
       minWidth: 150,
-      renderCell: ({ row }) => (
-        <div className=''>
-          <span>{row.roastLevel.join(', ')}</span>
-        </div>
-      ),
     },
     {
-      field: 'createdAt',
+      field: 'price',
+      headerName: 'Price',
+      flex: 1,
+      minWidth: 150,
+      headerAlign: 'right',
+      align: 'right',
+      valueFormatter: (params) => `${PHPFormatter.format(params.value)}`,
+    },
+    {
+      field: 'created_at',
       headerName: 'Created At',
       flex: 1,
       minWidth: 100,
       type: 'date',
-      valueGetter: ({ row }) => new Date(row.createdAt),
-      renderCell: ({ row }) => <span>{moment(row.createdAt).format('MMMM DD, Y')}</span>,
+      valueGetter: ({ row }) => new Date(row.created_at),
+      renderCell: ({ row }) => <span>{moment(row.created_at).format('MMMM DD, Y')}</span>,
     },
     {
       field: 'action',
@@ -103,7 +101,7 @@ export default function ProductTable() {
       align: 'right',
       renderCell: ({ row }) => (
         <>
-          <IconButton aria-label='edit' size='medium' onClick={() => router.replace(`products/edit/${row._id}`)}>
+          <IconButton aria-label='edit' size='medium' onClick={() => router.replace(`products/edit/${row.id}`)}>
             <MdOutlineEdit className='cursor-pointer' title='Edit' />
           </IconButton>
           <IconButton aria-label='delete' size='medium' onClick={() => console.log(row)}>
@@ -115,18 +113,20 @@ export default function ProductTable() {
   ]
 
   return (
-    <div className='flex w-full h-96'>
+    <div className='flex w-full max-h-[70vh] overflow-auto'>
       {!isLoading ? (
         <DataGrid
           className='w-0'
-          getRowId={(row) => row._id}
-          rows={productsData || []}
+          rows={productsData?.data || []}
           columns={header}
-          density='compact'
-          pageSize={pageSize}
-          onPageSizeChange={handlePageSizeChange}
-          rowsPerPageOptions={[10, 15, 20, 50, 100]}
-          autoHeight={true}
+          density='comfortable'
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 10 },
+            },
+          }}
+          pageSizeOptions={[10, 50, 100]}
+          // autoHeight={true}
           rowSelection={false}
         />
       ) : (

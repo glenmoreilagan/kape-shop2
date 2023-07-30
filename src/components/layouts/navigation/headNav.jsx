@@ -79,7 +79,7 @@ export default function HeadNav() {
               onClick={handleClick}
               endIcon={<MdOutlineArrowDropDown />}
             >
-              <Avatar className='bg-primary-darkbrown' sx={{ width: 32, height: 32 }}>
+              <Avatar className='bg-primary-gray' sx={{ width: 32, height: 32 }}>
                 <MdPersonOutline />
               </Avatar>
               {/* {user?.email} */}

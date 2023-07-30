@@ -8,55 +8,26 @@ import BreadcrumbsComponent from '@/components/reusable/breadcrumbs'
 
 import { TextField, Autocomplete, Button } from '@mui/material'
 
-import { useQuery } from '@tanstack/react-query'
 import newAxios from '@/lib/new-axios'
 
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 import { MdOutlineSave } from 'react-icons/md'
 
 import crypto from 'crypto'
 
 const options = [
-  { value: 'active', label: 'Active' },
-  { value: 'inactive', label: 'Inactive' },
+  { value: '0', label: 'Active' },
+  { value: '1', label: 'Inactive' },
 ]
-
-const categories = [
-  { id: 1, value: 111, label: 'Cat One' },
-  { id: 2, value: 222, label: 'Cat Two' },
-]
-const brands = [
-  { id: 1, value: 111, label: 'Brand One' },
-  { id: 2, value: 222, label: 'Brand Two' },
-]
-
-const MyController = ({ control, options = [], name, label, multiple }) => {
-  return (
-    <Controller
-      render={({ field }) => (
-        <Autocomplete
-          multiple={multiple}
-          disableCloseOnSelect
-          onChange={(e, newValue) => {
-            field.onChange(newValue)
-          }}
-          value={field.value || null}
-          options={options}
-          getOptionLabel={(option) => option.label}
-          isOptionEqualToValue={(option, value) => option.value === value.value}
-          renderInput={(params) => <TextField {...params} label={label} size='small' />}
-        />
-      )}
-      name={name}
-      control={control}
-    />
-  )
-}
 
 import AutoCompleteController from '@/components/AutoCompleteController'
 
+import { DropDownCategoryAPI, DropDownBrandAPI } from '@/api/dropdown-menus'
+
 export default function IndexNewProduct() {
+  const { isLoading: categoryLoading, error: categoryError, data: categories } = DropDownCategoryAPI()
+  const { isLoading: brandLoading, error: brandError, data: brands } = DropDownBrandAPI()
   const [productImage, setProductImage] = useState()
   const [displayImage, setDisplayImage] = useState('/noimage.jpg')
   const inputRef = useRef(null)
@@ -75,19 +46,17 @@ export default function IndexNewProduct() {
       additionalInfo: '',
       price: 0,
       quantity: 0,
-      category: [],
-      brand: [],
-      productImage: '',
-      productStatus: 'active',
+      category: null,
+      brand: null,
+      productImage: null,
+      productStatus: { value: 0, label: 'Active' },
     },
   })
 
   const onSubmit = async (data) => {
-    console.log(data)
-    return
     const FORMDATA = new FormData()
     for (let key in data) {
-      if (key === 'productStatus') {
+      if (key === 'productStatus' || key === 'brand' || key === 'category') {
         FORMDATA.append(key, data[key].value)
       } else {
         FORMDATA.append(key, data[key])
@@ -95,21 +64,17 @@ export default function IndexNewProduct() {
     }
 
     FORMDATA.append('productImage', productImage)
-    // console.log([...FORMDATA])
-
+    
     try {
-      const response = await newAxios.post('api/products', FORMDATA, {
-        headers: {
-          // 'content-type': 'multipart/form-data',
-        },
-      })
-    } catch (error) {}
+      const response = await newAxios.post('api/products', FORMDATA)
+      if (response) {
+        alert('Success.')
+      }
+    } catch (error) {
+      alert('Something wrong.')
+      throw error
+    }
   }
-
-  // const { isLoading, error, data } = useQuery({
-  //   queryKey: ['repoData'],
-  //   queryFn: () => newAxios.get('https://jsonplaceholder.typicode.com/todos/1'),
-  // })
 
   const handleUploadClick = () => {
     // 👇 We redirect the click event onto the hidden input element
@@ -142,7 +107,13 @@ export default function IndexNewProduct() {
             </BreadcrumbsComponent>
           </div>
           <div>
-            <Button className='font-bold bg-primary-gray' type='submit' variant='contained' size='small' startIcon={<MdOutlineSave />}>
+            <Button
+              className='font-bold bg-primary-gray'
+              type='submit'
+              variant='contained'
+              size='small'
+              startIcon={<MdOutlineSave />}
+            >
               Save
             </Button>
           </div>
@@ -157,7 +128,7 @@ export default function IndexNewProduct() {
           </div>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
             <TextField label='Price' variant='outlined' size='small' {...register('price')} />
-            <TextField label='Quantity' variant='outlined' size='small' {...register('quantity')} />
+            {/* <TextField label='Quantity' variant='outlined' size='small' {...register('quantity')} /> */}
 
             {/* 
               Reference: https://stackoverflow.com/questions/70696870/changing-autocomplete-value-using-react-hook-form-material-ui
@@ -195,7 +166,12 @@ export default function IndexNewProduct() {
           </div>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
             <img src={displayImage} alt={productImage?.name} className='w-full h-36' />
-            <Button className='bg-primary-gray text-white' variant='contained' onClick={handleUploadClick} title={productImage?.name}>
+            <Button
+              className='bg-primary-gray text-white'
+              variant='contained'
+              onClick={handleUploadClick}
+              title={productImage?.name}
+            >
               {productImage ? `${productImage.name.slice(0, 20)}...` : 'Browse Image'}
             </Button>
             <input type='file' ref={inputRef} onChange={handleFileChange} style={{ display: 'none' }} />

@@ -1,27 +1,64 @@
 'use client'
-import AppLayout from '@/components/layouts/appLayout'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useForm } from 'react-hook-form'
 
 // API's
 import { productFindOneAPI } from '@/api/product'
+import { DropDownCategoryAPI } from '@/api/dropdown-menus'
+
+import AppLayout from '@/components/layouts/appLayout'
+import AutoCompleteController from '@/components/AutoCompleteController'
+
+import { TextField, Autocomplete, Button } from '@mui/material'
 
 export default function IndexEditProduct() {
   const router = useRouter()
+  const { isLoading: categoryLoading, error: categoryError, data: categories } = DropDownCategoryAPI()
   const searchParams = useSearchParams()
-  // process.env.NEXT_PUBLIC_API_URL
-  const { data, isLoading, error } = productFindOneAPI(searchParams.get('id'))
+  const { data: product, isLoading, error } = productFindOneAPI(searchParams.get('id'))
+
+  const { data: productData } = product ?? {}
+
+  const ff = categories?.find((cat) => cat.value === productData?.category_id)
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      productName: '',
+      sku: '',
+      description: '',
+      additionalInfo: '',
+      price: 0,
+      quantity: 0,
+      category: null,
+      brand: null,
+      productImage: null,
+      productStatus: { value: 0, label: 'Active' },
+    },
+  })
+
+  if (isLoading) return <h1>Loading...</h1>
 
   return (
     <AppLayout>
-      {!isLoading && (
-        <img
-          src={`${process.env.NEXT_PUBLIC_API_URL}/product/images/${data[0].productImage}`}
-          alt={data[0].productName}
-          className='w-full h-36'
+      <div className='flex flex-col w-full md:w-3/12 gap-3'>
+        <TextField
+          value={productData?.name}
+          label='Product Name'
+          variant='outlined'
+          size='small'
+          {...register('productName')}
         />
-      )}
+        <TextField value={productData?.sku} label='SKU' variant='outlined' size='small' {...register('sku')} />
+        <AutoCompleteController control={control} options={categories} name='category' label='Select Category' />
+      </div>
     </AppLayout>
   )
 }
