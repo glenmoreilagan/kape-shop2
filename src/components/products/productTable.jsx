@@ -113,10 +113,10 @@ export default function ProductTable() {
   ]
 
   return (
-    <div className='flex w-full max-h-[70vh] overflow-auto'>
+    <div className='flex w-full h-[70vh]'>
       {!isLoading ? (
         <DataGrid
-          className='w-0'
+          className='top-pagination w-0'
           rows={productsData?.data || []}
           columns={header}
           density='comfortable'
@@ -126,8 +126,8 @@ export default function ProductTable() {
             },
           }}
           pageSizeOptions={[10, 50, 100]}
-          // autoHeight={true}
           rowSelection={false}
+          disableColumnMenu
         />
       ) : (
         <h1>Loading...</h1>

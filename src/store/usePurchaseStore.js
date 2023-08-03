@@ -14,7 +14,8 @@ const usePurchaseStore = create((set, get) => ({
       if (filterItem) {
         newItem = state.items.map((row) => {
           if (row.id === filterItem.id) {
-            return { ...row, quantity: row.quantity + 1 }
+            const newQty = Number(row.quantity) + 1
+            return { ...row, quantity: newQty, price: row.price * newQty }
           }
 
           return row
@@ -24,8 +25,21 @@ const usePurchaseStore = create((set, get) => ({
       }
 
       return {
-        isLoading: false,
         items: newItem,
+      }
+    })
+  },
+  setNewItemQty: async (newQty, item) => {
+    set((state) => {
+      return {
+        items: state.items.map((row) => {
+          if (row.id === item.id) {
+            let newPrice = Number(item.original_price) * newQty
+            return { ...row, quantity: newQty, price: newPrice }
+          }
+
+          return row
+        }),
       }
     })
   },

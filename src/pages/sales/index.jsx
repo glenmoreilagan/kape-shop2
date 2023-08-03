@@ -2,9 +2,9 @@
 import React, { useState } from 'react'
 
 // components
-import AppLayout from '@/components/layouts/appLayout'
-import BreadcrumbsComponent from '@/components/reusable/breadcrumbs'
-import Loader from '@/components/reusable/loader'
+import AppLayout from '@/components/layouts/AppLayout'
+import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
+import Loader from '@/components/reusable/Loader'
 
 import {
   Button,

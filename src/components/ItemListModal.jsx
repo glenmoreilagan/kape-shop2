@@ -106,6 +106,7 @@ export default function ItemListModal({ open, handleClose }) {
         brand_id: row.brand_id,
         quantity: 1,
         price: row.price,
+        original_price: row.price,
       })
     )
 
@@ -117,8 +118,9 @@ export default function ItemListModal({ open, handleClose }) {
       <Dialog fullWidth={true} maxWidth={'lg'} open={open} onClose={handleClose} TransitionComponent={Transition}>
         <DialogTitle>Item List</DialogTitle>
         <DialogContent>
-          <div style={{ height: 400, width: '100%' }}>
+          <div className='w-full h-[65vh]'>
             <DataGrid
+              className='top-pagination'
               rows={productsData?.data || []}
               columns={header}
               density='comfortable'
@@ -136,6 +138,7 @@ export default function ItemListModal({ open, handleClose }) {
 
                 setSelectedRows(selectedRows)
               }}
+              disableRowSelectionOnClick
             />
           </div>
         </DialogContent>

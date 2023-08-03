@@ -8,10 +8,10 @@ import IconButton from '@mui/material/IconButton'
 import { DataGrid } from '@mui/x-data-grid'
 
 // components
-import AppLayout from '@/components/layouts/appLayout'
-import BreadcrumbsComponent from '@/components/reusable/breadcrumbs'
-import AddEditBrandModal from '@/components/brands/addEditBrandModal'
-import Loader from '@/components/reusable/loader'
+import AppLayout from '@/components/layouts/AppLayout'
+import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
+import AddEditBrandModal from '@/components/brands/AddEditBrandModal'
+import Loader from '@/components/reusable/Loader'
 
 // API's
 import { brandAPI } from '@/api/brands'
@@ -100,27 +100,27 @@ export default function IndexBrand() {
           <div>
             <Button
               onClick={handleAddCategoryModal}
-              className='font-bold bg-primary-gray'
+              className='bg-primary-gray'
               size='small'
               variant='contained'
               startIcon={<MdOutlineAdd />}
             >
-              Add brands
+              New brands
             </Button>
           </div>
         </div>
 
         <div className='p-3 bg-white'>
-          <TextField label='Search' placeholder='Search' size='small' className='w-full mb-3' />
-          <div className='flex w-full h-96'>
+          {/* <TextField label='Search' placeholder='Search' size='small' className='w-full mb-3' /> */}
+          <div className='flex w-full h-[70vh]'>
             <DataGrid
-              className='w-0 px-3' // this is important always add this width: 0
+              className='top-pagination w-0 px-3' // this is important always add this width: 0
               // getRowId={(row) => row.id}import AddEditBrandModal from './../../components/brands/addEditBrandModal'
 
               // getRowId={(row) => row._id}
               rows={brands?.data || []}
               columns={header}
-              density='compact'
+              density='comfortable'
               pageSize={pageSize}
               onPageSizeChange={handlePageSizeChange}
               rowsPerPageOptions={[10, 15, 20, 50, 100]}

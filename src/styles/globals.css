@@ -4,11 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
-*,
-html {
+:root {
   scroll-behavior: smooth !important;
+  font-family: poppins, roboto, verdana, sans-serif;
+}
+.MuiDataGrid-withBorderColor {
+  border: none;
 }
 
-body {
-  font-family: poppins, roboto, verdana, sans-serif;
+.top-pagination {
+  display: flex;
+  flex-direction: column-reverse;
 }

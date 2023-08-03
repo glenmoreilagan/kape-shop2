@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 // components
-import AppLayout from '@/components/layouts/appLayout'
-import BreadcrumbsComponent from '@/components/reusable/breadcrumbs'
-import ProductTable from '@/components/products/productTable'
+import AppLayout from '@/components/layouts/AppLayout'
+import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
+import ProductTable from '@/components/products/ProductTable'
 
 import { Button } from '@mui/material'
 import { MdOutlineAdd, MdOutlineHome } from 'react-icons/md'
@@ -27,7 +27,7 @@ export default function IndexPurhcase() {
           <div>
             <Button
               onClick={() => router.push('/purchases/new')}
-              className='font-bold bg-primary-gray'
+              className='bg-primary-gray'
               size='small'
               variant='contained'
               startIcon={<MdOutlineAdd />}

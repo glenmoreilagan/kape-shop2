@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 // components
 // import SideNav from './navigation/sideNav'
-import HeadNav from './navigation/headNav'
+import HeadNav from './navigation/HeadNav'
 import UserNotLogged from '../UserNotLogged'
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -15,7 +15,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import useUserStore from '@/store/useUserStore'
 
 // https://stackoverflow.com/questions/64622494/usepreventscroll-causes-uselayouteffect-warning-in-nextjs
-const SideNav = dynamic(() => import('./navigation/sideNav'), { ssr: false })
+const SideNav = dynamic(() => import('./navigation/SideNav'), { ssr: false })
 
 import { usersAPI } from '@/api/users'
 

@@ -1,10 +1,9 @@
 import '@/styles/globals.css'
-import NavBar from '@/components/NavBar'
 import Footer from '@/components/Footer'
 import { ProSidebarProvider } from 'react-pro-sidebar'
 
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
-import AuthLayout from '@/components/layouts/authLayout'
+import AuthLayout from '@/components/layouts/AuthLayout'
 
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -24,13 +23,23 @@ const queryClient = new QueryClient({
   },
 })
 
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  typography: {
+    fontFamily: ['Poppins', 'Roboto', 'verdana', 'sans-serif'].join(','),
+  },
+})
+
 export default function App({ Component, pageProps }) {
   return (
     <>
       <ProSidebarProvider>
         <QueryClientProvider client={queryClient}>
           <AuthLayout>
-            <Component {...pageProps} />
+            <ThemeProvider theme={theme}>
+              <Component {...pageProps} />
+            </ThemeProvider>
             <ToastContainer
               position='top-right'
               autoClose={3000}

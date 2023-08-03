@@ -2,8 +2,8 @@
 import React from 'react'
 
 // components
-import AppLayout from '@/components/layouts/appLayout'
-import BreadcrumbsComponent from '@/components/reusable/breadcrumbs'
+import AppLayout from '@/components/layouts/AppLayout'
+import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 
 import { usersAPI } from '@/api/users'
 import { logout } from '@/api/auth'

@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 import { productFindOneAPI } from '@/api/product'
 import { DropDownCategoryAPI } from '@/api/dropdown-menus'
 
-import AppLayout from '@/components/layouts/appLayout'
+import AppLayout from '@/components/layouts/AppLayout'
 import AutoCompleteController from '@/components/AutoCompleteController'
 
 import { TextField, Autocomplete, Button } from '@mui/material'

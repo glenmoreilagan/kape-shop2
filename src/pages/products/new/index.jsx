@@ -3,8 +3,8 @@ import React, { useState, useRef } from 'react'
 import Link from 'next/link'
 
 // components
-import AppLayout from '@/components/layouts/appLayout'
-import BreadcrumbsComponent from '@/components/reusable/breadcrumbs'
+import AppLayout from '@/components/layouts/AppLayout'
+import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 
 import { TextField, Autocomplete, Button } from '@mui/material'
 
