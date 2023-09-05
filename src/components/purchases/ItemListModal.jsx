@@ -14,7 +14,7 @@ import { toast } from 'react-toastify'
 import moment from 'moment'
 
 // API's
-import { productAPI } from '@/api/product'
+import { productAPI } from '@/api/products'
 
 const PHPFormatter = new Intl.NumberFormat('en-PH', {
   style: 'currency',

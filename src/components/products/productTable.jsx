@@ -7,7 +7,7 @@ import { MdOutlineEdit, MdOutlineDelete } from 'react-icons/md'
 import { DataGrid } from '@mui/x-data-grid'
 
 // API's
-import { productAPI } from '@/api/product'
+import { productAPI } from '@/api/products'
 
 import { useRouter } from 'next/navigation'
 import moment from 'moment'

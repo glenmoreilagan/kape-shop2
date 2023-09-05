@@ -8,20 +8,24 @@ const usePurchaseStore = create((set, get) => ({
     // set((state) => ({ isLoading: false, items: [...state.items, item] }))
 
     set((state) => {
+      // if (!item) return { items: [] }
       let newItem = []
-      const filterItem = state.items?.find((row) => row.id === item.id)
+      const filterItem = state.items?.find((row) => row?.id === item?.id)
+      console.log(state.items)
 
-      if (filterItem) {
-        newItem = state.items.map((row) => {
-          if (row.id === filterItem.id) {
-            const newQty = Number(row.quantity) + 1
-            return { ...row, quantity: newQty, price: row.price * newQty }
-          }
+      if (item?.id) {
+        if (filterItem) {
+          newItem = state.items.map((row) => {
+            if (row.id === filterItem.id) {
+              const newQty = Number(row.quantity) + 1
+              return { ...row, quantity: newQty, price: row.price * newQty }
+            }
 
-          return row
-        })
-      } else {
-        newItem = [...state.items, item]
+            return row
+          })
+        } else {
+          newItem = [...state.items, item]
+        }
       }
 
       return {
@@ -34,7 +38,7 @@ const usePurchaseStore = create((set, get) => ({
       return {
         items: state.items.map((row) => {
           if (row.id === item.id) {
-            let newPrice = Number(item.original_price) * newQty
+            let newPrice = Number(newQty) * Number(item.original_price)
             return { ...row, quantity: newQty, price: newPrice }
           }
 

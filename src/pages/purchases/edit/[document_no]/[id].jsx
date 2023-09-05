@@ -1,53 +1,71 @@
-'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
-// components
-import AppLayout from '@/components/layouts/AppLayout'
+import { useRouter, useSearchParams } from 'next/navigation'
+
+import { purchaseFindOneAPI } from '@/api/purchases'
+
 import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
+import AppLayout from '@/components/layouts/AppLayout'
+import PurchaseItemTable from '@/components/purchases/PurchaseItemTable'
 import ItemListModal from '@/components/purchases/ItemListModal'
 
 import { TextField, Button } from '@mui/material'
-
-import newAxios from '@/lib/new-axios'
-import { generateDocumentNumber } from '@/lib/generate-document-number'
-
-import { useForm } from 'react-hook-form'
-
 import { MdOutlineSave } from 'react-icons/md'
 
-// import { uuid, v4 } from 'uuid'
+import { useForm, Controller } from 'react-hook-form'
 
-import PurchaseItemTable from '@/components/purchases/PurchaseItemTable'
+import newAxios from '@/lib/new-axios'
 
 import moment from 'moment'
 
 import usePurchaseStore from '@/store/usePurchaseStore'
+import TextFieldController from '@/components/TextFieldController'
 
-export default function IndexNewPurchase() {
+export default function IndexEditPurchases() {
   const router = useRouter()
-  const items = usePurchaseStore((state) => state.items)
+  const searchParams = useSearchParams()
+  const purchase_id = searchParams.get('id')
+  const purchase_docnumbent_no = searchParams.get('document_no')
+
+  const { isLoading, error, data: purchases } = purchaseFindOneAPI(purchase_id, purchase_docnumbent_no)
   const setItems = usePurchaseStore((state) => state.setItems)
+  const items = usePurchaseStore((state) => state.items)
   const [openItemListModal, setOpenItemListModal] = useState(false)
+  const [initialState, setInitialState] = useState({
+    document_no: '',
+    description: '',
+    description1: '',
+    transaction_date: null,
+  })
 
   const {
     register,
     handleSubmit,
     watch,
     control,
+    setValue,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      document_no: generateDocumentNumber(),
-      description: '',
-      description1: '',
-      transaction_date: moment().format('MM-DD-YYYY'),
-    },
+    defaultValues: initialState,
   })
 
-  const onSubmit = async (data) => {
-    const payload = { head: data, items: items }
+  const onSubmit = async (e) => {
+    e.preventDefault()
+
+    const { document_no, description, description1, transaction_date } = e.target
+    const payload = {
+      head: {
+        purchase_id: +purchase_id,
+        document_no: document_no.value,
+        description: description.value,
+        description1: description1.value,
+        transaction_date: moment().format('Y-MM-DD'),
+      },
+      items: items,
+    }
+    console.log(payload)
+    return
     try {
       const response = await newAxios.post('api/purchases', payload)
       if (response) {
@@ -69,15 +87,38 @@ export default function IndexNewPurchase() {
   }
 
   useEffect(() => {
-    setItems([])
-  }, [])
+    if (purchases?.data?.purchases) {
+      setInitialState({
+        ...initialState,
+        document_no: purchases?.data.document_no,
+        // description: purchases?.data.purchases[0].description,
+        // description1: purchases?.data.purchases[0].description1,
+        // transaction_date: purchases?.data.transaction_date,
+      })
+      purchases?.data.purchases.map((item, i) => {
+        setItems({
+          purchase_id: item.id,
+          id: item.product_id,
+          document_id: item.document_id,
+          transaction_date: item.transaction_date,
+          description: item.description,
+          description1: item.description1,
+          product_id: item.product_id,
+          category_id: item.category_id,
+          brand_id: item.brand_id,
+          quantity: item.quantity,
+          price: item.quantity * item.price,
+          original_price: item.price,
+          name: item.purchased_product?.name,
+        })
+      })
+    }
+  }, [purchases])
 
   return (
     <AppLayout>
-      {/* {isLoading && <h1>Loading...</h1>}
-      {error && <h1>An error has occurred: {JSON.stringify(error.message)}</h1>} */}
       <div className='mb-5'>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={onSubmit}>
           <div className='p-3 mb-5 bg-white flex justify-between items-center'>
             <div>
               <BreadcrumbsComponent>
@@ -101,13 +142,19 @@ export default function IndexNewPurchase() {
           </div>
           <div className='p-3 bg-white flex flex-col md:flex-row gap-3'>
             <div className='flex flex-col w-full md:w-3/12 gap-3'>
-              <TextField
+              <TextFieldController
+                name={'document_no'}
+                label='Document Number'
+                initialState={initialState}
+                setInitialState={setInitialState}
+              />
+              {/* <TextField
                 label='Document Number'
                 variant='outlined'
+                value={initialState.document_no}
                 size='small'
-                {...register('document_no')}
                 disabled={true}
-              />
+              /> */}
               <TextField
                 label='Date (mm-dd-yyyy)'
                 variant='outlined'
@@ -118,14 +165,7 @@ export default function IndexNewPurchase() {
             </div>
             {/* <div className='flex flex-col w-full md:w-3/12 gap-3'></div> */}
             <div className='flex flex-col w-full md:w-3/12 gap-3'>
-              <TextField
-                label='Description'
-                variant='outlined'
-                multiline
-                rows={3}
-                maxRows={3}
-                {...register('description')}
-              />
+              <TextField label='Description' variant='outlined' multiline rows={3} {...register('description')} />
             </div>
             <div className='flex flex-col w-full md:w-3/12 gap-3'>
               <TextField
@@ -133,7 +173,6 @@ export default function IndexNewPurchase() {
                 variant='outlined'
                 multiline
                 rows={3}
-                maxRows={3}
                 {...register('description1')}
               />
             </div>

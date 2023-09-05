@@ -17,8 +17,8 @@ import { MdOutlineSave } from 'react-icons/md'
 import crypto from 'crypto'
 
 const options = [
-  { value: '0', label: 'Active' },
-  { value: '1', label: 'Inactive' },
+  { value: 0, label: 'Active' },
+  { value: 1, label: 'Inactive' },
 ]
 
 import AutoCompleteController from '@/components/AutoCompleteController'
@@ -37,6 +37,7 @@ export default function IndexNewProduct() {
     handleSubmit,
     watch,
     control,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -48,23 +49,19 @@ export default function IndexNewProduct() {
       quantity: 0,
       category: null,
       brand: null,
-      productImage: null,
-      productStatus: { value: 0, label: 'Active' },
+      productStatus: 0,
     },
   })
 
   const onSubmit = async (data) => {
     const FORMDATA = new FormData()
+
     for (let key in data) {
-      if (key === 'productStatus' || key === 'brand' || key === 'category') {
-        FORMDATA.append(key, data[key].value)
-      } else {
-        FORMDATA.append(key, data[key])
-      }
+      FORMDATA.append(key, data[key])
     }
 
     FORMDATA.append('productImage', productImage)
-    
+
     try {
       const response = await newAxios.post('api/products', FORMDATA)
       if (response) {
@@ -123,36 +120,31 @@ export default function IndexNewProduct() {
             <TextField label='Product Name' variant='outlined' size='small' {...register('productName')} />
             <TextField label='SKU' variant='outlined' size='small' {...register('sku')} />
 
-            <AutoCompleteController control={control} options={categories} name='category' label='Select Category' />
-            <AutoCompleteController control={control} options={brands} name='brand' label='Select Brand' />
+            <AutoCompleteController
+              control={control}
+              options={categories}
+              name='category'
+              label='Select Category'
+              setValue={setValue}
+            />
+            <AutoCompleteController
+              control={control}
+              options={brands}
+              name='brand'
+              label='Select Brand'
+              setValue={setValue}
+            />
           </div>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
             <TextField label='Price' variant='outlined' size='small' {...register('price')} />
-            {/* <TextField label='Quantity' variant='outlined' size='small' {...register('quantity')} /> */}
-
-            {/* 
-              Reference: https://stackoverflow.com/questions/70696870/changing-autocomplete-value-using-react-hook-form-material-ui
-              This is sample to get value from autocomplete when submited the form
-              The getting value is the selected object
-            */}
-            {/* <Controller
-              render={({ field }) => (
-                <Autocomplete
-                // disableCloseOnSelect
-                onChange={(e, newValue) => {
-                  field.onChange(newValue)
-                }}
-                value={field.value || null}
-                options={options}
-                isOptionEqualToValue={(option, value) => option.value === value.value}
-                renderInput={(params) => <TextField {...params} label='Product Status' size='small' />}
-                />
-                )}
-                name='productStatus'
-                control={control}
-              /> */}
-
-            <AutoCompleteController control={control} options={options} name='productStatus' label='Product Status' />
+            <AutoCompleteController
+              control={control}
+              options={options}
+              name='productStatus'
+              label='Product Status'
+              selected={0}
+              setValue={setValue}
+            />
           </div>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
             <TextField label='Description' variant='outlined' multiline maxRows={4} {...register('description')} />

@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 // API's
-import { productFindOneAPI } from '@/api/product'
+import { productFindOneAPI } from '@/api/products'
 import { DropDownCategoryAPI } from '@/api/dropdown-menus'
 
 import AppLayout from '@/components/layouts/AppLayout'
@@ -20,8 +20,6 @@ export default function IndexEditProduct() {
   const { data: product, isLoading, error } = productFindOneAPI(searchParams.get('id'))
 
   const { data: productData } = product ?? {}
-
-  const ff = categories?.find((cat) => cat.value === productData?.category_id)
 
   const {
     register,
@@ -57,7 +55,20 @@ export default function IndexEditProduct() {
           {...register('productName')}
         />
         <TextField value={productData?.sku} label='SKU' variant='outlined' size='small' {...register('sku')} />
-        <AutoCompleteController control={control} options={categories} name='category' label='Select Category' />
+        <AutoCompleteController
+          control={control}
+          options={categories}
+          name='category'
+          label='Select Category'
+          selected={productData?.category_id}
+        />
+        <AutoCompleteController
+          control={control}
+          options={categories}
+          name='category'
+          label='Select Brand'
+          selected={productData?.brand_id}
+        />
       </div>
     </AppLayout>
   )

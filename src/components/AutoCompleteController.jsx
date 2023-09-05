@@ -1,11 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { TextField, Autocomplete } from '@mui/material'
 
 import { Controller } from 'react-hook-form'
 
-export default function AutoCompleteController({ control, options = [], name, label }) {
-  const [state, setState] = useState({ value: 4, label: 'berg' })
+export default function AutoCompleteController({
+  control,
+  options = [],
+  name,
+  label,
+  selected = null,
+  setValue = undefined,
+}) {
+  const [state, setState] = useState(null)
+
+  useEffect(() => {
+    setState(options.find((op) => op.value === selected))
+
+    return () => setState(null)
+  }, [])
 
   return (
     <Controller
@@ -15,6 +28,7 @@ export default function AutoCompleteController({ control, options = [], name, la
             // disableCloseOnSelect
             onChange={(e, newValue) => {
               field.onChange(setState(newValue))
+              setValue(name, newValue.value)
             }}
             value={state || null}
             options={options}

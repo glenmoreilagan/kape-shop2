@@ -20,7 +20,7 @@ import {
 
 import { MdOutlineShoppingCart } from 'react-icons/md'
 
-import { ProductFakeAPI } from '@/api/product'
+import { ProductFakeAPI } from '@/api/products'
 
 // store
 import useCartStore from '@/store/useCartStore'
