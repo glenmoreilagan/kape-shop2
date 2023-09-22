@@ -36,7 +36,7 @@ export default function IndexEditPurchases() {
     document_no: '',
     description: '',
     description1: '',
-    transaction_date: null,
+    transaction_date: '',
   })
 
   const {
@@ -93,7 +93,7 @@ export default function IndexEditPurchases() {
         document_no: purchases?.data.document_no,
         // description: purchases?.data.purchases[0].description,
         // description1: purchases?.data.purchases[0].description1,
-        // transaction_date: purchases?.data.transaction_date,
+        transaction_date: purchases?.data.transaction_date,
       })
       purchases?.data.purchases.map((item, i) => {
         setItems({
@@ -156,11 +156,13 @@ export default function IndexEditPurchases() {
                 disabled={true}
               /> */}
               <TextField
+                value={initialState?.transaction_date}
                 label='Date (mm-dd-yyyy)'
                 variant='outlined'
                 size='small'
                 {...register('transaction_date')}
                 disabled={true}
+                InputLabelProps={{ shrink: true }}
               />
             </div>
             {/* <div className='flex flex-col w-full md:w-3/12 gap-3'></div> */}

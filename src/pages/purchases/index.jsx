@@ -11,7 +11,6 @@ import PurchaseTable from '@/components/purchases/PurchaseTable'
 import { Button } from '@mui/material'
 import { MdOutlineAdd, MdOutlineHome } from 'react-icons/md'
 
-
 export default function IndexPurhcase() {
   const router = useRouter()
 

@@ -10,7 +10,7 @@ export default function AutoCompleteController({
   name,
   label,
   selected = null,
-  setValue = undefined,
+  setValue,
 }) {
   const [state, setState] = useState(null)
 
@@ -28,13 +28,14 @@ export default function AutoCompleteController({
             // disableCloseOnSelect
             onChange={(e, newValue) => {
               field.onChange(setState(newValue))
-              setValue(name, newValue.value)
+              // setValue(name, newValue.value)
             }}
             value={state || null}
             options={options}
             getOptionLabel={(option) => option.label}
             // isOptionEqualToValue={(option, value) => option.value === value.value}
-            renderInput={(params) => <TextField {...params} label={label} size='small' />}
+            renderInput={(params) => <TextField {...params} label={label} size='small' 
+            InputLabelProps={{ shrink: true }}/>}
           />
         )
       }}

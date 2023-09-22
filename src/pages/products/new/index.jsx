@@ -117,8 +117,10 @@ export default function IndexNewProduct() {
         </div>
         <div className='p-3 bg-white flex flex-col md:flex-row gap-3'>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
-            <TextField label='Product Name' variant='outlined' size='small' {...register('productName')} />
-            <TextField label='SKU' variant='outlined' size='small' {...register('sku')} />
+            <TextField label='Product Name' variant='outlined' size='small' {...register('productName')} 
+          InputLabelProps={{ shrink: true }}/>
+            <TextField label='SKU' variant='outlined' size='small' {...register('sku')} 
+          InputLabelProps={{ shrink: true }}/>
 
             <AutoCompleteController
               control={control}
@@ -136,7 +138,8 @@ export default function IndexNewProduct() {
             />
           </div>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
-            <TextField label='Price' variant='outlined' size='small' {...register('price')} />
+            <TextField label='Price' variant='outlined' size='small' {...register('price')} 
+          InputLabelProps={{ shrink: true }}/>
             <AutoCompleteController
               control={control}
               options={options}
@@ -147,13 +150,16 @@ export default function IndexNewProduct() {
             />
           </div>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>
-            <TextField label='Description' variant='outlined' multiline maxRows={4} {...register('description')} />
+            <TextField label='Description' variant='outlined' multiline maxRows={4} {...register('description')} 
+          InputLabelProps={{ shrink: true }}/>
             <TextField
               label='Additional Information'
               variant='outlined'
               multiline
               maxRows={4}
               {...register('additionalInfo')}
+              
+          InputLabelProps={{ shrink: true }}
             />
           </div>
           <div className='flex flex-col w-full md:w-3/12 gap-3'>

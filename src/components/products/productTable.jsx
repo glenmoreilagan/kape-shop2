@@ -11,6 +11,7 @@ import { productAPI } from '@/api/products'
 
 import { useRouter } from 'next/navigation'
 import moment from 'moment'
+import Loader from '../reusable/Loader'
 
 const PHPFormatter = new Intl.NumberFormat('en-PH', {
   style: 'currency',
@@ -114,7 +115,7 @@ export default function ProductTable() {
 
   return (
     <div className='flex w-full h-[70vh]'>
-      {!isLoading ? (
+      
         <DataGrid
           className='top-pagination w-0'
           rows={productsData?.data || []}
@@ -129,9 +130,7 @@ export default function ProductTable() {
           rowSelection={false}
           disableColumnMenu
         />
-      ) : (
-        <h1>Loading...</h1>
-      )}
+        <Loader isLoading={isLoading} />
     </div>
   )
 }

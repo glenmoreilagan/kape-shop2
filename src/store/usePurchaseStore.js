@@ -11,7 +11,7 @@ const usePurchaseStore = create((set, get) => ({
       // if (!item) return { items: [] }
       let newItem = []
       const filterItem = state.items?.find((row) => row?.id === item?.id)
-      console.log(state.items)
+      // console.log(state.items)
 
       if (item?.id) {
         if (filterItem) {

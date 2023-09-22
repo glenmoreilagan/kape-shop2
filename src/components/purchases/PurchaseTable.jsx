@@ -11,6 +11,7 @@ import { purchaseAPI } from '@/api/purchases'
 
 import { useRouter } from 'next/navigation'
 import moment from 'moment'
+import Loader from '../reusable/Loader'
 
 const PHPFormatter = new Intl.NumberFormat('en-PH', {
   style: 'currency',
@@ -55,7 +56,7 @@ export default function PurchaseTable() {
       headerName: 'Document Number',
       flex: 1,
       minWidth: 350,
-      renderCell: ({ row }) => row?.document_no,
+      renderCell: ({ row }) => row.document_no,
     },
     {
       field: 'purchases_count',
@@ -64,7 +65,7 @@ export default function PurchaseTable() {
       width: 150,
       headerAlign: 'right',
       align: 'right',
-      renderCell: ({ row }) => row?.purchases_count,
+      renderCell: ({ row }) => row.purchases_count,
     },
     {
       field: 'purchases_sum_price',
@@ -112,8 +113,8 @@ export default function PurchaseTable() {
       flex: 1,
       minWidth: 100,
       type: 'date',
-      valueGetter: ({ row }) => new Date(row.purchases[0]?.transaction_date),
-      renderCell: ({ row }) => <span>{moment(row.purchases[0]?.transaction_date).format('MMM DD, Y')}</span>,
+      valueGetter: ({ row }) => new Date(row.purchases.transaction_date),
+      renderCell: ({ row }) => <span>{moment(row.purchases.transaction_date).format('MMM DD, Y')}</span>,
     },
     {
       field: 'action',
@@ -124,7 +125,11 @@ export default function PurchaseTable() {
       align: 'right',
       renderCell: ({ row }) => (
         <>
-          <IconButton aria-label='edit' size='medium' onClick={() => router.replace(`purchases/edit/${row.document_no}/${row.id}`)}>
+          <IconButton
+            aria-label='edit'
+            size='medium'
+            onClick={() => router.replace(`purchases/edit/${row.document_no}/${row.id}`)}
+          >
             <MdOutlineEdit className='cursor-pointer' title='Edit' />
           </IconButton>
           <IconButton aria-label='delete' size='medium' onClick={() => console.log(row)}>
@@ -136,8 +141,8 @@ export default function PurchaseTable() {
   ]
 
   return (
-    <div className='flex w-full h-[70vh]'>
-      {!isLoading ? (
+    <>
+      <div className='flex w-full h-[70vh]'>
         <DataGrid
           className='top-pagination w-0'
           rows={purchasesData?.data || []}
@@ -152,9 +157,8 @@ export default function PurchaseTable() {
           rowSelection={false}
           disableColumnMenu
         />
-      ) : (
-        <h1>Loading...</h1>
-      )}
-    </div>
+      </div>
+      <Loader isLoading={isLoading} />
+    </>
   )
 }

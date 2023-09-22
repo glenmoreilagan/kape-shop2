@@ -10,6 +10,7 @@ import { DropDownCategoryAPI } from '@/api/dropdown-menus'
 
 import AppLayout from '@/components/layouts/AppLayout'
 import AutoCompleteController from '@/components/AutoCompleteController'
+import Loader from '@/components/reusable/Loader'
 
 import { TextField, Autocomplete, Button } from '@mui/material'
 
@@ -24,6 +25,8 @@ export default function IndexEditProduct() {
   const {
     register,
     handleSubmit,
+    setValue,
+    reset,
     watch,
     control,
     formState: { errors },
@@ -42,7 +45,13 @@ export default function IndexEditProduct() {
     },
   })
 
-  if (isLoading) return <h1>Loading...</h1>
+  useEffect(() => {
+    // reset({ productName: productData?.name })
+
+    // return () => {
+    //   second
+    // }
+  }, [productData])
 
   return (
     <AppLayout>
@@ -53,8 +62,10 @@ export default function IndexEditProduct() {
           variant='outlined'
           size='small'
           {...register('productName')}
+          InputLabelProps={{ shrink: true }}
         />
-        <TextField value={productData?.sku} label='SKU' variant='outlined' size='small' {...register('sku')} />
+        <TextField value={productData?.sku} label='SKU' variant='outlined' size='small' {...register('sku')} 
+          InputLabelProps={{ shrink: true }}/>
         <AutoCompleteController
           control={control}
           options={categories}
@@ -70,6 +81,8 @@ export default function IndexEditProduct() {
           selected={productData?.brand_id}
         />
       </div>
+
+      {/* <Loader isLoading={isLoading} /> */}
     </AppLayout>
   )
 }
