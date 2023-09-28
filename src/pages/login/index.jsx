@@ -21,17 +21,17 @@ const LoginPage = () => {
   const user = useUserStore((state) => state.user)
   const setUser = useUserStore((state) => state.setUser)
 
-  useEffect(() => {
-    if (user) {
-      router.push('/dashboard')
-    }
-  }, [user])
+  // useEffect(() => {
+  //   if (user) {
+  //     router.push('/dashboard')
+  //   }
+  // }, [user])
 
   const handleLogin = async () => {
     try {
-      const result = await login({ email: 'testmail@gmail.com', password: 'password123' })
-      setUser(result.data.user)
-      localStorage.setItem('token', result.data.token)
+      // const result = await login({ email: 'testmail@gmail.com', password: 'password123' })
+      // setUser(result.data.user)
+      // localStorage.setItem('token', result.data.token)
       router.replace('/dashboard')
     } catch (error) {
       throw error

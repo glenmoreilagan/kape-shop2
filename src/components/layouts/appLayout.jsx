@@ -24,7 +24,7 @@ export default function AppLayout({ children }) {
   const setUser = useUserStore((state) => state.setUser)
   const router = useRouter()
 
-  if (error) return <UserNotLogged/>
+  // if (error) return <UserNotLogged/>
 
   return (
     <>

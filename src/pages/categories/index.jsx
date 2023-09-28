@@ -1,55 +1,59 @@
-'use client'
-import React, { useEffect, useState } from 'react'
+'use client';
+import React, { useEffect, useState } from 'react';
 
 // MUI
-import { Button, TextField } from '@mui/material'
-import { MdOutlineAdd, MdOutlineEdit, MdOutlineDelete } from 'react-icons/md'
-import IconButton from '@mui/material/IconButton'
-import { DataGrid } from '@mui/x-data-grid'
+import { Button, TextField } from '@mui/material';
+import { MdOutlineAdd, MdOutlineEdit, MdOutlineDelete } from 'react-icons/md';
+import IconButton from '@mui/material/IconButton';
+import { DataGrid } from '@mui/x-data-grid';
 
 // components
-import AppLayout from '@/components/layouts/AppLayout'
-import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
-import AddEditCategoryModal from '@/components/categories/AddEditCategoryModal'
-import Loader from '@/components/reusable/Loader'
+import AppLayout from '@/components/layouts/AppLayout';
+import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs';
+import AddEditCategoryModal from '@/components/categories/AddEditCategoryModal';
+import Loader from '@/components/reusable/Loader';
 
 // API's
-import { categoryAPI } from '@/api/categories'
+import { categoryAPI } from '@/api/categories';
 
 // store
-import useCategoryStore from '@/store/useCategoryStore'
+import useCategoryStore from '@/store/useCategoryStore';
 
-import moment from 'moment'
+import moment from 'moment';
+
+import { Button as UIButton } from '@/components/ui/button';
 
 export default function IndexCategory() {
-  const { isLoading, error, data: categories } = categoryAPI()
-  const { openModal, setShowHideModal } = useCategoryStore((state) => state)
-  const editCategory = useCategoryStore((state) => state.editCategory)
-  const resetSelectedCategory = useCategoryStore((state) => state.resetSelectedCategory)
+  const { isLoading, error, data: categories } = categoryAPI();
+  const { openModal, setShowHideModal } = useCategoryStore((state) => state);
+  const editCategory = useCategoryStore((state) => state.editCategory);
+  const resetSelectedCategory = useCategoryStore(
+    (state) => state.resetSelectedCategory
+  );
 
-  const [actionStatus, setActionStatus] = useState(null)
+  const [actionStatus, setActionStatus] = useState(null);
 
   const handleAddCategoryModal = () => {
-    resetSelectedCategory()
-    setActionStatus('add')
-    setShowHideModal()
-  }
+    resetSelectedCategory();
+    setActionStatus('add');
+    setShowHideModal();
+  };
 
   const handleEditCategoryModal = (data) => {
-    resetSelectedCategory()
-    setActionStatus('edit')
-    editCategory(data)
-    setShowHideModal()
-  }
+    resetSelectedCategory();
+    setActionStatus('edit');
+    editCategory(data);
+    setShowHideModal();
+  };
 
-  const [pageSize, setPageSize] = useState(10)
+  const [pageSize, setPageSize] = useState(10);
   const handlePageSizeChange = (data) => {
-    setPageSize(data)
-  }
+    setPageSize(data);
+  };
 
   const handleDelete = (row) => {
-    console.log(row)
-  }
+    console.log(row);
+  };
 
   const header = [
     {
@@ -65,7 +69,9 @@ export default function IndexCategory() {
       minWidth: 100,
       type: 'date',
       valueGetter: ({ row }) => new Date(row.createdAt),
-      renderCell: ({ row }) => <span>{moment(row.createdAt).format('MMMM DD, Y')}</span>,
+      renderCell: ({ row }) => (
+        <span>{moment(row.createdAt).format('MMMM DD, Y')}</span>
+      ),
     },
     {
       field: 'action',
@@ -76,16 +82,24 @@ export default function IndexCategory() {
       align: 'right',
       renderCell: ({ row }) => (
         <>
-          <IconButton aria-label='edit' size='medium' onClick={() => handleEditCategoryModal(row)}>
+          <IconButton
+            aria-label='edit'
+            size='medium'
+            onClick={() => handleEditCategoryModal(row)}
+          >
             <MdOutlineEdit className='cursor-pointer' title='Edit' />
           </IconButton>
-          <IconButton aria-label='delete' size='medium' onClick={() => handleDelete(row)}>
+          <IconButton
+            aria-label='delete'
+            size='medium'
+            onClick={() => handleDelete(row)}
+          >
             <MdOutlineDelete className='cursor-pointer' title='Delete' />
           </IconButton>
         </>
       ),
     },
-  ]
+  ];
 
   return (
     <>
@@ -97,7 +111,7 @@ export default function IndexCategory() {
             </BreadcrumbsComponent>
           </div>
           <div>
-            <Button
+            {/* <Button
               onClick={handleAddCategoryModal}
               className='bg-primary-gray'
               size='small'
@@ -105,7 +119,10 @@ export default function IndexCategory() {
               startIcon={<MdOutlineAdd />}
             >
               New Categories
-            </Button>
+            </Button> */}
+            <UIButton onClick={handleAddCategoryModal}>
+              <MdOutlineAdd className='mr-2' /> New Categories
+            </UIButton>
           </div>
         </div>
 
@@ -133,5 +150,5 @@ export default function IndexCategory() {
         </div>
       </AppLayout>
     </>
-  )
+  );
 }
