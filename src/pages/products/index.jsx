@@ -8,37 +8,33 @@ import AppLayout from '@/components/layouts/AppLayout'
 import ProductTable from '../../components/products/ProductTable'
 import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 
-import { Button } from '@mui/material'
-import { MdOutlineAdd, MdOutlineHome } from 'react-icons/md'
+import { BiPlus } from 'react-icons/bi'
+import { Button } from '@/components/ui/button'
 
+// API's
+import { productAPI } from '@/api/products'
 
 export default function IndexProducts() {
   const router = useRouter()
 
+  const { isLoading, error, data: products } = productAPI()
+
   return (
     <>
       <AppLayout>
-        <div className='flex justify-between items-center bg-white p-3 mb-3'>
+        <div className='flex justify-between items-center bg-white p-3 mb-3 rounded-md'>
           <div>
-            <BreadcrumbsComponent>
-              <span className='text-sm'>Products</span>
-            </BreadcrumbsComponent>
+            <h1 className='scroll-m-20 text-xl font-semibold tracking-tight'>Products</h1>
           </div>
           <div>
-            <Button
-              onClick={() => router.push('/products/new')}
-              className='bg-primary-gray'
-              size='small'
-              variant='contained'
-              startIcon={<MdOutlineAdd />}
-            >
-              New Product
+            <Button size='sm' onClick={() => router.push('/products/new')}>
+              <BiPlus className='mr-2 h-4 w-4' /> New
             </Button>
           </div>
         </div>
 
-        <div className='p-3 bg-white'>
-          <ProductTable />
+        <div className='p-3 bg-white rounded-md'>
+          <ProductTable products={products} />
         </div>
       </AppLayout>
     </>

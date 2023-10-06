@@ -1,7 +1,20 @@
-import React, { useState, forwardRef } from 'react'
+import React, { useState, forwardRef, useEffect } from 'react'
 
-// MUI
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Slide } from '@mui/material'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 
 // store
 import useCategoryStore from '@/store/useCategoryStore'
@@ -66,27 +79,23 @@ export default function AddEditCategoryModal({ actionStatus }) {
 
   return (
     <React.Fragment>
-      <Dialog fullWidth={true} maxWidth={'sm'} open={openModal} onClose={handleClose} TransitionComponent={Transition}>
-        <form onSubmit={handleSubmit(handleSaveCategory)}>
-          <DialogTitle>{actionStatus === 'edit' ? 'Edit Category' : 'Add New Category'}</DialogTitle>
-          <DialogContent>
-            <Box className='mt-3'>
-              <TextField
-                className='w-full'
-                id='category'
-                label='Category'
-                placeholder='Category'
-                variant='outlined'
-                {...register('category')}
-              />
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
-            <Button type='submit'>Save</Button>
-          </DialogActions>
-        </form>
-      </Dialog>
+      <AlertDialog open={openModal}>
+        <AlertDialogContent>
+          <form onSubmit={handleSubmit(handleSaveCategory)}>
+            <AlertDialogHeader className='mb-5'>
+              <AlertDialogTitle>{actionStatus === 'edit' ? 'Edit Category' : 'Add New Category'}</AlertDialogTitle>
+              <AlertDialogDescription>
+                <Label htmlFor='category'>Category</Label>
+                <Input id='category' placeholder='Category' {...register('category')} />
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={setShowHideModal}>Cancel</AlertDialogCancel>
+              <AlertDialogAction type='submit'>Save</AlertDialogAction>
+            </AlertDialogFooter>
+          </form>
+        </AlertDialogContent>
+      </AlertDialog>
     </React.Fragment>
   )
 }

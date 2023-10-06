@@ -1,154 +1,74 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+'use client'
+import React, { useEffect, useState } from 'react'
 
-// MUI
-import { Button, TextField } from '@mui/material';
-import { MdOutlineAdd, MdOutlineEdit, MdOutlineDelete } from 'react-icons/md';
-import IconButton from '@mui/material/IconButton';
-import { DataGrid } from '@mui/x-data-grid';
+import { BiPlus } from 'react-icons/bi'
 
 // components
-import AppLayout from '@/components/layouts/AppLayout';
-import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs';
-import AddEditCategoryModal from '@/components/categories/AddEditCategoryModal';
-import Loader from '@/components/reusable/Loader';
+import AppLayout from '@/components/layouts/AppLayout'
+import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
+import AddEditCategoryModal from '@/components/categories/AddEditCategoryModal'
+import Loader from '@/components/reusable/Loader'
 
 // API's
-import { categoryAPI } from '@/api/categories';
+import { categoryAPI } from '@/api/categories'
 
 // store
-import useCategoryStore from '@/store/useCategoryStore';
+import useCategoryStore from '@/store/useCategoryStore'
 
-import moment from 'moment';
+import moment from 'moment'
 
-import { Button as UIButton } from '@/components/ui/button';
+import { Button } from '@/components/ui/button'
+
+import CategoryTable from '@/components/categories/CategoryTable'
 
 export default function IndexCategory() {
-  const { isLoading, error, data: categories } = categoryAPI();
-  const { openModal, setShowHideModal } = useCategoryStore((state) => state);
-  const editCategory = useCategoryStore((state) => state.editCategory);
-  const resetSelectedCategory = useCategoryStore(
-    (state) => state.resetSelectedCategory
-  );
+  const { isLoading, error, data: categories } = categoryAPI()
+  const { openModal, setShowHideModal } = useCategoryStore((state) => state)
+  const editCategory = useCategoryStore((state) => state.editCategory)
+  const resetSelectedCategory = useCategoryStore((state) => state.resetSelectedCategory)
 
-  const [actionStatus, setActionStatus] = useState(null);
+  const [actionStatus, setActionStatus] = useState(null)
 
   const handleAddCategoryModal = () => {
-    resetSelectedCategory();
-    setActionStatus('add');
-    setShowHideModal();
-  };
+    resetSelectedCategory()
+    setActionStatus('add')
+    setShowHideModal()
+  }
 
   const handleEditCategoryModal = (data) => {
-    resetSelectedCategory();
-    setActionStatus('edit');
-    editCategory(data);
-    setShowHideModal();
-  };
+    resetSelectedCategory()
+    setActionStatus('edit')
+    editCategory(data)
+    setShowHideModal()
+  }
 
-  const [pageSize, setPageSize] = useState(10);
-  const handlePageSizeChange = (data) => {
-    setPageSize(data);
-  };
+  const [pageSize, setPageSize] = useState(10)
 
   const handleDelete = (row) => {
-    console.log(row);
-  };
-
-  const header = [
-    {
-      field: 'category',
-      headerName: 'Category',
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: 'createdAt',
-      headerName: 'Created At',
-      flex: 1,
-      minWidth: 100,
-      type: 'date',
-      valueGetter: ({ row }) => new Date(row.createdAt),
-      renderCell: ({ row }) => (
-        <span>{moment(row.createdAt).format('MMMM DD, Y')}</span>
-      ),
-    },
-    {
-      field: 'action',
-      headerName: '',
-      flex: 1,
-      minWidth: 150,
-      sortable: false,
-      align: 'right',
-      renderCell: ({ row }) => (
-        <>
-          <IconButton
-            aria-label='edit'
-            size='medium'
-            onClick={() => handleEditCategoryModal(row)}
-          >
-            <MdOutlineEdit className='cursor-pointer' title='Edit' />
-          </IconButton>
-          <IconButton
-            aria-label='delete'
-            size='medium'
-            onClick={() => handleDelete(row)}
-          >
-            <MdOutlineDelete className='cursor-pointer' title='Delete' />
-          </IconButton>
-        </>
-      ),
-    },
-  ];
+    console.log(row)
+  }
 
   return (
     <>
       <AppLayout>
-        <div className='flex justify-between items-center bg-white p-3 mb-3'>
+        <div className='flex justify-between items-center bg-white p-3 mb-3 rounded-md'>
           <div>
-            <BreadcrumbsComponent>
-              <span className='text-sm'>Categories</span>
-            </BreadcrumbsComponent>
+            <h1 className='scroll-m-20 text-xl font-semibold tracking-tight'>Categories</h1>
           </div>
           <div>
-            {/* <Button
-              onClick={handleAddCategoryModal}
-              className='bg-primary-gray'
-              size='small'
-              variant='contained'
-              startIcon={<MdOutlineAdd />}
-            >
-              New Categories
-            </Button> */}
-            <UIButton onClick={handleAddCategoryModal}>
-              <MdOutlineAdd className='mr-2' /> New Categories
-            </UIButton>
+            <Button size='sm' onClick={handleAddCategoryModal}>
+              <BiPlus className='mr-2 h-4 w-4' /> New
+            </Button>
           </div>
         </div>
 
-        <div className='p-3 bg-white'>
-          {/* <TextField label='Search' placeholder='Search' size='small' className='w-full mb-3' /> */}
-          <div className='flex w-full h-[70vh]'>
-            <DataGrid
-              className='top-pagination w-0 px-3' // this is important always add this width: 0
-              // getRowId={(row) => row.id}import { persist } from 'zustand/middleware'
-
-              // getRowId={(row) => row._id}
-              rows={categories?.data || []}
-              columns={header}
-              density='comfortable'
-              pageSize={pageSize}
-              onPageSizeChange={handlePageSizeChange}
-              rowsPerPageOptions={[10, 15, 20, 50, 100]}
-              autoHeight={false}
-              rowSelection={false}
-            />
-          </div>
-
-          {openModal && <AddEditCategoryModal actionStatus={actionStatus} />}
-          <Loader isLoading={isLoading} />
+        <div className='p-3 bg-white rounded-md'>
+          <CategoryTable categories={categories} edit={handleEditCategoryModal} />
         </div>
+
+        {openModal && <AddEditCategoryModal actionStatus={actionStatus} />}
+        <Loader isLoading={isLoading} />
       </AppLayout>
     </>
-  );
+  )
 }

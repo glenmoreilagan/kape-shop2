@@ -1,7 +1,21 @@
 import React, { useState, forwardRef } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
-// MUI
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Slide } from '@mui/material'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 
 // store
 import useBrandStore from '@/store/useBrandStore'
@@ -14,7 +28,13 @@ const Transition = forwardRef(function Transition(props, ref) {
 })
 import { addBrandAPI, updateBrandAPI } from '@/api/brands'
 
+import MessageAlert from '@/components/MessageAlert'
+import { toast } from 'react-toastify'
+
 export default function AddEditBrandModal({ actionStatus }) {
+  const router = useRouter()
+  const params = useSearchParams()
+  
   const { mutateAsync: addBrand } = addBrandAPI()
   const { mutateAsync: updateBrand } = updateBrandAPI()
 
@@ -36,15 +56,19 @@ export default function AddEditBrandModal({ actionStatus }) {
       case 'add':
         try {
           await addBrand(data) // this is mutations only 1 parameters needed
+          toast.success(<MessageAlert header='Success!' body='Success.' />)
         } catch (error) {
-          alert(error)
+          toast.error(<MessageAlert header='Error!' body='Something Wrong.' />)
+          throw error
         }
         break
       case 'edit':
         try {
           await updateBrand({ brandId: selectedBrand.id, brand: data }) // this is mutations only 1 parameters needed
+          toast.success(<MessageAlert header='Success!' body='Success.' />)
         } catch (error) {
-          alert(error)
+          toast.error(<MessageAlert header='Error!' body='Something Wrong.' />)
+          throw error
         }
         break
 
@@ -59,27 +83,23 @@ export default function AddEditBrandModal({ actionStatus }) {
 
   return (
     <React.Fragment>
-      <Dialog fullWidth={true} maxWidth={'sm'} open={openModal} onClose={handleClose} TransitionComponent={Transition}>
-        <form onSubmit={handleSubmit(handleSaveBrand)}>
-          <DialogTitle>{actionStatus === 'edit' ? 'Edit Brand' : 'Add New Brand'}</DialogTitle>
-          <DialogContent>
-            <Box className='mt-3'>
-              <TextField
-                className='w-full'
-                id='brand'
-                label='Brand'
-                placeholder='Brand'
-                variant='outlined'
-                {...register('brand')}
-              />
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
-            <Button type='submit'>Save</Button>
-          </DialogActions>
-        </form>
-      </Dialog>
+      <AlertDialog open={openModal}>
+        <AlertDialogContent>
+          <form onSubmit={handleSubmit(handleSaveBrand)}>
+            <AlertDialogHeader className='mb-5'>
+              <AlertDialogTitle>{actionStatus === 'edit' ? 'Edit Brand' : 'Add New Brand'}</AlertDialogTitle>
+              <AlertDialogDescription>
+                <Label htmlFor='brand'>Brand</Label>
+                <Input id='brand' placeholder='Brand' {...register('brand')} />
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={setShowHideModal}>Cancel</AlertDialogCancel>
+              <AlertDialogAction type='submit'>Save</AlertDialogAction>
+            </AlertDialogFooter>
+          </form>
+        </AlertDialogContent>
+      </AlertDialog>
     </React.Fragment>
   )
 }

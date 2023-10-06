@@ -1,11 +1,8 @@
 'use client'
 import React, { useEffect, useState } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
 
-// MUI
-import { Button, TextField } from '@mui/material'
-import { MdOutlineAdd, MdOutlineEdit, MdOutlineDelete } from 'react-icons/md'
-import IconButton from '@mui/material/IconButton'
-import { DataGrid } from '@mui/x-data-grid'
+import { BiPlus } from 'react-icons/bi'
 
 // components
 import AppLayout from '@/components/layouts/AppLayout'
@@ -21,7 +18,14 @@ import useBrandStore from '@/store/useBrandStore'
 
 import moment from 'moment'
 
+import { Button } from '@/components/ui/button'
+
+import BrandTable from '@/components/brands/BrandTable'
+
 export default function IndexBrand() {
+  const router = useRouter()
+  const pathname = usePathname()
+
   const { isLoading, error, data: brands } = brandAPI()
 
   const { openModal, setShowHideModal } = useBrandStore((state) => state)
@@ -30,108 +34,44 @@ export default function IndexBrand() {
 
   const [actionStatus, setActionStatus] = useState(null)
 
-  const handleAddCategoryModal = () => {
+  const handleAddBrandModal = () => {
     resetSelectedBrand()
     setActionStatus('add')
     setShowHideModal()
   }
 
   const handleEditBrandModal = (data) => {
+    router.push(`${pathname}?id=${data.id}`)
     resetSelectedBrand()
     setActionStatus('edit')
     editBrand(data)
     setShowHideModal()
   }
 
-  const [pageSize, setPageSize] = useState(10)
-  const handlePageSizeChange = (data) => {
-    setPageSize(data)
-  }
-
   const handleDelete = (row) => {
     console.log(row)
   }
 
-  const header = [
-    {
-      field: 'brand',
-      headerName: 'Brand',
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: 'createdAt',
-      headerName: 'Created At',
-      flex: 1,
-      minWidth: 100,
-      type: 'date',
-      valueGetter: ({ row }) => new Date(row.createdAt),
-      renderCell: ({ row }) => <span>{moment(row.createdAt).format('MMMM DD, Y')}</span>,
-    },
-    {
-      field: 'action',
-      headerName: '',
-      flex: 1,
-      minWidth: 150,
-      sortable: false,
-      align: 'right',
-      renderCell: ({ row }) => (
-        <>
-          <IconButton aria-label='edit' size='medium' onClick={() => handleEditBrandModal(row)}>
-            <MdOutlineEdit className='cursor-pointer' title='Edit' />
-          </IconButton>
-          <IconButton aria-label='delete' size='medium' onClick={() => handleDelete(row)}>
-            <MdOutlineDelete className='cursor-pointer' title='Delete' />
-          </IconButton>
-        </>
-      ),
-    },
-  ]
-
   return (
     <>
       <AppLayout>
-        <div className='flex justify-between items-center bg-white p-3 mb-3'>
+        <div className='flex justify-between items-center bg-white p-3 mb-3 rounded-md'>
           <div>
-            <BreadcrumbsComponent>
-              <span className='text-sm'>brands</span>
-            </BreadcrumbsComponent>
+            <h1 className='scroll-m-20 text-xl font-semibold tracking-tight'>Brands</h1>
           </div>
           <div>
-            <Button
-              onClick={handleAddCategoryModal}
-              className='bg-primary-gray'
-              size='small'
-              variant='contained'
-              startIcon={<MdOutlineAdd />}
-            >
-              New brands
+            <Button size='sm' onClick={handleAddBrandModal}>
+              <BiPlus className='mr-2 h-4 w-4' /> New
             </Button>
           </div>
         </div>
 
-        <div className='p-3 bg-white'>
-          {/* <TextField label='Search' placeholder='Search' size='small' className='w-full mb-3' /> */}
-          <div className='flex w-full h-[70vh]'>
-            <DataGrid
-              className='top-pagination w-0 px-3' // this is important always add this width: 0
-              // getRowId={(row) => row.id}import AddEditBrandModal from './../../components/brands/addEditBrandModal'
-
-              // getRowId={(row) => row._id}
-              rows={brands?.data || []}
-              columns={header}
-              density='comfortable'
-              pageSize={pageSize}
-              onPageSizeChange={handlePageSizeChange}
-              rowsPerPageOptions={[10, 15, 20, 50, 100]}
-              autoHeight={false}
-              rowSelection={false}
-            />
-          </div>
-
-          {openModal && <AddEditBrandModal actionStatus={actionStatus} />}
-          <Loader isLoading={isLoading} />
+        <div className='p-3 bg-white rounded-md'>
+          <BrandTable brands={brands} edit={handleEditBrandModal} />
         </div>
+
+        {openModal && <AddEditBrandModal actionStatus={actionStatus} />}
+        <Loader isLoading={isLoading} />
       </AppLayout>
     </>
   )

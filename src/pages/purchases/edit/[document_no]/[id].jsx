@@ -9,6 +9,7 @@ import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 import AppLayout from '@/components/layouts/AppLayout'
 import PurchaseItemTable from '@/components/purchases/PurchaseItemTable'
 import ItemListModal from '@/components/purchases/ItemListModal'
+import Loader from '@/components/reusable/Loader'
 
 import { TextField, Button } from '@mui/material'
 import { MdOutlineSave } from 'react-icons/md'
@@ -188,6 +189,7 @@ export default function IndexEditPurchases() {
       </div>
 
       <ItemListModal open={openItemListModal} handleClose={handleClose} />
+      <Loader isLoading={isLoading} />
     </AppLayout>
   )
 }

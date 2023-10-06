@@ -3,21 +3,23 @@ import React, { useState, useEffect } from 'react'
 import { useProSidebar } from 'react-pro-sidebar'
 import { useRouter } from 'next/router'
 
-import axios from 'axios'
+import { BiUser, BiMenuAltLeft } from 'react-icons/bi'
 
+import { Button } from '@/components/ui/button'
 import {
-  MdOutlineMenu,
-  MdOutlineSettings,
-  MdOutlineLogout,
-  MdOutlineArrowDropDown,
-  MdPersonOutline,
-} from 'react-icons/md'
-import Avatar from '@mui/material/Avatar'
-
-import Container from '@mui/material/Container'
-import Button from '@mui/material/Button'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 import useUserStore from '@/store/useUserStore'
 
@@ -64,46 +66,31 @@ export default function HeadNav() {
           }}
         >
           <div>
-            <MdOutlineMenu className='text-[#333333] text-xl cursor-pointer' onClick={() => collapseSidebar()} />
+            <Button
+              variant='ghost'
+              size='icon'
+              className='text-[#333333] text-xl cursor-pointer'
+              onClick={() => collapseSidebar()}
+            >
+              <BiMenuAltLeft />
+            </Button>
           </div>
           <div>
-            <Button
-              className='text-[#333333]'
-              size='small'
-              id='demo-customized-button'
-              aria-controls={open ? 'demo-customized-menu' : undefined}
-              aria-haspopup='true'
-              aria-expanded={open ? 'true' : undefined}
-              // variant="contained"
-              disableElevation
-              onClick={handleClick}
-              endIcon={<MdOutlineArrowDropDown />}
-            >
-              <Avatar className='bg-primary-gray' sx={{ width: 32, height: 32 }}>
-                <MdPersonOutline />
-              </Avatar>
-              {/* {user?.email} */}
-            </Button>
-            <Menu
-              PaperProps={{ sx: { width: '12em' } }}
-              id='basic-menu'
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <MenuItem className='justify-between items-center' disabled={true}>
-                <span className='text-sm'>{user?.email}</span>
-              </MenuItem>
-              <MenuItem className='justify-between items-center' onClick={(e) => handleProfile(e)}>
-                Profile <MdOutlineSettings fontSize={'1.2em'} className='text-gray-600' />
-              </MenuItem>
-              <MenuItem className='justify-between items-center' onClick={(e) => handleLogout(e)}>
-                Logout <MdOutlineLogout fontSize={'1.2em'} className='text-gray-600' />
-              </MenuItem>
-            </Menu>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant='ghost' size='icon'>
+                  <BiUser />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className='w-56'>
+                {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
+                {/* <DropdownMenuSeparator /> */}
+                {/* <DropdownMenuItem disabled>API</DropdownMenuItem> */}
+                <DropdownMenuItem onClick={handleProfile}>Profile</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
