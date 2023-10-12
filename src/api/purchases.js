@@ -19,14 +19,14 @@ export function purchaseAPI() {
   }
 }
 
-export function purchaseFindOneAPI(id, document_no) {
+export function purchaseFindOneAPI(uuid) {
   const { isLoading, error, data } = useQuery({
-    queryKey: ['purchases', { id, document_no }],
+    queryKey: ['purchases', { uuid }],
     queryFn: async () => {
-      const { data } = await newAxios.get(`/api/purchases/edit/${document_no}/${id}`)
+      const { data } = await newAxios.get(`/api/purchases/${uuid}`)
       return data
     },
-    enabled:  !!id && !!document_no,
+    enabled: !!uuid,
   })
 
   return {

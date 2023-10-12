@@ -12,7 +12,7 @@ export default function CategoryTable({ categories, edit }) {
         <TableHeader>
           <TableRow>
             <TableHead className='w-[200px]'>Category</TableHead>
-            <TableHead>CreatedAt</TableHead>
+            <TableHead className='w-[200px]'>CreatedAt</TableHead>
             <TableHead className='text-center'>Action</TableHead>
           </TableRow>
         </TableHeader>

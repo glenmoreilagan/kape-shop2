@@ -7,6 +7,7 @@ import Link from 'next/link'
 import AppLayout from '@/components/layouts/AppLayout'
 import ProductTable from '../../components/products/ProductTable'
 import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
+import Loader from '@/components/reusable/Loader'
 
 import { BiPlus } from 'react-icons/bi'
 import { Button } from '@/components/ui/button'
@@ -37,6 +38,8 @@ export default function IndexProducts() {
           <ProductTable products={products} />
         </div>
       </AppLayout>
+
+      <Loader isLoading={isLoading} />
     </>
   )
 }

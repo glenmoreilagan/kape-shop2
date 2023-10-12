@@ -36,6 +36,24 @@ export function productFindOneAPI(id) {
   }
 }
 
+export async function storeProductAPI(data) {
+  try {
+    const response = await newAxios.post('/api/products', data)
+    return response.data
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export async function updateProductAPI(id, data) {
+  try {
+    const response = await newAxios.put(`/api/products/${id}`, data)
+    return response.data
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 export function ProductFakeAPI() {
   const { isLoading, error, data } = useQuery({
     queryKey: ['fake-products'],

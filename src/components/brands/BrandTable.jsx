@@ -12,7 +12,7 @@ export default function BrandTable({ brands, edit }) {
         <TableHeader>
           <TableRow>
             <TableHead className='w-[200px]'>Brand</TableHead>
-            <TableHead>CreatedAt</TableHead>
+            <TableHead className='w-[200px]'>CreatedAt</TableHead>
             <TableHead className='text-center'>Action</TableHead>
           </TableRow>
         </TableHeader>

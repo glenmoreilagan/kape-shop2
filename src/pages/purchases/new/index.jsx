@@ -8,7 +8,24 @@ import AppLayout from '@/components/layouts/AppLayout'
 import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 import ItemListModal from '@/components/purchases/ItemListModal'
 
-import { TextField, Button } from '@mui/material'
+import { TextField } from '@mui/material'
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+
+import { BiSave } from 'react-icons/bi'
 
 import newAxios from '@/lib/new-axios'
 import { generateDocumentNumber } from '@/lib/generate-document-number'
@@ -78,24 +95,13 @@ export default function IndexNewPurchase() {
       {error && <h1>An error has occurred: {JSON.stringify(error.message)}</h1>} */}
       <div className='mb-5'>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='p-3 mb-5 bg-white flex justify-between items-center'>
+          <div className='p-3 mb-3 bg-white flex justify-between items-center rounded-md'>
             <div>
-              <BreadcrumbsComponent>
-                <Link href='/purchases' className='text-sm'>
-                  Purchases
-                </Link>
-                <span className='text-sm'>New Purchase</span>
-              </BreadcrumbsComponent>
+              <h1 className='scroll-m-20 text-xl font-semibold tracking-tight'>Purchases</h1>
             </div>
             <div>
-              <Button
-                className='bg-primary-gray'
-                type='submit'
-                variant='contained'
-                size='small'
-                startIcon={<MdOutlineSave />}
-              >
-                Save
+              <Button size='sm' className='w-full' type='submit'>
+                <BiSave className='mr-2 h-4 w-4' /> Save
               </Button>
             </div>
           </div>

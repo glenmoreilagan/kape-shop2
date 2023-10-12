@@ -26,10 +26,9 @@ import TextFieldController from '@/components/TextFieldController'
 export default function IndexEditPurchases() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const purchase_id = searchParams.get('id')
-  const purchase_docnumbent_no = searchParams.get('document_no')
+  const purchase_uuid = searchParams.get('id')
 
-  const { isLoading, error, data: purchases } = purchaseFindOneAPI(purchase_id, purchase_docnumbent_no)
+  const { isLoading, error, data: purchases } = purchaseFindOneAPI(purchase_uuid)
   const setItems = usePurchaseStore((state) => state.setItems)
   const items = usePurchaseStore((state) => state.items)
   const [openItemListModal, setOpenItemListModal] = useState(false)

@@ -7,39 +7,37 @@ import Link from 'next/link'
 import AppLayout from '@/components/layouts/AppLayout'
 import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 import PurchaseTable from '@/components/purchases/PurchaseTable'
+import Loader from '@/components/reusable/Loader'
 
-import { Button } from '@mui/material'
-import { MdOutlineAdd, MdOutlineHome } from 'react-icons/md'
+import { BiPlus } from 'react-icons/bi'
+import { Button } from '@/components/ui/button'
+
+import { purchaseAPI } from '@/api/purchases'
 
 export default function IndexPurhcase() {
   const router = useRouter()
+  const { isLoading, error, data: purchases } = purchaseAPI()
 
   return (
     <>
       <AppLayout>
-        <div className='flex justify-between items-center bg-white p-3 mb-3'>
+        <div className='flex justify-between items-center bg-white p-3 mb-3 rounded-md'>
           <div>
-            <BreadcrumbsComponent>
-              <span className='text-sm'>Purchases</span>
-            </BreadcrumbsComponent>
+            <h1 className='scroll-m-20 text-xl font-semibold tracking-tight'>Purchases</h1>
           </div>
           <div>
-            <Button
-              onClick={() => router.push('/purchases/new')}
-              className='bg-primary-gray'
-              size='small'
-              variant='contained'
-              startIcon={<MdOutlineAdd />}
-            >
-              New Purchase
+            <Button size='sm' onClick={() => router.push('/purchases/new')}>
+              <BiPlus className='mr-2 h-4 w-4' /> New
             </Button>
           </div>
         </div>
 
-        <div className='p-3 bg-white'>
-          <PurchaseTable />
+        <div className='p-3 bg-white rounded-md'>
+          <PurchaseTable purchases={purchases} />
         </div>
       </AppLayout>
+
+      <Loader isLoading={isLoading} />
     </>
   )
 }

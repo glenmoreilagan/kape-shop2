@@ -44,7 +44,7 @@ export default function ProductTable({ products }) {
               <TableCell>{moment(row.created_at).format('MMMM DD, YYYY')}</TableCell>
               <TableCell className='text-center'>
                 <Button
-                  onClick={() => router.push(`products/edit/${row.id}`)}
+                  onClick={() => router.push(`products/edit/${row.uuid}`)}
                   variant='outline'
                   size='icon'
                   className='text-lg'

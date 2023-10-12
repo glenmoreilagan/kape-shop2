@@ -1,8 +1,10 @@
 import React from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 
-import { TextField, Button } from '@mui/material'
-import { MdOutlineAdd } from 'react-icons/md'
+import { TextField } from '@mui/material'
+
+import { Button } from '@/components/ui/button'
+import { BiPlus } from 'react-icons/bi'
 
 import usePurchaseStore from '@/store/usePurchaseStore'
 
@@ -71,15 +73,8 @@ export default function PurchaseItemTable({ handleAddItem }) {
   return (
     <>
       <div className='flex justify-end mb-3'>
-        <Button
-          className='bg-primary-gray'
-          type='button'
-          variant='contained'
-          size='small'
-          startIcon={<MdOutlineAdd />}
-          onClick={handleAddItem}
-        >
-          Add Item
+        <Button size='sm' onClick={handleAddItem}>
+          <BiPlus className='mr-2 h-4 w-4' /> Add Item
         </Button>
       </div>
 
