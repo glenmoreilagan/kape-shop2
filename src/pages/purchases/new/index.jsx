@@ -25,7 +25,11 @@ import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 
-import { BiSave } from 'react-icons/bi'
+import { cn } from '@/lib/utils'
+import { Calendar } from '@/components/ui/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+
+import { BiSave, BiCalendar as CalendarIcon } from 'react-icons/bi'
 
 import newAxios from '@/lib/new-axios'
 import { generateDocumentNumber } from '@/lib/generate-document-number'
@@ -41,12 +45,14 @@ import PurchaseItemTable from '@/components/purchases/PurchaseItemTable'
 import moment from 'moment'
 
 import usePurchaseStore from '@/store/usePurchaseStore'
+import DatePicker from '@/components/reusable/DatePicker'
 
 export default function IndexNewPurchase() {
   const router = useRouter()
   const items = usePurchaseStore((state) => state.items)
   const setItems = usePurchaseStore((state) => state.setItems)
   const [openItemListModal, setOpenItemListModal] = useState(false)
+  const [date, setDate] = useState()
 
   const {
     register,
@@ -57,9 +63,8 @@ export default function IndexNewPurchase() {
   } = useForm({
     defaultValues: {
       document_no: generateDocumentNumber(),
-      description: '',
       description1: '',
-      transaction_date: moment().format('MM-DD-YYYY'),
+      description2: '',
     },
   })
 
@@ -107,40 +112,40 @@ export default function IndexNewPurchase() {
           </div>
           <div className='p-3 bg-white flex flex-col md:flex-row gap-3'>
             <div className='flex flex-col w-full md:w-3/12 gap-3'>
-              <TextField
-                label='Document Number'
-                variant='outlined'
-                size='small'
+              <Label htmlFor='name'>Product Name</Label>
+              <Input
+                type='text'
+                name='name'
+                id='name'
+                placeholder='Product Name'
                 {...register('document_no')}
                 disabled={true}
               />
-              <TextField
-                label='Date (mm-dd-yyyy)'
-                variant='outlined'
-                size='small'
-                {...register('transaction_date')}
-                disabled={true}
-              />
+
+              <Label htmlFor='transaction_date'>Transaction Date</Label>
+              <DatePicker date={date} setDate={setDate} id='transaction_date' />
             </div>
             {/* <div className='flex flex-col w-full md:w-3/12 gap-3'></div> */}
             <div className='flex flex-col w-full md:w-3/12 gap-3'>
-              <TextField
-                label='Description'
-                variant='outlined'
-                multiline
-                rows={3}
-                maxRows={3}
-                {...register('description')}
+              <Label htmlFor='description1'>Description 1</Label>
+              <Textarea
+                type='text'
+                name='description1'
+                id='description1'
+                placeholder='Description 1'
+                rows={4}
+                {...register('description1')}
               />
             </div>
             <div className='flex flex-col w-full md:w-3/12 gap-3'>
-              <TextField
-                label='Additional Information'
-                variant='outlined'
-                multiline
-                rows={3}
-                maxRows={3}
-                {...register('description1')}
+              <Label htmlFor='description1'>Description 2</Label>
+              <Textarea
+                type='text'
+                name='description2'
+                id='description2'
+                placeholder='Description 2'
+                rows={4}
+                {...register('description2')}
               />
             </div>
             {/* <div className='flex flex-col w-full md:w-3/12 gap-3'></div> */}
