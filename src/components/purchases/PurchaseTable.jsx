@@ -43,7 +43,7 @@ export default function PurchaseTable({ purchases }) {
                 <TableCell>{moment(row.transaction_date).format('MMMM DD, YYYY')}</TableCell>
                 <TableCell className='text-center'>
                   <Button
-                    onClick={() => router.push(`products/edit/${row.uuid}`)}
+                    onClick={() => router.push(`purchases/edit/${row.uuid}`)}
                     variant='outline'
                     size='icon'
                     className='text-lg'

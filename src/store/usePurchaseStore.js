@@ -47,6 +47,21 @@ const usePurchaseStore = create((set, get) => ({
       }
     })
   },
+  setIncrementOrDecrementItemQty: async (action, item) => {
+    set((state) => {
+      return {
+        items: state.items.map((row) => {
+          let newQty = action === 'increment' ? row.quantity + 1 : row.quantity - 1
+          if (row.id === item.id) {
+            let newPrice = Number(newQty) * Number(item.original_price)
+            return { ...row, quantity: newQty, price: newPrice }
+          }
+
+          return row
+        }),
+      }
+    })
+  },
 }))
 
 export default usePurchaseStore

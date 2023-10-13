@@ -7,27 +7,13 @@ import { useRouter } from 'next/router'
 import AppLayout from '@/components/layouts/AppLayout'
 import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 import ItemListModal from '@/components/purchases/ItemListModal'
-
-import { TextField } from '@mui/material'
-
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+import PurchaseItemTable from '@/components/purchases/PurchaseItemTable'
+import DatePicker from '@/components/reusable/DatePicker'
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-
-import { cn } from '@/lib/utils'
-import { Calendar } from '@/components/ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 import { BiSave, BiCalendar as CalendarIcon } from 'react-icons/bi'
 
@@ -40,19 +26,17 @@ import { MdOutlineSave } from 'react-icons/md'
 
 // import { uuid, v4 } from 'uuid'
 
-import PurchaseItemTable from '@/components/purchases/PurchaseItemTable'
 
 import moment from 'moment'
 
 import usePurchaseStore from '@/store/usePurchaseStore'
-import DatePicker from '@/components/reusable/DatePicker'
 
 export default function IndexNewPurchase() {
   const router = useRouter()
   const items = usePurchaseStore((state) => state.items)
   const setItems = usePurchaseStore((state) => state.setItems)
   const [openItemListModal, setOpenItemListModal] = useState(false)
-  const [date, setDate] = useState()
+  const [transactionDate, SetTransactionDate] = useState(moment())
 
   const {
     register,
@@ -69,6 +53,7 @@ export default function IndexNewPurchase() {
   })
 
   const onSubmit = async (data) => {
+    data['transaction_date'] = moment(transactionDate).format()
     const payload = { head: data, items: items }
     try {
       const response = await newAxios.post('api/purchases', payload)
@@ -112,7 +97,7 @@ export default function IndexNewPurchase() {
           </div>
           <div className='p-3 bg-white flex flex-col md:flex-row gap-3'>
             <div className='flex flex-col w-full md:w-3/12 gap-3'>
-              <Label htmlFor='name'>Product Name</Label>
+              <Label htmlFor='name'>Document No.</Label>
               <Input
                 type='text'
                 name='name'
@@ -123,7 +108,7 @@ export default function IndexNewPurchase() {
               />
 
               <Label htmlFor='transaction_date'>Transaction Date</Label>
-              <DatePicker date={date} setDate={setDate} id='transaction_date' />
+              <DatePicker date={transactionDate} setDate={SetTransactionDate} id='transaction_date' />
             </div>
             {/* <div className='flex flex-col w-full md:w-3/12 gap-3'></div> */}
             <div className='flex flex-col w-full md:w-3/12 gap-3'>
@@ -138,7 +123,7 @@ export default function IndexNewPurchase() {
               />
             </div>
             <div className='flex flex-col w-full md:w-3/12 gap-3'>
-              <Label htmlFor='description1'>Description 2</Label>
+              <Label htmlFor='description2'>Description 2</Label>
               <Textarea
                 type='text'
                 name='description2'
