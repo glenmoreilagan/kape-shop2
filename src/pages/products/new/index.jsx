@@ -25,6 +25,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 import { BiSave } from 'react-icons/bi'
 
@@ -118,13 +119,15 @@ export default function IndexNewProduct() {
               <SelectValue placeholder='Select Category' />
             </SelectTrigger>
             <SelectContent>
-              <SelectGroup>
-                {categories?.map((row) => (
-                  <SelectItem key={row.value} value={row.value}>
-                    {row.label}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
+              <ScrollArea className='h-[200px]'>
+                <SelectGroup>
+                  {categories?.map((row) => (
+                    <SelectItem key={row.value} value={row.value}>
+                      {row.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </ScrollArea>
             </SelectContent>
           </Select>
 
@@ -137,13 +140,15 @@ export default function IndexNewProduct() {
               <SelectValue placeholder='Select Brand' />
             </SelectTrigger>
             <SelectContent>
-              <SelectGroup>
-                {brands?.map((row) => (
-                  <SelectItem key={row.value} value={row.value}>
-                    {row.label}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
+              <ScrollArea className='h-[200px]'>
+                <SelectGroup>
+                  {brands?.map((row) => (
+                    <SelectItem key={row.value} value={row.value}>
+                      {row.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </ScrollArea>
             </SelectContent>
           </Select>
         </div>

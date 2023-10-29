@@ -26,7 +26,6 @@ import { MdOutlineSave } from 'react-icons/md'
 
 // import { uuid, v4 } from 'uuid'
 
-
 import moment from 'moment'
 
 import usePurchaseStore from '@/store/usePurchaseStore'
@@ -52,18 +51,21 @@ export default function IndexNewPurchase() {
     },
   })
 
-  const onSubmit = async (data) => {
-    data['transaction_date'] = moment(transactionDate).format()
-    const payload = { head: data, items: items }
+  const onSubmit = async (e) => {
+    const { document_no, description1, description2 } = e
+    const payload = {
+      document_no: document_no,
+      description1: description1,
+      description2: description2,
+      transaction_date: moment(transactionDate).format(),
+    }
+
     try {
       const response = await newAxios.post('api/purchases', payload)
-      if (response) {
-        alert('Success.')
-        // router.push(`/purchases/edit/${response.data.document_no}`)
-      }
+      alert(response.data.message)
     } catch (error) {
-      alert('Something wrong.')
-      throw error
+      // alert('Something wrong.')
+      throw new Error(`HTTP ERROR: ${error}`)
     }
   }
 

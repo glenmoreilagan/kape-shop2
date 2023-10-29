@@ -22,9 +22,6 @@ import useCategoryStore from '@/store/useCategoryStore'
 // react hook form
 import { useForm, Controller } from 'react-hook-form'
 
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />
-})
 import { addCategoryAPI, updateCategoryAPI } from '@/api/categories'
 
 import MessageAlert from '@/components/MessageAlert'

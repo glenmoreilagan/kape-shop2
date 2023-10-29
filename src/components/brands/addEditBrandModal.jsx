@@ -23,9 +23,6 @@ import useBrandStore from '@/store/useBrandStore'
 // react hook form
 import { useForm, Controller } from 'react-hook-form'
 
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />
-})
 import { addBrandAPI, updateBrandAPI } from '@/api/brands'
 
 import MessageAlert from '@/components/MessageAlert'

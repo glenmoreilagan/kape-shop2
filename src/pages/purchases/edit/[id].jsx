@@ -33,8 +33,8 @@ export default function IndexEditPurchases() {
   const purchase_uuid = searchParams.get('id')
 
   const { isLoading, error, data: purchases } = purchaseFindOneAPI(purchase_uuid)
-  const setItems = usePurchaseStore((state) => state.setItems)
-  const items = usePurchaseStore((state) => state.items)
+  // const setItems = usePurchaseStore((state) => state.setItems)
+  // const items = usePurchaseStore((state) => state.items)
   const [openItemListModal, setOpenItemListModal] = useState(false)
   const [transactionDate, SetTransactionDate] = useState(moment())
   const [initialState, setInitialState] = useState({
@@ -58,28 +58,21 @@ export default function IndexEditPurchases() {
   const onSubmit = async (e) => {
     e.preventDefault()
 
-    const { document_no, description, description1, transaction_date } = e.target
+    const { document_no, description1, description2 } = e.target
     const payload = {
-      head: {
-        purchase_id: +purchase_id,
-        document_no: document_no.value,
-        description: description.value,
-        description1: description1.value,
-        transaction_date: moment(transactionDate).format(),
-      },
-      items: items,
+      purchase_id: purchases.data.id,
+      document_no: document_no.value,
+      description1: description1.value,
+      description2: description2.value,
+      transaction_date: moment(transactionDate).format(),
     }
-    console.log(payload)
-    return
+
     try {
-      const response = await newAxios.post('api/purchases', payload)
-      if (response) {
-        alert('Success.')
-        // router.push(`/purchases/edit/${response.data.document_no}`)
-      }
+      const response = await newAxios.put(`api/purchases/${purchases.data.id}`, payload)
+      alert(response.data.message)
     } catch (error) {
-      alert('Something wrong.')
-      throw error
+      // alert('Something wrong.')
+      throw new Error(`HTTP ERROR: ${error}`)
     }
   }
 
@@ -100,19 +93,6 @@ export default function IndexEditPurchases() {
       })
 
       SetTransactionDate(moment(purchases?.data.transaction_date).format())
-
-      purchases?.data.purchases.map((item, i) => {
-        setItems({
-          id: item.id,
-          product_id: item.product_id,
-          category_id: item.category_id,
-          brand_id: item.brand_id,
-          quantity: item.quantity,
-          price: item.quantity * item.price,
-          original_price: item.price,
-          name: item.purchased_product?.name,
-        })
-      })
     }
   }, [purchases])
 
@@ -174,7 +154,7 @@ export default function IndexEditPurchases() {
       </div>
 
       <div className='p-3 bg-white'>
-        <PurchaseItemTable handleAddItem={handleAddItem} />
+        <PurchaseItemTable purchases={purchases?.data.purchases} handleAddItem={handleAddItem} />
       </div>
 
       <ItemListModal open={openItemListModal} handleClose={handleClose} />

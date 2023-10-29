@@ -62,6 +62,9 @@ const usePurchaseStore = create((set, get) => ({
       }
     })
   },
+  removeItem: async (params) => {
+    set((state) => ({ items: state.items.filter((row) => row.id !== params.id) }))
+  },
 }))
 
 export default usePurchaseStore
