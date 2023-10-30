@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Input } from '@/components/ui/input'
@@ -12,13 +13,15 @@ const PHPFormatter = new Intl.NumberFormat('en-PH', {
   currency: 'PHP',
 })
 
-import { purchaseUpdateQuantity } from '@/api/purchases'
+import { purchaseFindOneAPI, purchaseUpdateQuantity } from '@/api/purchases'
 
-export default function PurchaseItemTable({ purchases, handleAddItem }) {
+export default function PurchaseItemTable({ purchases, handleAddItem, dispatchReducer }) {
+  const searchParams = useSearchParams()
+  const purchase_uuid = searchParams.get('id')
+
   const { mutateAsync: purchaseUpdateQuantityMutate } = purchaseUpdateQuantity()
   const removeItem = usePurchaseStore((state) => state.removeItem)
-
-  const [copiedPurchases, setCopiedPurchases] = useState([])
+  const [purchasedProduct, setPurchasedProduct] = useState([])
 
   const handleUpdateQuantity = (params) => {
     const obj = {
@@ -27,20 +30,27 @@ export default function PurchaseItemTable({ purchases, handleAddItem }) {
       action: params.action,
     }
 
-    if (params.action === 'manual') {
-      setCopiedPurchases(
-        copiedPurchases.map((row) => {
-          if (row.id === params.item.id) return { ...row, quantity: params.qty }
-          return row
-        })
-      )
-    }
-
     purchaseUpdateQuantityMutate(obj)
   }
 
   useEffect(() => {
-    setCopiedPurchases(purchases)
+    setPurchasedProduct(
+      purchases?.purchases.map((row, i) => {
+        return {
+          id: row.id,
+          document_id: row.document_id,
+          product_id: row.product_id,
+          category_id: row.category_id,
+          brand_id: row.brand_id,
+          quantity: row.quantity,
+          price: row.price,
+          product_name: row.name,
+        }
+      })
+    )
+    if (purchases) {
+      dispatchReducer({ type: 'DOCUMENT', payload: { document: purchases?.document } })
+    }
   }, [purchases])
 
   return (
@@ -63,9 +73,9 @@ export default function PurchaseItemTable({ purchases, handleAddItem }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {copiedPurchases?.map((row) => (
+            {purchasedProduct?.map((row, i) => (
               <TableRow key={row.id}>
-                <TableCell className='font-medium'>{row.purchased_product?.name}</TableCell>
+                <TableCell className='font-medium'>{row.product_name}</TableCell>
                 <TableCell>
                   <div className='flex gap-1'>
                     <Button
@@ -77,11 +87,15 @@ export default function PurchaseItemTable({ purchases, handleAddItem }) {
                       <BiMinus />
                     </Button>
                     <Input
+                      // defaultValue={Number(row.quantity)}
+                      // value={Number(row.quantity)}
                       className='text-center'
                       value={Number(row.quantity)}
-                      onChange={(e) => {
-                        handleUpdateQuantity({ item: row, qty: e.target.value, action: 'manual' })
-                      }}
+                      readOnly
+                      // onChange={(e) => {
+                      //   handleManualUpdateQuantity({ item: row, qty: e.target.value, index: i })
+                      // }}
+                      // onBlur={(e) => handleManualUpdateQuantity({ item: row, qty: e.target.value, index: i })}
                     />
                     <Button
                       onClick={() => handleUpdateQuantity({ item: row, qty: 1, action: 'increment' })}
@@ -93,10 +107,8 @@ export default function PurchaseItemTable({ purchases, handleAddItem }) {
                     </Button>
                   </div>
                 </TableCell>
-                <TableCell className='text-right'>{Number(row.purchased_product?.price)}</TableCell>
-                <TableCell className='text-right'>
-                  {Number(row.purchased_product?.price * row.quantity).toFixed(2)}
-                </TableCell>
+                <TableCell className='text-right'>{Number(row.price)}</TableCell>
+                <TableCell className='text-right'>{Number(row.price * row.quantity).toFixed(2)}</TableCell>
                 <TableCell className='text-center'>
                   <Button onClick={() => removeItem(row)} variant='outline' size='icon' className='text-lg'>
                     <BiTrashAlt />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useReducer } from 'react'
 import Link from 'next/link'
 
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -27,11 +27,49 @@ import moment from 'moment'
 
 import usePurchaseStore from '@/store/usePurchaseStore'
 
+const ACTIONS = {
+  DOCUMENT: 'DOCUMENT',
+  PURCHASE: 'PURCHASE',
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case ACTIONS.DOCUMENT:
+      return { ...state, document: action.payload.document }
+      break
+    case ACTIONS.PURCHASE:
+      const finalPurhcasesObj = action.payload.purchases.map((row, i) => {
+        return {
+          id: row.id,
+          document_id: row.document_id,
+          product_id: row.product_id,
+          category_id: row.category_id,
+          brand_id: row.brand_id,
+          quantity: row.quantity,
+          price: row.price,
+          product_name: row.name,
+        }
+      })
+      return { ...state, purchases: finalPurhcasesObj }
+      break
+
+    default:
+      console.log('Method not found.')
+      return
+      break
+  }
+}
+
+const initailState = {
+  document: null,
+  purchases: null,
+}
+
 export default function IndexEditPurchases() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const purchase_uuid = searchParams.get('id')
-
+  const [state, dispatch] = useReducer(reducer, initailState)
   const { isLoading, error, data: purchases } = purchaseFindOneAPI(purchase_uuid)
   // const setItems = usePurchaseStore((state) => state.setItems)
   // const items = usePurchaseStore((state) => state.items)
@@ -42,6 +80,21 @@ export default function IndexEditPurchases() {
     description: '',
     description1: '',
   })
+
+  // const purchasedProduct = purchases?.purchases.map((row, i) => {
+  //   return {
+  //     id: row.id,
+  //     document_id: row.document_id,
+  //     product_id: row.product_id,
+  //     category_id: row.category_id,
+  //     brand_id: row.brand_id,
+  //     quantity: row.quantity,
+  //     price: row.price,
+  //     product_name: row.name,
+  //   }
+  // })
+
+  // console.log(purchasedProduct)
 
   const {
     register,
@@ -69,10 +122,10 @@ export default function IndexEditPurchases() {
 
     try {
       const response = await newAxios.put(`api/purchases/${purchases.data.id}`, payload)
-      alert(response.data.message)
+      alert('Update success')
     } catch (error) {
       // alert('Something wrong.')
-      throw new Error(`HTTP ERROR: ${error}`)
+      throw error
     }
   }
 
@@ -85,15 +138,12 @@ export default function IndexEditPurchases() {
   }
 
   useEffect(() => {
-    if (purchases?.data?.purchases) {
-      reset({
-        document_no: purchases?.data.document_no,
-        description1: purchases?.data.description1,
-        description2: purchases?.data.description2,
-      })
-
-      SetTransactionDate(moment(purchases?.data.transaction_date).format())
-    }
+    reset({
+      document_no: purchases?.document?.document_no,
+      description1: purchases?.document?.description1,
+      description2: purchases?.document?.description2,
+    })
+    SetTransactionDate(moment(purchases?.document?.transaction_date).format())
   }, [purchases])
 
   return (
@@ -154,11 +204,16 @@ export default function IndexEditPurchases() {
       </div>
 
       <div className='p-3 bg-white'>
-        <PurchaseItemTable purchases={purchases?.data.purchases} handleAddItem={handleAddItem} />
+        <PurchaseItemTable purchases={purchases} handleAddItem={handleAddItem} dispatchReducer={dispatch} />
       </div>
 
-      <ItemListModal open={openItemListModal} handleClose={handleClose} />
-      <Loader isLoading={isLoading} />
+      <ItemListModal
+        open={openItemListModal}
+        handleClose={handleClose}
+        documentState={state}
+        dispatchReducer={dispatch}
+      />
+      {/* <Loader isLoading={isLoading} /> */}
     </AppLayout>
   )
 }

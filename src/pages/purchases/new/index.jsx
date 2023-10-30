@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -29,11 +29,53 @@ import { MdOutlineSave } from 'react-icons/md'
 import moment from 'moment'
 
 import usePurchaseStore from '@/store/usePurchaseStore'
+import { purchaseFindOneAPI } from '@/api/purchases'
+import { useSearchParams } from 'next/navigation'
+
+const ACTIONS = {
+  DOCUMENT: 'DOCUMENT',
+  PURCHASE: 'PURCHASE',
+}
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case ACTIONS.DOCUMENT:
+      return { ...state, document: action.payload.document }
+      break
+    case ACTIONS.PURCHASE:
+      const finalPurhcasesObj = action.payload.purchases.map((row, i) => {
+        return {
+          id: row.id,
+          document_id: row.document_id,
+          product_id: row.product_id,
+          category_id: row.category_id,
+          brand_id: row.brand_id,
+          quantity: row.quantity,
+          price: row.price,
+          product_name: row.name,
+        }
+      })
+      return { ...state, purchases: finalPurhcasesObj }
+      break
+
+    default:
+      console.log('Method not found.')
+      return
+      break
+  }
+}
+
+const initailState = {
+  document: null,
+  purchases: null,
+}
 
 export default function IndexNewPurchase() {
   const router = useRouter()
-  const items = usePurchaseStore((state) => state.items)
-  const setItems = usePurchaseStore((state) => state.setItems)
+  const searchParams = useSearchParams()
+  const purchase_uuid = searchParams.get('id')
+  const [state, dispatch] = useReducer(reducer, initailState)
+  const { isLoading, error, data: purchases } = purchaseFindOneAPI(purchase_uuid)
   const [openItemListModal, setOpenItemListModal] = useState(false)
   const [transactionDate, SetTransactionDate] = useState(moment())
 
@@ -42,6 +84,7 @@ export default function IndexNewPurchase() {
     handleSubmit,
     watch,
     control,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -62,14 +105,20 @@ export default function IndexNewPurchase() {
 
     try {
       const response = await newAxios.post('api/purchases', payload)
-      alert(response.data.message)
+      dispatch({ type: ACTIONS.DOCUMENT, payload: { document: response.data } })
+      alert('Saving Success.')
+      router.push(`${router.pathname}?id=${response.data.uuid}`)
     } catch (error) {
       // alert('Something wrong.')
-      throw new Error(`HTTP ERROR: ${error}`)
+      throw error
     }
   }
 
   const handleAddItem = () => {
+    if (!state.document) {
+      alert('Please create document first.')
+      return
+    }
     setOpenItemListModal(true)
   }
 
@@ -78,8 +127,13 @@ export default function IndexNewPurchase() {
   }
 
   useEffect(() => {
-    setItems([])
-  }, [])
+    reset({
+      document_no: purchases?.document?.document_no,
+      description1: purchases?.document?.description1,
+      description2: purchases?.document?.description2,
+    })
+    SetTransactionDate(moment(purchases?.document?.transaction_date).format())
+  }, [purchases])
 
   return (
     <AppLayout>
@@ -141,10 +195,15 @@ export default function IndexNewPurchase() {
       </div>
 
       <div className='p-3 bg-white'>
-        <PurchaseItemTable handleAddItem={handleAddItem} />
+        <PurchaseItemTable purchases={purchases} handleAddItem={handleAddItem} dispatchReducer={dispatch} />
       </div>
 
-      <ItemListModal open={openItemListModal} handleClose={handleClose} />
+      <ItemListModal
+        open={openItemListModal}
+        handleClose={handleClose}
+        documentState={state}
+        dispatchReducer={dispatch}
+      />
     </AppLayout>
   )
 }

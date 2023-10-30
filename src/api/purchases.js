@@ -37,7 +37,8 @@ export function purchaseFindOneAPI(uuid) {
     data,
   }
 }
-export const purchaseUpdateQuantity = (uuid) => {
+
+export const purchaseUpdateQuantity = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
@@ -48,6 +49,23 @@ export const purchaseUpdateQuantity = (uuid) => {
       })
     },
     onSuccess: async () => {
+      await queryClient.refetchQueries({ queryKey: ['purchases'], type: 'active' })
+    },
+  })
+}
+
+export const addPurchaseProduct = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async ({ documentState, newProducts }) => {
+      return newAxios.post(`/api/purchases/add-product`, {
+        document: documentState.document,
+        products: newProducts,
+      })
+    },
+    onSuccess: async () => {
+      // these will be the return from mutation call
       await queryClient.refetchQueries({ queryKey: ['purchases'], type: 'active' })
     },
   })

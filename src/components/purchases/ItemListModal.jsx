@@ -42,20 +42,27 @@ const PHPFormatter = new Intl.NumberFormat('en-PH', {
 import usePurchaseStore from '@/store/usePurchaseStore'
 import newAxios from '@/lib/new-axios'
 
-export default function ItemListModal({ open, handleClose }) {
+import { addPurchaseProduct } from '@/api/purchases'
+
+export default function ItemListModal({ open, handleClose, documentState }) {
   const { isLoading, error, data: products } = productAPI()
+  const { mutateAsync: addPurchaseProductMutate } = addPurchaseProduct()
   const [cloneProducts, setCloneProudcts] = useState()
 
   const addItemToList = async () => {
     const newProducts = cloneProducts.filter((item) => item.is_selected === true)
 
     try {
-      const response = await newAxios.post('/api/purchases/add-product', newProducts)
+      // const response = await newAxios.post('/api/purchases/add-product', {
+      //   document: documentState.document,
+      //   products: newProducts,
+      // })
+
+      const response = await addPurchaseProductMutate({ documentState, newProducts })
       setCloneProudcts(cloneProducts.map((item) => ({ ...item, is_selected: false })))
-      console.log(response.data)
       handleClose()
     } catch (error) {
-      throw new Error(`HTTP ERROR: ${error}`)
+      throw error
     }
   }
 
@@ -91,44 +98,42 @@ export default function ItemListModal({ open, handleClose }) {
         <AlertDialogContent className='md:max-w-screen-lg'>
           <AlertDialogHeader className='mb-5'>
             <AlertDialogTitle>Item List</AlertDialogTitle>
-            <AlertDialogDescription>
-              <div className='w-full h-[50vh] overflow-y-auto'>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className='w-14 text-center'>
-                        <Checkbox onCheckedChange={(checked) => handleCheckAll(checked)} />
-                      </TableHead>
-                      <TableHead className='w-[200px]'>Product Name</TableHead>
-                      <TableHead className='w-[200px] text-center'>Category</TableHead>
-                      <TableHead className='w-[200px] text-center'>Brand</TableHead>
-                      <TableHead className='w-[200px] text-right'>Price</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {cloneProducts?.map((row) => (
-                      <TableRow key={row.id}>
-                        <TableCell className='text-center'>
-                          <Checkbox
-                            checked={row.is_selected}
-                            onCheckedChange={(checked) => handleSelectedRows({ checked: checked, row: row })}
-                          />
-                        </TableCell>
-                        <TableCell className='font-medium'>{row.name}</TableCell>
-                        <TableCell className='text-center'>{row.categories?.category}</TableCell>
-                        <TableCell className='text-center'>{row.brands?.brand}</TableCell>
-                        <TableCell className='text-right'>{row.price}</TableCell>
-                        {/* <TableCell className='text-center'>
+            <div className='w-full h-[50vh] overflow-y-auto'>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className='w-14 text-center'>
+                      <Checkbox onCheckedChange={(checked) => handleCheckAll(checked)} />
+                    </TableHead>
+                    <TableHead className='w-[200px]'>Product Name</TableHead>
+                    <TableHead className='w-[200px] text-center'>Category</TableHead>
+                    <TableHead className='w-[200px] text-center'>Brand</TableHead>
+                    <TableHead className='w-[200px] text-right'>Price</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {cloneProducts?.map((row) => (
+                    <TableRow key={row.id}>
+                      <TableCell className='text-center'>
+                        <Checkbox
+                          checked={row.is_selected}
+                          onCheckedChange={(checked) => handleSelectedRows({ checked: checked, row: row })}
+                        />
+                      </TableCell>
+                      <TableCell className='font-medium'>{row.name}</TableCell>
+                      <TableCell className='text-center'>{row.categories?.category}</TableCell>
+                      <TableCell className='text-center'>{row.brands?.brand}</TableCell>
+                      <TableCell className='text-right'>{row.price}</TableCell>
+                      {/* <TableCell className='text-center'>
                           <Button onClick={() => removeItem(row)} variant='outline' size='icon' className='text-lg'>
                             <BiTrashAlt />
                           </Button>
                         </TableCell> */}
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </AlertDialogDescription>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={handleClose}>Cancel</AlertDialogCancel>
