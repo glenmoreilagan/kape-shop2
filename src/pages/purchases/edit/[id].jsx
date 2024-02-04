@@ -10,7 +10,7 @@ import AppLayout from '@/components/layouts/AppLayout'
 import PurchaseItemTable from '@/components/purchases/PurchaseItemTable'
 import ItemListModal from '@/components/purchases/ItemListModal'
 import Loader from '@/components/reusable/Loader'
-import DatePicker from '@/components/reusable/DatePicker'
+import DatePicker, { DefaultDatePicker } from '@/components/reusable/DatePicker'
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -74,7 +74,7 @@ export default function IndexEditPurchases() {
   // const setItems = usePurchaseStore((state) => state.setItems)
   // const items = usePurchaseStore((state) => state.items)
   const [openItemListModal, setOpenItemListModal] = useState(false)
-  const [transactionDate, SetTransactionDate] = useState(moment())
+  const [transactionDate, setTransactionDate] = useState(moment().format('YYYY-MM-DD'))
   const [initialState, setInitialState] = useState({
     document_no: '',
     description: '',
@@ -113,15 +113,15 @@ export default function IndexEditPurchases() {
 
     const { document_no, description1, description2 } = e.target
     const payload = {
-      purchase_id: purchases.data.id,
+      purchase_id: purchases?.document?.id,
       document_no: document_no.value,
       description1: description1.value,
       description2: description2.value,
-      transaction_date: moment(transactionDate).format(),
+      transaction_date: moment(transactionDate).format('YYYY-MM-DD'),
     }
 
     try {
-      const response = await newAxios.put(`api/purchases/${purchases.data.id}`, payload)
+      const response = await newAxios.put(`api/purchases/${purchases?.document?.id}`, payload)
       alert('Update success')
     } catch (error) {
       // alert('Something wrong.')
@@ -143,7 +143,7 @@ export default function IndexEditPurchases() {
       description1: purchases?.document?.description1,
       description2: purchases?.document?.description2,
     })
-    SetTransactionDate(moment(purchases?.document?.transaction_date).format())
+    setTransactionDate(moment(purchases?.document?.transaction_date).format('YYYY-MM-DD'))
   }, [purchases])
 
   return (
@@ -167,13 +167,26 @@ export default function IndexEditPurchases() {
                 type='text'
                 name='name'
                 id='name'
-                placeholder='Product Name'
+                placeholder='Document No.'
                 {...register('document_no')}
                 disabled={true}
               />
 
               <Label htmlFor='transaction_date'>Transaction Date</Label>
-              <DatePicker date={transactionDate} setDate={SetTransactionDate} id='transaction_date' />
+              {/* <DatePicker date={transactionDate} setDate={setTransactionDate} id='transaction_date' /> */}
+              {/* <input
+                className='flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+                type='date'
+                value={transactionDate}
+                onChange={(e) => setTransactionDate(e.target.value)}
+                id='transaction_date'
+              /> */}
+
+              <DefaultDatePicker
+                value={transactionDate}
+                onChange={(e) => setTransactionDate(e.target.value)}
+                id='transaction_date'
+              />
             </div>
             {/* <div className='flex flex-col w-full md:w-3/12 gap-3'></div> */}
             <div className='flex flex-col w-full md:w-3/12 gap-3'>

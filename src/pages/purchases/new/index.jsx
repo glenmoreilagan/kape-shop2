@@ -8,7 +8,7 @@ import AppLayout from '@/components/layouts/AppLayout'
 import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 import ItemListModal from '@/components/purchases/ItemListModal'
 import PurchaseItemTable from '@/components/purchases/PurchaseItemTable'
-import DatePicker from '@/components/reusable/DatePicker'
+import DatePicker, { DefaultDatePicker } from '@/components/reusable/DatePicker'
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -77,7 +77,7 @@ export default function IndexNewPurchase() {
   const [state, dispatch] = useReducer(reducer, initailState)
   const { isLoading, error, data: purchases } = purchaseFindOneAPI(purchase_uuid)
   const [openItemListModal, setOpenItemListModal] = useState(false)
-  const [transactionDate, SetTransactionDate] = useState(moment())
+  const [transactionDate, setTransactionDate] = useState(moment().format('YYYY-MM-DD'))
 
   const {
     register,
@@ -107,7 +107,8 @@ export default function IndexNewPurchase() {
       const response = await newAxios.post('api/purchases', payload)
       dispatch({ type: ACTIONS.DOCUMENT, payload: { document: response.data } })
       alert('Saving Success.')
-      router.push(`${router.pathname}?id=${response.data.uuid}`)
+      // router.push(`${router.pathname}?id=${response.data.uuid}`)
+      router.push(`edit/${response.data.uuid}`)
     } catch (error) {
       // alert('Something wrong.')
       throw error
@@ -132,7 +133,7 @@ export default function IndexNewPurchase() {
       description1: purchases?.document?.description1,
       description2: purchases?.document?.description2,
     })
-    SetTransactionDate(moment(purchases?.document?.transaction_date).format())
+    setTransactionDate(moment(purchases?.document?.transaction_date).format('YYYY-MM-DD'))
   }, [purchases])
 
   return (
@@ -158,13 +159,26 @@ export default function IndexNewPurchase() {
                 type='text'
                 name='name'
                 id='name'
-                placeholder='Product Name'
+                placeholder='Document No.'
                 {...register('document_no')}
                 disabled={true}
               />
 
               <Label htmlFor='transaction_date'>Transaction Date</Label>
-              <DatePicker date={transactionDate} setDate={SetTransactionDate} id='transaction_date' />
+              {/* <DatePicker date={transactionDate} setDate={setTransactionDate} id='transaction_date' /> */}
+              {/* <input
+                className='px-3 py-1 border border-gray-100 rounded-md'
+                type='date'
+                value={transactionDate}
+                onChange={(e) => setTransactionDate(e.target.value)}
+                id='transaction_date'
+              /> */}
+
+              <DefaultDatePicker
+                value={transactionDate}
+                onChange={(e) => setTransactionDate(e.target.value)}
+                id='transaction_date'
+              />
             </div>
             {/* <div className='flex flex-col w-full md:w-3/12 gap-3'></div> */}
             <div className='flex flex-col w-full md:w-3/12 gap-3'>

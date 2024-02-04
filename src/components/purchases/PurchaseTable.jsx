@@ -35,7 +35,7 @@ export default function PurchaseTable({ purchases }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {purchases?.data.map((row) => (
+            {purchases?.map((row) => (
               <TableRow key={row.id}>
                 <TableCell className='font-medium'>{row.document_no}</TableCell>
                 <TableCell>{row.purchases_count}</TableCell>
