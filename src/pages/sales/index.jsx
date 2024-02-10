@@ -6,27 +6,20 @@ import AppLayout from '@/components/layouts/AppLayout'
 import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 import Loader from '@/components/reusable/Loader'
 
-import {
-  Button,
-  OutlinedInput,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  ListItemText,
-  Select,
-  Checkbox,
-  Badge,
-} from '@mui/material'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 import { MdOutlineShoppingCart } from 'react-icons/md'
 
 import { productAPI } from '@/api/products'
+import { categoryAPI } from '@/api/categories'
 import { checkout } from '@/api/sales'
 
 // store
 import useCartStore from '@/store/useCartStore'
 import useSaleStore from '@/store/useSaleStore'
 import ProductDisplay from '@/components/sales/ProductDisplay'
+import CategoryDisplay from '@/components/sales/CategoryDisplay'
 
 const ITEM_HEIGHT = 60
 const ITEM_PADDING_TOP = 8
@@ -53,25 +46,26 @@ const names = [
 ]
 
 export default function IndexSales() {
-  const { isLoading, error, data: products } = productAPI()
+  // const { isLoading, error, data: products } = productAPI()
+  const { isLoading, error, data: categories } = categoryAPI()
   // if (isLoading) return <h1>Loading...</h1>
 
   const removeToCart = useCartStore((state) => state.removeToCart)
   const viewCart = useCartStore((state) => state.cart)
   const cartCount = useCartStore((state) => state.cartCount)
-  const [personName, setPersonName] = useState([])
+  // const [personName, setPersonName] = useState([])
 
-  const setProducts = useSaleStore((state) => state.setProducts)
+  // const setProducts = useSaleStore((state) => state.setProducts)
 
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    )
-  }
+  // const handleChange = (event) => {
+  //   const {
+  //     target: { value },
+  //   } = event
+  //   setPersonName(
+  //     // On autofill we get a stringified value.
+  //     typeof value === 'string' ? value.split(',') : value
+  //   )
+  // }
 
   const handleRemoveToCart = async (product) => {
     removeToCart(product)
@@ -92,24 +86,29 @@ export default function IndexSales() {
           </BreadcrumbsComponent>
         </div>
         <div>
-          <Badge color='error' badgeContent={cartCount()}>
-            <Button
+          {/* <Button
               onClick={() => checkout(viewCart)}
               className='bg-primary-gray'
               size='small'
               variant='contained'
               startIcon={<MdOutlineShoppingCart />}
-            >
+              >
               View Cart
-            </Button>
-          </Badge>
+            </Button> */}
+
+          {/* <Button size='sm' className='relative' onClick={() => checkout(viewCart)}>
+            <MdOutlineShoppingCart className='mr-2 h-4 w-4' /> View Cart
+            <Badge variant='destructive' className='absolute top-[-.5rem] right-[-.5rem] px-1 text-[.75rem]'>
+              {cartCount()}
+            </Badge>
+          </Button> */}
         </div>
       </div>
 
       <div className='bg-white p-3'>
         {/* filter */}
         <div className='mb-3'>
-          <FormControl className='w-full' size='small'>
+          {/* <FormControl className='w-full' size='small'>
             <InputLabel id='demo-multiple-checkbox-label'>Filter by category</InputLabel>
             <Select
               labelId='demo-multiple-checkbox-label'
@@ -129,11 +128,12 @@ export default function IndexSales() {
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
         </div>
-        <div className='flex flex-wrap gap-5 justify-center '>
-          <ProductDisplay products={products?.data} />
-        </div>
+        <section className='grid grid-cols-5 place-items-center	'>
+          {/* <ProductDisplay products={products?.data} /> */}
+          <CategoryDisplay categories={categories} />
+        </section>
       </div>
 
       <Loader isLoading={isLoading} />

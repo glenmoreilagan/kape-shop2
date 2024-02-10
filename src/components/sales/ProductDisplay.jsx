@@ -4,9 +4,9 @@ import React from 'react'
 import useCartStore from '@/store/useCartStore'
 import useSaleStore from '@/store/useSaleStore'
 
-import { MdOutlineShoppingCart } from 'react-icons/md'
+import { FaShoppingCart } from 'react-icons/fa'
 
-export default function ProductDisplay({ products }) {
+export default function ProductDisplay() {
   // const products = useSaleStore((state) => state.products)
   const addToCart = useCartStore((state) => state.addToCart)
 
@@ -34,7 +34,7 @@ export default function ProductDisplay({ products }) {
                     <span className='text-xs font-medium'>PHP {product.price}</span>
                   </div>
                   <div>
-                    <MdOutlineShoppingCart
+                    <FaShoppingCart
                       size={'22px'}
                       className='text-blue-700 hover:text-blue-000 cursor-pointer'
                       title='Add to cart'

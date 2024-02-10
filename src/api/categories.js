@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import newAxios from '@/lib/new-axios'
 
 export function categoryAPI() {
-  const { isLoading, error, data, isFetching } = useQuery({
+  return useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
       const { data } = await newAxios.get('/api/categories')
@@ -11,12 +11,12 @@ export function categoryAPI() {
     },
   })
 
-  return {
-    isLoading,
-    error,
-    data,
-    isFetching,
-  }
+  // return {
+  //   isLoading,
+  //   error,
+  //   data,
+  //   isFetching,
+  // }
 }
 
 export function addCategoryAPI() {
