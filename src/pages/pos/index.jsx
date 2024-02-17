@@ -9,17 +9,18 @@ import Loader from '@/components/reusable/Loader'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 
+import { toast } from 'sonner'
+
 import { MdOutlineShoppingCart } from 'react-icons/md'
 
 import { productAPI } from '@/api/products'
 import { categoryAPI } from '@/api/categories'
-import { checkout } from '@/api/sales'
 
 // store
 import useCartStore from '@/store/useCartStore'
-import useSaleStore from '@/store/useSaleStore'
-import ProductDisplay from '@/components/sales/ProductDisplay'
-import CategoryDisplay from '@/components/sales/CategoryDisplay'
+import ProductDisplay from '@/components/pos/ProductDisplay'
+import CategoryDisplay from '@/components/pos/CategoryDisplay'
+import CartDisplay from '@/components/pos/CartDisplay'
 
 const ITEM_HEIGHT = 60
 const ITEM_PADDING_TOP = 8
@@ -50,33 +51,15 @@ export default function IndexSales() {
   const { isLoading: categoriesIsLoading, error: categoriesError, data: categories } = categoryAPI()
   // if (isLoading) return <h1>Loading...</h1>
 
-  const removeToCart = useCartStore((state) => state.removeToCart)
-  const viewCart = useCartStore((state) => state.cart)
-  const cartCount = useCartStore((state) => state.cartCount)
-  // const [personName, setPersonName] = useState([])
-
-  // const setProducts = useSaleStore((state) => state.setProducts)
-
-  // const handleChange = (event) => {
-  //   const {
-  //     target: { value },
-  //   } = event
-  //   setPersonName(
-  //     // On autofill we get a stringified value.
-  //     typeof value === 'string' ? value.split(',') : value
-  //   )
-  // }
+  const { removeToCart, cartCount } = useCartStore((state) => state)
+  const [openCart, setOpenCart] = useState(false)
 
   const handleRemoveToCart = async (product) => {
     removeToCart(product)
   }
 
-  // useEffect(() => {
-  //   setProducts(products)
-  // }, [products])
-
-  if (error) return <h1>Error...</h1>
-  if (isLoading) return <h1>Loading...</h1>
+  // if (error) return <h1>Error...</h1>
+  // if (isLoading) return <h1>Loading...</h1>
 
   return (
     <AppLayout>
@@ -87,17 +70,7 @@ export default function IndexSales() {
           </BreadcrumbsComponent>
         </div>
         <div>
-          {/* <Button
-              onClick={() => checkout(viewCart)}
-              className='bg-primary-gray'
-              size='small'
-              variant='contained'
-              startIcon={<MdOutlineShoppingCart />}
-              >
-              View Cart
-            </Button> */}
-
-          <Button size='sm' className='relative' onClick={() => console.log(viewCart)}>
+          <Button size='sm' className='relative' onClick={() => setOpenCart(true)}>
             <MdOutlineShoppingCart className='mr-2 h-4 w-4' /> View Cart
             <Badge variant='destructive' className='absolute top-[-.5rem] right-[-.5rem] px-1 text-[.75rem]'>
               {cartCount()}
@@ -107,29 +80,7 @@ export default function IndexSales() {
       </div>
 
       <div className='bg-white p-3'>
-        {/* filter */}
         <div className='mb-3'>
-          {/* <FormControl className='w-full' size='small'>
-            <InputLabel id='demo-multiple-checkbox-label'>Filter by category</InputLabel>
-            <Select
-              labelId='demo-multiple-checkbox-label'
-              id='demo-multiple-checkbox'
-              multiple
-              value={personName}
-              onChange={handleChange}
-              input={<OutlinedInput label='Filter by category' />}
-              renderValue={(selected) => selected.join(', ')}
-              MenuProps={MenuProps}
-              // size='small'
-            >
-              {names.map((name) => (
-                <MenuItem key={name} value={name}>
-                  <Checkbox checked={personName.indexOf(name) > -1} />
-                  <ListItemText primary={name} />
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl> */}
           <h1 className='text-lg font-medium'>Proudcts</h1>
         </div>
         <section>
@@ -140,6 +91,7 @@ export default function IndexSales() {
         </section>
       </div>
 
+      <CartDisplay open={openCart} setOpen={setOpenCart} />
       <Loader isLoading={isLoading} />
     </AppLayout>
   )

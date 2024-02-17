@@ -59,9 +59,9 @@ export default function SideNav() {
     },
     {
       path: '',
-      label: 'Sales',
+      label: 'POS',
       icon: <MdOutlineSell className='text-xl' />,
-      children: [{ path: '/sales', label: 'Sales', icon: <MdOutlineRemove className='text-sm' /> }],
+      children: [{ path: '/pos', label: 'Point of Sale', icon: <MdOutlineRemove className='text-sm' /> }],
     },
     {
       path: '',

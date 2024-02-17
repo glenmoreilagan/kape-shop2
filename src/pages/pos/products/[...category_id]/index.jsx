@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { MdOutlineShoppingCart } from 'react-icons/md'
 import { Badge } from '@/components/ui/badge'
 
-import AppLayout from '@/components/layouts/appLayout'
+import AppLayout from '@/components/layouts/AppLayout'
 import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 
 import useCartStore from '@/store/useCartStore'

@@ -6,7 +6,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import themes from '@/configs/themes'
 // import { AuthConfig } from '@/lib/auth'
 
-import { Button } from '@mui/material'
+import { Button } from '@/components/ui/button'
 // import { AuthConfig } from '@/auth';
 
 import useUserStore from '@/store/useUserStore'
@@ -62,10 +62,10 @@ function NavBar() {
 
             {!user ? (
               <Button
-                className={`${pathname === '/login' ? 'invisible' : 'visible'} bg-primary-gray text-white`}
+                className={`${pathname === '/login' ? 'invisible' : 'visible'}`}
                 onClick={() => router.replace('/login')}
-                variant='contained'
-                size='small'
+                // variant='contained'
+                // size='small'
               >
                 Login
               </Button>

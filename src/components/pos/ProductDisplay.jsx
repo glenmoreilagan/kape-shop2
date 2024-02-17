@@ -2,26 +2,32 @@ import React from 'react'
 
 // store
 import useCartStore from '@/store/useCartStore'
-import useSaleStore from '@/store/useSaleStore'
 
 import { FaShoppingCart } from 'react-icons/fa'
 
+import { toast } from 'sonner'
+
 export default function ProductDisplay({ products }) {
-  // const products = useSaleStore((state) => state.products)
   const addToCart = useCartStore((state) => state.addToCart)
 
   const handleAddToCart = async (product) => {
     addToCart(product)
+
+    // toast.success('Event has been created.')
   }
 
   return (
     <>
       {products?.map((product) => {
         return (
-          <div key={product.id} className='w-full relative shadow  rounded-md '>
+          <div key={product.id} className='group w-full relative shadow  rounded-md'>
             <div className='h-full' title={product.name}>
-              <div className='mb-3'>
-                <img src={`/noimage.jpg`} alt={`${product.name}`} className='w-full h-32' />
+              <div className='mb-3 overflow-hidden'>
+                <img
+                  src={`/noimage.jpg`}
+                  alt={`${product.name}`}
+                  className='w-full h-32 group-hover:scale-125 transition-transform duration-500 ease-in-out'
+                />
               </div>
               <div className='px-3 mb-3'>
                 <div>
@@ -34,12 +40,9 @@ export default function ProductDisplay({ products }) {
                     <span className='text-xs font-thin'>PHP {product.price}</span>
                   </div>
                   <div>
-                    <FaShoppingCart
-                      size={'22px'}
-                      className='text-blue-700 hover:text-blue-000 cursor-pointer'
-                      title='Add to cart'
-                      onClick={() => handleAddToCart(product)}
-                    />
+                    <button title='Add to cart' onClick={() => handleAddToCart(product)}>
+                      <FaShoppingCart size={'22px'} className='text-blue-700 hover:text-blue-000 cursor-pointer' />
+                    </button>
                   </div>
                 </div>
               </div>
