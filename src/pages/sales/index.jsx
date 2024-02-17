@@ -46,8 +46,8 @@ const names = [
 ]
 
 export default function IndexSales() {
-  // const { isLoading, error, data: products } = productAPI()
-  const { isLoading, error, data: categories } = categoryAPI()
+  const { isLoading, error, data: products } = productAPI()
+  const { isLoading: categoriesIsLoading, error: categoriesError, data: categories } = categoryAPI()
   // if (isLoading) return <h1>Loading...</h1>
 
   const removeToCart = useCartStore((state) => state.removeToCart)
@@ -76,6 +76,7 @@ export default function IndexSales() {
   // }, [products])
 
   if (error) return <h1>Error...</h1>
+  if (isLoading) return <h1>Loading...</h1>
 
   return (
     <AppLayout>
@@ -96,12 +97,12 @@ export default function IndexSales() {
               View Cart
             </Button> */}
 
-          {/* <Button size='sm' className='relative' onClick={() => checkout(viewCart)}>
+          <Button size='sm' className='relative' onClick={() => console.log(viewCart)}>
             <MdOutlineShoppingCart className='mr-2 h-4 w-4' /> View Cart
             <Badge variant='destructive' className='absolute top-[-.5rem] right-[-.5rem] px-1 text-[.75rem]'>
               {cartCount()}
             </Badge>
-          </Button> */}
+          </Button>
         </div>
       </div>
 
@@ -129,10 +130,13 @@ export default function IndexSales() {
               ))}
             </Select>
           </FormControl> */}
+          <h1 className='text-lg font-medium'>Proudcts</h1>
         </div>
-        <section className='grid grid-cols-5 place-items-center	'>
-          {/* <ProductDisplay products={products?.data} /> */}
-          <CategoryDisplay categories={categories} />
+        <section>
+          <div className='grid grid-cols-6 place-items-center gap-3'>
+            <ProductDisplay products={products?.data} />
+            {/* <CategoryDisplay categories={categories} /> */}
+          </div>
         </section>
       </div>
 

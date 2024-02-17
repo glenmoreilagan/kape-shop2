@@ -6,7 +6,7 @@ import useSaleStore from '@/store/useSaleStore'
 
 import { FaShoppingCart } from 'react-icons/fa'
 
-export default function ProductDisplay() {
+export default function ProductDisplay({ products }) {
   // const products = useSaleStore((state) => state.products)
   const addToCart = useCartStore((state) => state.addToCart)
 
@@ -18,20 +18,20 @@ export default function ProductDisplay() {
     <>
       {products?.map((product) => {
         return (
-          <div key={product.id} className='w-[40%] md:w-[10em] relative border rounded-md flex-grow'>
-            <div className='h-full p-3' title={product.name}>
+          <div key={product.id} className='w-full relative shadow  rounded-md '>
+            <div className='h-full' title={product.name}>
               <div className='mb-3'>
                 <img src={`/noimage.jpg`} alt={`${product.name}`} className='w-full h-32' />
               </div>
-              <div className=''>
+              <div className='px-3 mb-3'>
                 <div>
-                  <span className='text-xs font-thin'>
+                  <span className='text-sm font-medium'>
                     {product.name?.length > 50 ? product.name.slice(0, 25) + '...' : product.name}
                   </span>
                 </div>
                 <div className='flex justify-between items-center'>
                   <div>
-                    <span className='text-xs font-medium'>PHP {product.price}</span>
+                    <span className='text-xs font-thin'>PHP {product.price}</span>
                   </div>
                   <div>
                     <FaShoppingCart
