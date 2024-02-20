@@ -23,10 +23,19 @@ import { Toaster } from '@/components/ui/sonner'
 
 export default function AppLayout({ children }) {
   const { isLoading, error, data: users } = usersAPI()
+  const user = useUserStore((state) => state.user)
   const setUser = useUserStore((state) => state.setUser)
   const router = useRouter()
 
   // if (error) return <UserNotLogged/>
+
+  useEffect(() => {
+    // const id = new Promise((resole))
+    // if (!user) {
+    //   router.push('/')
+    //   return
+    // }
+  }, [user])
 
   return (
     <>
@@ -43,7 +52,7 @@ export default function AppLayout({ children }) {
           </div>
         </div>
       </div>
-      <Toaster position='top-right' richColors  />
+      <Toaster position='top-right' richColors />
     </>
   )
 }

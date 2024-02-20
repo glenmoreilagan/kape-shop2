@@ -23,6 +23,8 @@ import {
 
 import useUserStore from '@/store/useUserStore'
 
+import { logout } from '@/api/auth'
+
 export default function HeadNav() {
   const { collapseSidebar } = useProSidebar()
   const router = useRouter()
@@ -46,9 +48,7 @@ export default function HeadNav() {
   }
 
   const handleLogout = async () => {
-    setUser(null)
-    localStorage.removeItem('token')
-    router.replace('/')
+    await logout()
     setAnchorEl(null)
   }
 
@@ -79,6 +79,7 @@ export default function HeadNav() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant='ghost' size='icon'>
+                  {/* {user?.name} */}
                   <BiUser />
                 </Button>
               </DropdownMenuTrigger>

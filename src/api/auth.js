@@ -18,9 +18,11 @@ export async function login(creds) {
 
 export async function logout(creds) {
   try {
-    await csrf()
+    // await csrf()
     await newAxios.post('/api/logout')
-    // window.location.href = '/'
+
+    localStorage.removeItem('token')
+    window.location.href = '/'
   } catch (error) {
     throw error
   }

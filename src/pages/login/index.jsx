@@ -22,6 +22,7 @@ import { Label } from '@/components/ui/label'
 
 const LoginPage = () => {
   const router = useRouter()
+  const { isLoading, error, data: users } = usersAPI()
   const user = useUserStore((state) => state.user)
   const setUser = useUserStore((state) => state.setUser)
 
@@ -33,14 +34,22 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      // const result = await login({ email: 'testmail@gmail.com', password: 'password123' })
-      // setUser(result.data.user)
-      // localStorage.setItem('token', result.data.token)
+      const response = await login({ email: 'testmail@gmail.com', password: 'password123' })
+      localStorage.setItem('token', response.data.token)
+      setUser(response.data.user)
       router.replace('/dashboard')
     } catch (error) {
       throw error
     }
   }
+
+  useEffect(() => {
+    setUser(users)
+
+    if (users && !error) {
+      router.push('/dashboard')
+    }
+  }, [users])
 
   return (
     <>
@@ -64,13 +73,13 @@ const LoginPage = () => {
                 <div className=''>
                   <Label>
                     Email
-                    <Input type='text' placeholder='Input Email' />
+                    <Input type='text' placeholder='Input Email' defaultValue='testmail@gmail.com' />
                   </Label>
                 </div>
                 <div className=''>
                   <Label>
                     Password
-                    <Input type='text' placeholder='Input Password' />
+                    <Input type='text' placeholder='Input Password' defaultValue='password123' />
                   </Label>
                 </div>
               </div>
