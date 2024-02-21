@@ -19,7 +19,6 @@ import { categoryAPI } from '@/api/categories'
 // store
 import useCartStore from '@/store/useCartStore'
 import ProductDisplay from '@/components/pos/ProductDisplay'
-import CategoryDisplay from '@/components/pos/CategoryDisplay'
 import CartDisplay from '@/components/pos/CartDisplay'
 
 const ITEM_HEIGHT = 60
@@ -65,9 +64,7 @@ export default function IndexSales() {
     <AppLayout>
       <div className='flex justify-between items-center bg-white p-3 mb-3 sticky top-0 z-10'>
         <div className=''>
-          <BreadcrumbsComponent>
-            <span className='text-sm'>Sales</span>
-          </BreadcrumbsComponent>
+          <h1 className='scroll-m-20 text-xl font-semibold tracking-tight'>Products</h1>
         </div>
         <div>
           <Button size='sm' className='relative' onClick={() => setOpenCart(true)}>
@@ -80,13 +77,9 @@ export default function IndexSales() {
       </div>
 
       <div className='bg-white p-3'>
-        <div className='mb-3'>
-          <h1 className='text-lg font-medium'>Proudcts</h1>
-        </div>
         <section>
           <div className='grid grid-cols-6 place-items-center gap-3'>
             <ProductDisplay products={products?.data} />
-            {/* <CategoryDisplay categories={categories} /> */}
           </div>
         </section>
       </div>

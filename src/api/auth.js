@@ -2,12 +2,10 @@ import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import newAxios from '@/lib/new-axios'
 
-const csrf = () => newAxios.get('/sanctum/csrf-cookie')
-
 export async function login(creds) {
   try {
-    await csrf()
-    const response = await newAxios.post('/api/login', creds)
+    await newAxios.get('/sanctum/csrf-cookie')
+    const response = await newAxios.post('/login', creds)
     const result = response.data
 
     return result
@@ -18,10 +16,8 @@ export async function login(creds) {
 
 export async function logout(creds) {
   try {
-    // await csrf()
-    await newAxios.post('/api/logout')
+    await newAxios.post('/logout')
 
-    localStorage.removeItem('token')
     window.location.href = '/'
   } catch (error) {
     throw error

@@ -2,8 +2,12 @@ import newAxios from '@/lib/new-axios'
 import { create } from 'zustand'
 // import { persist, createJSONStorage } from 'zustand/middleware'
 
-const useSaleStore = create((set, get) => ({
+const initialState = {
   products: [],
+}
+
+const useSaleStore = create((set, get) => ({
+  ...initialState,
   setProducts: (products) => {
     let filteredProducts = products?.data?.map((product, i) => {
       return {

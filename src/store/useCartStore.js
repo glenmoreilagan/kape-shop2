@@ -3,12 +3,15 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 
 import { toast } from 'sonner'
 
+const initialState = {
+  cart: [],
+  // cartCount: 0,
+  isLoading: false,
+}
 const useCartStore = create(
   // persist(
   (set, get) => ({
-    cart: [],
-    // cartCount: 0,
-    isLoading: false,
+    ...initialState,
     addToCart: (product) => {
       set((state) => {
         const existInCart = state.cart?.find((item) => item.id === product.id)
@@ -36,7 +39,7 @@ const useCartStore = create(
         }
       })
 
-      toast.success('Event has been created.')
+      toast.success('Add to cart success.')
     },
     removeToCart: (product) => {
       set((state) => ({
@@ -71,6 +74,7 @@ const useCartStore = create(
         return { cart: updatedCartItem }
       })
     },
+    resetCart: () => set({ ...initialState }),
   })
   // {
   //   name: 'cart', // unique name

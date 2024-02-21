@@ -35,8 +35,8 @@ const LoginPage = () => {
   const handleLogin = async () => {
     try {
       const response = await login({ email: 'testmail@gmail.com', password: 'password123' })
-      localStorage.setItem('token', response.data.token)
-      setUser(response.data.user)
+      // localStorage.setItem('token', response.data.token)
+      // setUser(response.data.user)
       router.replace('/dashboard')
     } catch (error) {
       throw error

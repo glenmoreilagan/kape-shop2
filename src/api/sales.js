@@ -4,17 +4,16 @@ import newAxios from '@/lib/new-axios'
 
 import { toast } from 'sonner'
 
-const csrf = () => newAxios.get('/sanctum/csrf-cookie')
-
-export async function checkout(payload) {
+export async function checkout({ payload, setOpen }) {
   try {
-    // await csrf()
     const response = await newAxios.post('/api/sales', { data: payload })
     const result = response.data
 
     toast.success('Checkout success.')
+    setOpen(false)
+    return true
   } catch (error) {
-    toast.error('Something went wrong.')
-    // throw error
+    toast.error('Checkout something went wrong.')
+    return false
   }
 }

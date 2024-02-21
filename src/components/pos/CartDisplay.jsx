@@ -20,10 +20,18 @@ import { checkout } from '@/api/sales'
 
 export default function CartDisplay({ open, setOpen }) {
   const cartItems = useCartStore((state) => state.cart)
+  const resetCart = useCartStore((state) => state.resetCart)
 
   const grandTotal = cartItems?.reduce((prev, current) => {
     return prev + current.qty * current.price
   }, 0)
+
+  const handleCheckout = async (payload) => {
+    const isSuccess = await checkout({ ...payload })
+    if (isSuccess) {
+      resetCart()
+    }
+  }
 
   return (
     <>
@@ -47,7 +55,7 @@ export default function CartDisplay({ open, setOpen }) {
                 </span>
               </div>
               <div>
-                <Button onClick={() => checkout(cartItems)}>Checkout</Button>
+                <Button onClick={() => handleCheckout({ payload: cartItems, setOpen })}>Checkout</Button>
               </div>
             </div>
           </DialogFooter>
