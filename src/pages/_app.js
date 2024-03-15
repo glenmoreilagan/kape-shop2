@@ -8,6 +8,8 @@ import AuthLayout from '@/components/layouts/AuthLayout'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+import { GoogleOAuthProvider } from '@react-oauth/google'
+
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +25,7 @@ const queryClient = new QueryClient({
   },
 })
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const theme = createTheme({
   typography: {
@@ -34,29 +36,31 @@ const theme = createTheme({
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <ProSidebarProvider>
-        <QueryClientProvider client={queryClient}>
-          <AuthLayout>
-            <ThemeProvider theme={theme}>
-              <Component {...pageProps} />
-            </ThemeProvider>
-            <ToastContainer
-              position='top-right'
-              autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme='light'
-              // limit={5}
-            />
-          </AuthLayout>
-        </QueryClientProvider>
-        <Footer />
-      </ProSidebarProvider>
+      <GoogleOAuthProvider clientId={process.env.google_client_id}>
+        <ProSidebarProvider>
+          <QueryClientProvider client={queryClient}>
+            <AuthLayout>
+              <ThemeProvider theme={theme}>
+                <Component {...pageProps} />
+              </ThemeProvider>
+              <ToastContainer
+                position='top-right'
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme='light'
+                // limit={5}
+              />
+            </AuthLayout>
+          </QueryClientProvider>
+          <Footer />
+        </ProSidebarProvider>
+      </GoogleOAuthProvider>
     </>
   )
 }

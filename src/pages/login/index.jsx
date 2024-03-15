@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { Box, TextField } from '@mui/material'
 import { Button } from '@/components/ui/button'
 
 import Pusher from 'pusher-js'
@@ -14,11 +13,15 @@ import useUserStore from '@/store/useUserStore'
 import { usersAPI } from '@/api/users'
 
 import { FaGoogle, FaGithub } from 'react-icons/fa'
+
 import axios from 'axios'
 
 import { login } from '@/api/auth'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google'
+import { jwtDecode } from 'jwt-decode'
 
 const LoginPage = () => {
   const router = useRouter()
@@ -34,7 +37,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await login({ email: 'testmail@gmail.com', password: 'password123' })
+      const response = await login({ email: 'testmail@gmail.com', password: 'password' })
       // localStorage.setItem('token', response.data.token)
       // setUser(response.data.user)
       router.replace('/dashboard')
@@ -42,6 +45,33 @@ const LoginPage = () => {
       throw error
     }
   }
+
+  const loginGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse.access_token)
+
+      try {
+        const response = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        })
+
+        // console.log(response.data)
+
+        const callbackResponse = await newAxios.post('auth/callback', {
+          ...response.data,
+          provider: 'google',
+        })
+        if (callbackResponse.status === 201) {
+          console.log(callbackResponse.data)
+          router.replace('/dashboard')
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    },
+  })
 
   useEffect(() => {
     setUser(users)
@@ -79,15 +109,38 @@ const LoginPage = () => {
                 <div className=''>
                   <Label>
                     Password
-                    <Input type='text' placeholder='Input Password' defaultValue='password123' />
+                    <Input type='text' placeholder='Input Password' defaultValue='password' />
                   </Label>
                 </div>
               </div>
               <div className='flex justify-between items-center w-full mb-3'>
-                <div className=''>
-                  <Button onClick={handleLogin}>Sign In</Button>
+                <div className='w-full'>
+                  <Button className='w-full h-11' onClick={handleLogin}>
+                    Sign In
+                  </Button>
                 </div>
               </div>
+              <div className='mb-3 w-full'>
+                {/* <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    // console.log(credentialResponse)
+                    console.log(jwtDecode(credentialResponse.credential))
+                  }}
+                  onError={() => {
+                    console.log('Login Failed')
+                  }}
+                /> */}
+                <Button
+                  className='flex gap-3 items-center justify-center w-full h-11 bg-white text-[#111111] hover:bg-[#EDEDED]'
+                  onClick={() => loginGoogle()}
+                >
+                  <>
+                    <FaGoogle />
+                    <span>Sign in with Google</span>
+                  </>
+                </Button>
+              </div>
+
               <div className='w-full text-center flex flex-col'>
                 <a href='' className='font-light text-blue-500 text-sm'>
                   Forgot password?
