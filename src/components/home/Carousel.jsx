@@ -49,7 +49,7 @@ const items = [
   },
 ]
 
-const Carousel = () => {
+const Carousel = ({ items }) => {
   const [activeItemIndex, setActiveItemIndex] = useState(0)
   const chevronWidth = 40
 
@@ -72,8 +72,8 @@ const Carousel = () => {
 
   return (
     <>
-      <div className="" style={{ maxWidth: '100%', margin: '0 auto' }}>
-        <ItemsCarousel
+      {/* <div className='' style={{ maxWidth: '100%', margin: '0 auto' }}> */}
+      {/* <ItemsCarousel
           infiniteLoop={false}
           gutter={12}
           activePosition={'center'}
@@ -87,33 +87,35 @@ const Carousel = () => {
           firstAndLastGutter={false}
           activeItemIndex={activeItemIndex}
           requestToChangeActive={setActiveItemIndex}
-          rightChevron={<MdKeyboardArrowRight color="#fff" size={32} />}
-          leftChevron={<MdKeyboardArrowLeft color="#fff" size={32} />}
-        >
-          {items.map((item) => {
-            return (
-              <Card key={item.id} className="shadow-sm rounded-2xl">
-                <CardMedia sx={{ height: 250 }} image={item.image} title={item.title} />
-                <div className="px-3 py-3">
-                  <Typography className="font-bold text-md md:text-lg">{item.title}</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {item.price}
-                  </Typography>
-                </div>
-                <div className="px-3 mb-3">
-                  <Button
-                    className="w-full bg-primary-gray hover:bg-primary-darkgray text-white"
-                    variant="contained"
-                    size="small"
+          rightChevron={<MdKeyboardArrowRight color='#fff' size={32} />}
+          leftChevron={<MdKeyboardArrowLeft color='#fff' size={32} />}
+        > */}
+      {items?.map((item) => {
+        return (
+          <div key={item.id} className='border rounded-md'>
+            {/* <CardMedia sx={{ height: 250 }} image={item.image} title={item.title} /> */}
+            <img src={item.image} alt={item.title} className='w-full' />
+            <div className='px-3 py-3'>
+              <p className='font-bold text-md md:text-lg'>{item.title}</p>
+              <p className='line-clamp-3 text-gray-500 text-xs md:text-sm'>
+                {item.description}
+                {/* {item.price} */}
+              </p>
+            </div>
+            <div className='px-3 mb-3'>
+              {/* <Button
+                    className='w-full bg-primary-gray hover:bg-primary-darkgray text-white'
+                    variant='contained'
+                    size='small'
                   >
                     Buy
-                  </Button>
-                </div>
-              </Card>
-            )
-          })}
-        </ItemsCarousel>
-      </div>
+                  </Button> */}
+            </div>
+          </div>
+        )
+      })}
+      {/* </ItemsCarousel> */}
+      {/* </div> */}
     </>
   )
 }

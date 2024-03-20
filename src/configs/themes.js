@@ -1,6 +1,6 @@
 const themes = {
   appName: "Kape-Shop",
-  navHeight: "50px",
+  navHeight: "80px",
 };
 
 export default themes;

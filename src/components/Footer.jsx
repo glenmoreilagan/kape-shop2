@@ -5,7 +5,7 @@ import themes from '@/configs/themes'
 
 import moment from 'moment'
 
-import { GrLinkedin, GrFacebook } from 'react-icons/gr'
+// import { GrLinkedin, GrFacebook } from 'react-icons/gr'
 
 const Footer = () => {
   return (
@@ -18,8 +18,8 @@ const Footer = () => {
             </p>
             <p className="text-gray-300 text-xs">Developed by Glenmore</p>
             <div className="flex items-center mt-2">
-              <GrFacebook className="mx-1 rounded-sm text-lg text-white" />
-              <GrLinkedin className="mx-1 rounded-sm text-lg text-white" />
+              {/* <GrFacebook className="mx-1 rounded-sm text-lg text-white" />
+              <GrLinkedin className="mx-1 rounded-sm text-lg text-white" /> */}
             </div>
           </div>
           <div className="flex-1 text-right text-gray-300">

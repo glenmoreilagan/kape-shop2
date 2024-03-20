@@ -1,46 +1,50 @@
 'use client'
 import React from 'react'
 
-import { BiCoffeeTogo, BiCoffee, BiCustomize } from 'react-icons/bi'
+import { BiCoffeeTogo, BiCoffee, BiCustomize, BiSolidCoffee, BiSolidCoffeeAlt, BiSolidCoffeeTogo } from 'react-icons/bi'
 
 const OurServices = () => {
   const services = [
     {
       title: 'Specialty Coffee Beverages',
       desc: 'Indulge in our expertly crafted espresso-based drinks, such as lattes, cappuccinos, macchiatos, and more, made with the finest beans and steamed to perfection.',
-      logo: <BiCoffee size={40} className="text-primary-yellow" />,
+      logo: <BiCoffee size={40} className='text-primary-yellow' />,
     },
     {
       title: 'Cold Brew and Iced Coffees',
       desc: "Beat the heat with our refreshing cold brews and iced coffees, brewed and chilled to perfection for a smooth and bold flavor that's perfect for hot summer days.",
-      logo: <BiCoffeeTogo size={40} className="text-primary-yellow" />,
+      logo: <BiCoffeeTogo size={40} className='text-primary-yellow' />,
     },
     {
       title: 'Customizable Coffee Options',
       desc: 'Create your own coffee masterpiece with our customizable coffee options, where you can choose your preferred beans, roast level, brewing method, and add-ons to tailor your coffee just the way you like it.',
-      logo: <BiCustomize size={40} className="text-primary-yellow" />,
+      logo: <BiCustomize size={40} className='text-primary-yellow' />,
     },
+  ]
+
+  const images = [
+    { image: <BiSolidCoffeeTogo size={75} />, title: 'Nutella \n Mudslide', price: '300.00' },
+    { image: <BiSolidCoffee size={75} />, title: 'Caramel \n Frappuccinno', price: '250.00' },
+    { image: <BiSolidCoffeeAlt size={75} />, title: 'Hot \n chocolate', price: '340.00' },
   ]
 
   return (
     <>
-      <section id="services" className="h-screen flex justify-center bg-white mb-[50px] md:mb-0">
-        <div className="flex justify-center items-center w-11/12">
-          <div className="w-full h-full flex flex-col md:flex-row justify-center items-center gap-5">
-            {services.map((serv) => {
+      <section id='services' className=' bg-[#FFF3EF] text-[#191919]'>
+        <div className='items-center px-3 max-w-7xl mx-auto py-10'>
+          <div className='flex justify-center gap-3 flex-col md:flex-row'>
+            {images.map((item) => {
               return (
-                <div
-                  key={serv.title}
-                  className="w-full md:w-1/4 md:h-1/2 px-5 py-5 rounded-md transition ease-in-out delay-150 shadow-sm hover:scale-105 hover:shadow-lg"
-                >
-                  <div className="flex justify-center mb-5">
-                    <div className="bg-primary-brown rounded-md p-1">{serv.logo}</div>
-                  </div>
-                  <div className="flex justify-center mb-5">
-                    <h4 className="uppercase font-bold text-primary-brown">{serv.title}</h4>
+                <div key={item.title} className='flex gap-3 items-center w-72'>
+                  <div className='flex justify-center items-center bg-orange-600 p-3 rounded-full text-[#FAF9F6]'>
+                    {item.image}
                   </div>
                   <div>
-                    <p className="text-center text-[#616161] text-sm font-light">{serv.desc}</p>
+                    <div className='mb-3 font-bold'>
+                      <p className=' whitespace-pre-line'>{item.title}</p>
+                    </div>
+
+                    <p className='text-orange-600 font-bold'>P {item.price}</p>
                   </div>
                 </div>
               )

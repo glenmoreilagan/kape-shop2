@@ -1,20 +1,36 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Carousel from './Carousel'
+import axios from 'axios'
 
 const TopSeller = () => {
   const [expanded, setExpanded] = useState(false)
 
+  const [products, setProducts] = useState(null)
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get('https://api.sampleapis.com/coffee/hot')
+      setProducts(response.data)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts()
+  }, [])
+
   return (
     <>
-      <section id="top-seller" className="h-screen flex justify-center bg-[#FAFAFA]">
-        <div className="w-11/12 min:h-72 px-5">
-          <div className="mt-14 mb-14">
-            <h1 className="text-2xl font-semibold">Best Seller</h1>
+      <section id='top-seller' className='flex justify-center bg-[#FAFAFA]'>
+        <div className='max-w-7xl mx-auto px-3'>
+          <div className='mt-14 mb-14'>
+            <h1 className='text-2xl font-semibold'>Best Seller</h1>
           </div>
-          <div className="flex gap-3">
-            <Carousel />
+          <div className='grid grid-cols-5 gap-3'>
+            <Carousel items={products} />
           </div>
         </div>
       </section>

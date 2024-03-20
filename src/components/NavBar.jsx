@@ -41,19 +41,16 @@ function NavBar() {
 
   return (
     <>
-      <div
-        className='hidden md:flex justify-center bg-white shadow-sm sticky top-0 z-50' //backdrop-blur-lg
-        style={{ height: themes.navHeight }}
-      >
-        <nav className={`flex justify-evenly px-5 items-center w-11/12`}>
+      <div className='hidden md:block bg-white shadow-sm sticky top-0 z-50'>
+        <nav className={`flex justify-evenly px-3 items-center max-w-7xl mx-auto h-16`}>
           <div className='flex-1'>
             <h1 className='font-extrabold text-[#616161]'>KAPE-SHOP</h1>
           </div>
-          <div className='flex justify-around items-center w-1/3 font-light text-[#B3B3B3]'>
+          <div className='flex justify-around items-center gap-3 text-[#191919]'>
             {navLinks.map((nav) => {
               return (
                 <div key={nav.label}>
-                  <Link href={nav.path} className='text-sm hover:text-[#333333]'>
+                  <Link href={nav.path} className='text-sm hover:text-primary/90'>
                     {nav.label}
                   </Link>
                 </div>

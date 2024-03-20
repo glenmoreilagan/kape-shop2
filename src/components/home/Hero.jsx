@@ -1,30 +1,36 @@
 'use client'
 import React from 'react'
 
-import themes from '@/configs/themes'
+import { BiLeftArrow } from 'react-icons/bi'
 
 const Hero = () => {
   return (
     <>
-      <section id="home" className="h-screen flex justify-center bg-[#FAFAFA] mb-[50px] md:mb-0">
-        <div className="flex justify-center items-center w-11/12">
-          <div className="w-full md:w-1/2">
-            <div className="px-5">
-              <h1 className="text-center md:text-left text-primary-darkgray tracking-wider leading-7 mb-10">
-                <span className="font-bold text-2xl">We</span> are more than just a place to sip, It's where your taste
-                buds will take a trip. Our coffee is made with the finest beans, Ethically-sourced and expertly roasted
-                to extremes.
+      <section id='home' className='h-screen flex justify-center bg-[#FAFAFA] mb-[50px] md:mb-0'>
+        <div className='flex justify-center items-center max-w-7xl mx-auto'>
+          <div className='w-full md:w-1/2'>
+            <div className='px-3'>
+              <h1 className='text-center md:text-left mb-6 text-3xl md:text-5xl uppercase font-bold text-[#191919]'>
+                We are more than just a place to sip, It's where your taste buds will take a trip.
               </h1>
 
-              <div className="flex justify-center md:block">
-                <button className="text-primary-darkgray hover:text-white hover:bg-primary-darkgray border border-primary-darkgray w-40 p-2 transition ease-in-out delay-150 hover:scale-110 rounded-md">
-                  ORDER NOW
+              <p className='mb-6 text-gray-500 text-center md:text-left'>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit a et expedita nemo quaerat perferendis
+                molestiae consectetur aliquid.
+              </p>
+
+              <div className='flex justify-center md:block'>
+                <button className='text-white bg-[#191919] w-32 px-3 py-3 text-xs transition hover:scale-110 rounded-full flex gap-3 items-center justify-around font-medium'>
+                  View More
+                  <span className='bg-orange-600 p-1 rounded-full'>
+                    <BiLeftArrow className='rotate-180' />
+                  </span>
                 </button>
               </div>
             </div>
           </div>
-          <div className="hidden md:flex justify-center items-center flex-1 ">
-            <img src={'/hero-image.svg'} className=" w-[30rem]" />
+          <div className='hidden md:flex justify-center items-center flex-1 '>
+            <img src={'/hero-image.svg'} className=' w-[30rem]' />
           </div>
         </div>
       </section>
