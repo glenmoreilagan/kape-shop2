@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig = {
-  assetPrefix: isProd ? 'https://kape-shop.app/' : 'http://localhost:3000/',
+  assetPrefix: !isProd && 'http://localhost:3000/',
   reactStrictMode: false,
   eslint: {
     // Warning: This allows production builds to successfully complete even if
@@ -14,6 +14,6 @@ const nextConfig = {
   env: {
     google_client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
