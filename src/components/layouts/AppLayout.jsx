@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 // components
 // import SideNav from './navigation/sideNav'
-import HeadNav from './navigation/HeadNav'
+import HeadNav from '@/components/layouts/navigation/HeadNav'
 import UserNotLogged from '../UserNotLogged'
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'

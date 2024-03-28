@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 // components
 import AppLayout from '@/components/layouts/AppLayout'
-import ProductTable from '../../components/products/ProductTable'
+import ProductTable from '@/components/products/ProductTable'
 import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 import Loader from '@/components/reusable/Loader'
 

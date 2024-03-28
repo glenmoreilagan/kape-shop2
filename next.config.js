@@ -3,7 +3,7 @@
 const isProd = process.env.NODE_ENV === 'production'
 
 const nextConfig = {
-  assetPrefix: isProd ? 'https://kape-shop.app/' : 'http://localhost:3000/',
+  // assetPrefix: isProd ? 'https://kape-shop.vercel.app/' : 'http://localhost:3000/',
   reactStrictMode: false,
   eslint: {
     // Warning: This allows production builds to successfully complete even if
