@@ -10,7 +10,7 @@ const Hero = () => {
         <div className='flex justify-center items-center max-w-7xl mx-auto'>
           <div className='w-full md:w-1/2'>
             <div className='px-3'>
-              <h1 className='text-center md:text-left mb-6 text-3xl md:text-[3.5rem] uppercase font-bold text-[#191919]'>
+              <h1 className='text-center md:text-left mb-6 text-4xl md:text-[3.5rem] leading-[3.5rem] uppercase font-bold text-[#191919]'>
                 We are more than just a place to sip.
               </h1>
 
