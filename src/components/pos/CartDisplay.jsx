@@ -47,18 +47,17 @@ export default function CartDisplay({ open, setOpen }) {
               </div>
             </ScrollArea>
           </DialogHeader>
-          <DialogFooter>
+          {/* <DialogFooter> */}
             <div className='flex justify-between items-center gap-1'>
               <div>
-                <span className='font-medium bg-green-400 px-4 py-2 rounded-md text-sm'>
-                  Total: P {grandTotal.toFixed(2)}
-                </span>
+              <div><p className='inline-block'>Number of Items:</p> <span className='text-green-600 font-bold text-lg'>{cartItems.length}</span></div>
+              <div><p className='inline-block'>Grand Total:</p> <span className='text-red-600 font-bold text-lg'>{grandTotal.toFixed(2)}</span></div>
               </div>
               <div>
-                <Button onClick={() => handleCheckout({ payload: cartItems, setOpen })}>Checkout</Button>
+                <Button disabled={cartItems.length <= 0} onClick={() => handleCheckout({ payload: cartItems, setOpen })}>Checkout</Button>
               </div>
             </div>
-          </DialogFooter>
+          {/* </DialogFooter> */}
         </DialogContent>
       </Dialog>
     </>

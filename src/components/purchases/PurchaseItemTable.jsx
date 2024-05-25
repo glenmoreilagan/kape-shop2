@@ -14,6 +14,7 @@ const PHPFormatter = new Intl.NumberFormat('en-PH', {
 })
 
 import { purchaseFindOneAPI, purchaseUpdateQuantity } from '@/api/purchases'
+import PurchaseItemRow from './PurchaseItemRow'
 
 export default function PurchaseItemTable({ purchases, handleAddItem, dispatchReducer }) {
   const searchParams = useSearchParams()
@@ -74,47 +75,7 @@ export default function PurchaseItemTable({ purchases, handleAddItem, dispatchRe
           </TableHeader>
           <TableBody>
             {purchasedProduct?.map((row, i) => (
-              <TableRow key={row.id}>
-                <TableCell className='font-medium'>{row.product_name}</TableCell>
-                <TableCell>
-                  <div className='flex gap-1'>
-                    <Button
-                      onClick={() => handleUpdateQuantity({ item: row, qty: 1, action: 'decrement' })}
-                      variant='outline'
-                      size='icon'
-                      className='text-lg w-16'
-                    >
-                      <BiMinus />
-                    </Button>
-                    <Input
-                      // defaultValue={Number(row.quantity)}
-                      // value={Number(row.quantity)}
-                      className='text-center'
-                      value={Number(row.quantity)}
-                      readOnly
-                      // onChange={(e) => {
-                      //   handleManualUpdateQuantity({ item: row, qty: e.target.value, index: i })
-                      // }}
-                      // onBlur={(e) => handleManualUpdateQuantity({ item: row, qty: e.target.value, index: i })}
-                    />
-                    <Button
-                      onClick={() => handleUpdateQuantity({ item: row, qty: 1, action: 'increment' })}
-                      variant='outline'
-                      size='icon'
-                      className='text-lg w-16'
-                    >
-                      <BiPlus />
-                    </Button>
-                  </div>
-                </TableCell>
-                <TableCell className='text-right'>{Number(row.price)}</TableCell>
-                <TableCell className='text-right'>{Number(row.price * row.quantity).toFixed(2)}</TableCell>
-                <TableCell className='text-center'>
-                  <Button onClick={() => removeItem(row)} variant='outline' size='icon' className='text-lg'>
-                    <BiTrashAlt />
-                  </Button>
-                </TableCell>
-              </TableRow>
+              <PurchaseItemRow key={row.id} row={row} handleUpdateQuantity={handleUpdateQuantity} />
             ))}
           </TableBody>
         </Table>

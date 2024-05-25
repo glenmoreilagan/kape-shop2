@@ -22,17 +22,17 @@ export default function CartTable({ item }) {
           <p className='text-gray-400 text-xs'>P {item.price}</p>
         </div>
         <div className='w-46 flex gap-1'>
-          <Button variant='outline' onClick={() => updateCartQuantity(item, 'increment')}>
-            +
-          </Button>
-          <Input className='w-24 text-center' type='text' value={qty} onChange={(e) => setQty(e.target.value)} />
           <Button variant='outline' onClick={() => updateCartQuantity(item, 'decrement')} disabled={item.qty <= 1}>
             -
+          </Button>
+          <Input className='w-24 text-center' type='text' value={qty} onChange={(e) => setQty(e.target.value)} />
+          <Button variant='outline' onClick={() => updateCartQuantity(item, 'increment')}>
+            +
           </Button>
         </div>
 
         <div>
-          <span className='text-gray-400 text-xs'>P {item.qty * item.price}</span>
+          <span className='text-gray-400 text-xs'>P {(item.qty * item.price).toFixed(2)}</span>
         </div>
 
         <div>

@@ -85,14 +85,9 @@ export default function IndexNewPurchase() {
     watch,
     control,
     reset,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      document_no: generateDocumentNumber(),
-      description1: '',
-      description2: '',
-    },
-  })
+    setValue,
+    formState: { errors, isValidating },
+  } = useForm({ mode: 'onBlur' })
 
   const onSubmit = async (e) => {
     const { document_no, description1, description2 } = e
@@ -127,14 +122,33 @@ export default function IndexNewPurchase() {
     setOpenItemListModal(false)
   }
 
+  // useEffect(() => {
+    // reset({
+    //   document_no: purchases?.document?.document_no,
+    //   description1: purchases?.document?.description1,
+    //   description2: purchases?.document?.description2,
+    // })
+    // setTransactionDate(moment(purchases?.document?.transaction_date).format('YYYY-MM-DD'))
+  // }, [purchases])
+
+  const getDocumentNumber = async () => {
+    try {
+      const response = await newAxios.get('/api/purchases/generate-document-number')
+
+      reset({
+        document_no: response.data,
+        description1: purchases?.document?.description1,
+        description2: purchases?.document?.description2,
+        transaction_date: moment().format('Y-MM-DD'),
+      })
+    } catch (error) {
+      throw new Error('Something went wrong.')
+    }
+  }
+
   useEffect(() => {
-    reset({
-      document_no: purchases?.document?.document_no,
-      description1: purchases?.document?.description1,
-      description2: purchases?.document?.description2,
-    })
-    setTransactionDate(moment(purchases?.document?.transaction_date).format('YYYY-MM-DD'))
-  }, [purchases])
+    getDocumentNumber()
+  }, [])
 
   return (
     <AppLayout>
@@ -147,7 +161,7 @@ export default function IndexNewPurchase() {
               <h1 className='scroll-m-20 text-xl font-semibold tracking-tight'>Purchases</h1>
             </div>
             <div>
-              <Button size='sm' className='w-full' type='submit'>
+              <Button disabled={isValidating} size='sm' className='w-full' type='submit'>
                 <BiSave className='mr-2 h-4 w-4' /> Save
               </Button>
             </div>
@@ -175,9 +189,10 @@ export default function IndexNewPurchase() {
               /> */}
 
               <DefaultDatePicker
-                value={transactionDate}
-                onChange={(e) => setTransactionDate(e.target.value)}
+                // value={transactionDate}
+                // onChange={(e) => setTransactionDate(e.target.value)}
                 id='transaction_date'
+                {...register('transaction_date')}
               />
             </div>
             {/* <div className='flex flex-col w-full md:w-3/12 gap-3'></div> */}
