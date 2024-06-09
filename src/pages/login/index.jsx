@@ -46,32 +46,32 @@ const LoginPage = () => {
     }
   }
 
-  const loginGoogle = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse.access_token)
+  // const loginGoogle = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     console.log(tokenResponse.access_token)
 
-      try {
-        const response = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
-          headers: {
-            Authorization: `Bearer ${tokenResponse.access_token}`,
-          },
-        })
+  //     try {
+  //       const response = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
+  //         headers: {
+  //           Authorization: `Bearer ${tokenResponse.access_token}`,
+  //         },
+  //       })
 
-        // console.log(response.data)
+  //       // console.log(response.data)
 
-        const callbackResponse = await newAxios.post('auth/callback', {
-          ...response.data,
-          provider: 'google',
-        })
-        if (callbackResponse.status === 201) {
-          console.log(callbackResponse.data)
-          router.replace('/dashboard')
-        }
-      } catch (error) {
-        console.error(error)
-      }
-    },
-  })
+  //       const callbackResponse = await newAxios.post('auth/callback', {
+  //         ...response.data,
+  //         provider: 'google',
+  //       })
+  //       if (callbackResponse.status === 201) {
+  //         console.log(callbackResponse.data)
+  //         router.replace('/dashboard')
+  //       }
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   },
+  // })
 
   useEffect(() => {
     setUser(users)
@@ -130,7 +130,7 @@ const LoginPage = () => {
                     console.log('Login Failed')
                   }}
                 /> */}
-                <Button
+                {/* <Button
                   className='flex gap-3 items-center justify-center w-full h-11 bg-white text-[#111111] hover:bg-[#EDEDED]'
                   onClick={() => loginGoogle()}
                 >
@@ -138,7 +138,7 @@ const LoginPage = () => {
                     <FaGoogle />
                     <span>Sign in with Google</span>
                   </>
-                </Button>
+                </Button> */}
               </div>
 
               <div className='w-full text-center flex flex-col'>
