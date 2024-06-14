@@ -5,7 +5,7 @@ import { toast } from 'sonner'
 import axios from 'axios'
 
 const newAxios = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? 'https://kape-shop.app' : process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NODE_ENV === 'production' ? 'https://api-kape-shop.glenmore.tech' : process.env.NEXT_PUBLIC_API_URL,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
   },

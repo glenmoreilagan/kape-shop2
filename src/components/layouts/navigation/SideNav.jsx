@@ -82,7 +82,11 @@ export default function SideNav() {
       <Sidebar backgroundColor={'rgb(255, 255, 255, 1)'}>
         <div className='flex justify-center items-center'>
           <img
-            src={`${process.env.NEXT_PUBLIC_FRONTEND_URL}/applogo/favicon.png`}
+            src={`${
+              process.env.NODE_ENV === 'production'
+                ? 'https://kape-shop-pos.glenmore.tech'
+                : process.env.NEXT_PUBLIC_FRONTEND_URL
+            }/applogo/favicon.png`}
             alt='App Logo'
             className={`${!collapsed ? 'w-1/2 h-20' : ''} drop-shadow-xl`}
           />
