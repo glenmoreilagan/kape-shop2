@@ -109,7 +109,7 @@ const LoginPage = () => {
                 <div className=''>
                   <Label>
                     Password
-                    <Input type='text' placeholder='Input Password' defaultValue='password' />
+                    <Input type='password' placeholder='Input Password' defaultValue='password' />
                   </Label>
                 </div>
               </div>
