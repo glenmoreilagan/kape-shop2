@@ -84,7 +84,7 @@ export default function SideNav() {
           <img
             src={`${
               process.env.NODE_ENV === 'production'
-                ? 'https://kape-shop-pos.glenmore.tech'
+                ? 'https://kape-shop-project.glenmore.tech'
                 : process.env.NEXT_PUBLIC_FRONTEND_URL
             }/applogo/favicon.png`}
             alt='App Logo'
