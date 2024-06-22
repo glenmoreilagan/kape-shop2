@@ -10,7 +10,7 @@ import moment from 'moment'
 const Footer = () => {
   return (
     <>
-      <div className="h-24 flex justify-center items-center bg-[#333333]">
+      <div className="h-24 flex justify-center items-center bg-[#333333] mt-24">
         <div className="px-5 flex flex-col md:flex-row justify-evenly items-center w-11/12">
           <div className="flex-1 flex flex-col items-center md:items-start">
             <p className="text-xs text-white">

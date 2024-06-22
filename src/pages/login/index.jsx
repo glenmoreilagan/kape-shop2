@@ -83,7 +83,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <NavBar />
+      <NavBar path='login' />
       <div className='h-screen flex justify-center items-center bg-[#FAFAFA]'>
         <div className='w-96 md:w-1/3'>
           <div className='flex'>

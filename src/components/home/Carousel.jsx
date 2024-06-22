@@ -10,6 +10,8 @@ import { Box, Button } from '@mui/material'
 
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 
+import { ModalStateViewProductCard, SelectProductToView } from '@/store/useViewProductCardStore'
+
 const items = [
   {
     id: 1,
@@ -50,8 +52,8 @@ const items = [
 ]
 
 const Carousel = ({ items }) => {
-  const [activeItemIndex, setActiveItemIndex] = useState(0)
-  const chevronWidth = 40
+  const { SetShowViewProduct } = ModalStateViewProductCard()
+  const { SetSelectedProduct } = SelectProductToView()
 
   const [isMobile, setIsMobile] = useState(false)
 
@@ -64,6 +66,11 @@ const Carousel = ({ items }) => {
     }
   }
 
+  const handleViewProduct = (item) => {
+    SetShowViewProduct(true)
+    SetSelectedProduct(item)
+  }
+
   // create an event listener
   useEffect(() => {
     handleResize()
@@ -72,50 +79,18 @@ const Carousel = ({ items }) => {
 
   return (
     <>
-      {/* <div className='' style={{ maxWidth: '100%', margin: '0 auto' }}> */}
-      {/* <ItemsCarousel
-          infiniteLoop={false}
-          gutter={12}
-          activePosition={'center'}
-          chevronWidth={60}
-          disableSwipe={false}
-          alwaysShowChevrons={false}
-          numberOfCards={isMobile ? 2 : 5}
-          slidesToScroll={2}
-          outsideChevron={false}
-          showSlither={false}
-          firstAndLastGutter={false}
-          activeItemIndex={activeItemIndex}
-          requestToChangeActive={setActiveItemIndex}
-          rightChevron={<MdKeyboardArrowRight color='#fff' size={32} />}
-          leftChevron={<MdKeyboardArrowLeft color='#fff' size={32} />}
-        > */}
       {items?.map((item) => {
         return (
-          <div key={item.id} className='border rounded-md'>
+          <div key={item.id} className='rounded-md bg-[#BE8A5E]/10' onClick={() => handleViewProduct(item)}>
             {/* <CardMedia sx={{ height: 250 }} image={item.image} title={item.title} /> */}
-            <img src={item.image} alt={item.title} className='w-full' />
+            <img src='/product-mockup.png' alt={item.title} className='w-full' />
             <div className='px-3 py-3'>
-              <p className='font-bold text-md md:text-lg'>{item.title}</p>
-              <p className='line-clamp-3 text-gray-500 text-xs md:text-sm'>
-                {item.description}
-                {/* {item.price} */}
-              </p>
-            </div>
-            <div className='px-3 mb-3'>
-              {/* <Button
-                    className='w-full bg-primary-gray hover:bg-primary-darkgray text-white'
-                    variant='contained'
-                    size='small'
-                  >
-                    Buy
-                  </Button> */}
+              <p className='font-bold text-md md:text-lg text-slate-600 text-center'>{item.title}</p>
+              <p className=' text-gray-500 text-xs md:text-sm text-center font-medium'>129.00</p>
             </div>
           </div>
         )
       })}
-      {/* </ItemsCarousel> */}
-      {/* </div> */}
     </>
   )
 }

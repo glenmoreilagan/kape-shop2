@@ -3,7 +3,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+
+:root {
+  --const-default-nav-height: 4rem;
+  scroll-padding-top: calc(var(--const-default-nav-height) + 20px);
+  scroll-behavior: smooth !important;
+}
+
+.default-nav-height {
+  height: var(--const-default-nav-height);
+}
 
 @layer base {
   :root {
@@ -30,7 +40,7 @@
 
     font-family: Poppins, Arial, Helvetica, sans-serif;
   }
- 
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -54,11 +64,12 @@
   }
 }
 
- 
+
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
