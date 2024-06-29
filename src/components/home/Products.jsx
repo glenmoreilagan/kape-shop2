@@ -18,13 +18,16 @@ import ViewProductCard from './ViewProductCard'
 
 const Products = () => {
   const [expanded, setExpanded] = useState(false)
-  const [position, setPosition] = useState('hot')
+  const [filter, setFilter] = useState('hot')
 
   const [products, setProducts] = useState(null)
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`https://api.sampleapis.com/coffee/${position}`)
+      const response = await axios.get(`https://api.sampleapis.com/coffee/${filter}`)
+      if (response.data?.message) {
+        throw response.data?.message
+      }
       setProducts(response.data)
     } catch (error) {
       throw error
@@ -33,7 +36,7 @@ const Products = () => {
 
   useEffect(() => {
     fetchProducts()
-  }, [position])
+  }, [filter])
 
   return (
     <>
@@ -49,7 +52,7 @@ const Products = () => {
                 <DropdownMenuContent className='w-56'>
                   <DropdownMenuLabel>Filter by type of drink</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
+                  <DropdownMenuRadioGroup value={filter} onValueChange={setFilter}>
                     <DropdownMenuRadioItem value='hot'>Hot</DropdownMenuRadioItem>
                     <DropdownMenuRadioItem value='iced'>Iced</DropdownMenuRadioItem>
                   </DropdownMenuRadioGroup>
@@ -57,9 +60,7 @@ const Products = () => {
               </DropdownMenu>
             </div>
           </div>
-          <div className='grid grid-cols-4 gap-6'>
-            <Carousel items={products?.slice(0, 10)} />
-          </div>
+          <div className='grid grid-cols-4 gap-6'>{products && <Carousel items={products?.slice(0, 10)} />}</div>
         </div>
         <ViewProductCard />
       </section>

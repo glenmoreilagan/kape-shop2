@@ -11,6 +11,8 @@ import { DropDownCategoryAPI, DropDownBrandAPI } from '@/api/dropdown-menus'
 import AppLayout from '@/components/layouts/AppLayout'
 import Loader from '@/components/reusable/Loader'
 
+import { toast } from 'sonner'
+
 import {
   Select,
   SelectContent,
@@ -20,6 +22,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -55,8 +59,8 @@ const initialState = {
   description1: '',
   description2: '',
   price: 0,
-  category_id: null,
-  brand_id: null,
+  category_id: undefined,
+  brand_id: undefined,
   product_status: 0,
 }
 
@@ -68,12 +72,25 @@ export default function IndexNewProduct() {
 
   const [stateProduct, dispatch] = useReducer(reducer, initialState)
 
+  const forms = useForm({ defaultValues: initialState })
+  const watchAllFields = forms.watch()
+
   const handleInputChange = (e) => {
     dispatch({ type: ACTIONS.STOREPRODUCTINFO, field: e.target.name, payload: e.target.value })
   }
 
   const handleSelectChange = (params) => {
     dispatch({ type: ACTIONS.STOREPRODUCTINFO, field: params.field, payload: params.value })
+  }
+
+  const submitForm = async (data) => {
+    try {
+      const response = await storeProductAPI(data)
+      toast.success(response.message)
+      forms.reset()
+    } catch (error) {
+      // toast.error(error)
+    }
   }
 
   return (
@@ -83,125 +100,162 @@ export default function IndexNewProduct() {
           <h1 className='scroll-m-20 text-xl font-semibold tracking-tight'>Products</h1>
         </div>
         <div>
-          <Button size='sm' className='w-full' onClick={() => storeProductAPI(stateProduct)}>
+          <Button type='submit' size='sm' className='w-full' onClick={forms.handleSubmit((data) => submitForm(data))}>
             <BiSave className='mr-2 h-4 w-4' /> Save
           </Button>
         </div>
       </div>
-      <div className='flex gap-3 flex-col md:flex-row p-3 bg-white rounded-md'>
-        <div className='md:w-1/4'>
-          <Label htmlFor='name'>Product Name</Label>
-          <Input
-            value={stateProduct.name ?? ''}
-            type='text'
-            name='name'
-            id='name'
-            placeholder='Product Name'
-            onChange={(e) => handleInputChange(e)}
-          />
+      <Form {...forms}>
+        <div className='flex gap-3 flex-col md:flex-row p-3 bg-white rounded-md'>
+          <div className='md:w-1/4'>
+            <Label htmlFor='name'>Product Name</Label>
+            <Input type='text' name='name' id='name' placeholder='Product Name' {...forms.register('name')} />
 
-          <Label htmlFor='sku'>SKU</Label>
-          <Input
-            value={stateProduct.sku ?? ''}
-            type='text'
-            name='sku'
-            id='sku'
-            placeholder='SKU'
-            onChange={(e) => handleInputChange(e)}
-          />
+            <Label htmlFor='sku'>SKU</Label>
+            <Input type='text' name='sku' id='sku' placeholder='SKU' {...forms.register('sku')} />
 
-          <Label htmlFor='category'>Select Category</Label>
-          <Select
-            value={stateProduct.category_id}
-            onValueChange={(value) => handleSelectChange({ field: 'category_id', value: value })}
-          >
-            <SelectTrigger id='category'>
-              <SelectValue placeholder='Select Category' />
-            </SelectTrigger>
-            <SelectContent>
-              <ScrollArea className='h-[200px]'>
-                <SelectGroup>
-                  {categories?.map((row) => (
-                    <SelectItem key={row.value} value={row.value}>
-                      {row.label}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </ScrollArea>
-            </SelectContent>
-          </Select>
+            {/* <Label htmlFor='category'>Select Category</Label> */}
+            {/* <Select
+              value={!isNaN(watchAllFields?.category_id) ? parseInt(watchAllFields?.category_id) : undefined}
+              onValueChange={(value) => setValue('category_id', parseInt(value))}
+            >
+              <SelectTrigger id='category'>
+                <SelectValue placeholder='Select Category' />
+              </SelectTrigger>
+              <SelectContent>
+                <ScrollArea className='h-[200px]'>
+                  <SelectGroup>
+                    {categories?.map((row) => (
+                      <SelectItem key={row.value} value={row.value}>
+                        {row.label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </ScrollArea>
+              </SelectContent>
+            </Select> */}
 
-          <Label htmlFor='brand'>Select Brand</Label>
-          <Select
-            value={stateProduct.brand_id}
-            onValueChange={(value) => handleSelectChange({ field: 'brand_id', value: value })}
-          >
-            <SelectTrigger id='brand'>
-              <SelectValue placeholder='Select Brand' />
-            </SelectTrigger>
-            <SelectContent>
-              <ScrollArea className='h-[200px]'>
-                <SelectGroup>
-                  {brands?.map((row) => (
-                    <SelectItem key={row.value} value={row.value}>
-                      {row.label}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </ScrollArea>
-            </SelectContent>
-          </Select>
+            <FormField
+              control={forms.control}
+              name='category_id'
+              render={({ field }) => (
+                <FormItem>
+                  <Label htmlFor='category'>Select Category</Label>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger id='category'>
+                        <SelectValue placeholder='Select Category' />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <ScrollArea className='h-[200px]'>
+                        <SelectGroup>
+                          {categories?.map((row) => (
+                            <SelectItem key={row.value} value={row.value}>
+                              {row.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </ScrollArea>
+                    </SelectContent>
+                  </Select>
+                  {/* <FormMessage /> */}
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={forms.control}
+              name='brand_id'
+              render={({ field }) => (
+                <FormItem>
+                  <Label htmlFor='brand'>Select Brand</Label>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger id='brand'>
+                        <SelectValue placeholder='Select Brand' />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <ScrollArea className='h-[200px]'>
+                        <SelectGroup>
+                          {brands?.map((row) => (
+                            <SelectItem key={row.value} value={row.value}>
+                              {row.label}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </ScrollArea>
+                    </SelectContent>
+                  </Select>
+                  {/* <FormMessage /> */}
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className='md:w-1/4'>
+            <Label htmlFor='price'>Price</Label>
+            <Input
+              // value={stateProduct.price ?? ''}
+              type='text'
+              name='price'
+              id='price'
+              placeholder='Price'
+              // onChange={(e) => handleInputChange(e)}
+              {...forms.register('price')}
+            />
+
+            <FormField
+              control={forms.control}
+              name='product_status'
+              render={({ field }) => (
+                <FormItem>
+                  <Label htmlFor='product_status'>Select Product Status</Label>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger id='product_status'>
+                        <SelectValue placeholder='Select Product Status' />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value={0}>Active</SelectItem>
+                        <SelectItem value={1}>Inactive</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  {/* <FormMessage /> */}
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className='md:w-1/4'>
+            <Label htmlFor='description1'>Description 1</Label>
+            <Textarea
+              // value={stateProduct.description1 ?? ''}
+              type='text'
+              name='description1'
+              id='description1'
+              placeholder='Description 1'
+              rows={4}
+              // onChange={(e) => handleInputChange(e)}
+              {...forms.register('description1')}
+            />
+            <Label htmlFor='description2'>Description 2</Label>
+            <Textarea
+              // value={stateProduct.description2 ?? ''}
+              type='text'
+              name='description2'
+              id='description2'
+              placeholder='Description 2'
+              rows={4}
+              // onChange={(e) => handleInputChange(e)}
+              {...forms.register('description2')}
+            />
+          </div>
         </div>
-
-        <div className='md:w-1/4'>
-          <Label htmlFor='price'>Price</Label>
-          <Input
-            value={stateProduct.price ?? ''}
-            type='text'
-            name='price'
-            id='price'
-            placeholder='Price'
-            onChange={(e) => handleInputChange(e)}
-          />
-          <Label htmlFor='product_status'>Select Product Status</Label>
-          <Select
-            value={stateProduct.product_status}
-            onValueChange={(value) => handleSelectChange({ field: 'product_status', value: value })}
-          >
-            <SelectTrigger id='product_status'>
-              <SelectValue placeholder='Select Product Status' />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value={0}>Active</SelectItem>
-                <SelectItem value={1}>Inactive</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className='md:w-1/4'>
-          <Label htmlFor='description1'>Description 1</Label>
-          <Textarea
-            value={stateProduct.description1 ?? ''}
-            type='text'
-            name='description1'
-            id='description1'
-            placeholder='Description 1'
-            rows={4}
-            onChange={(e) => handleInputChange(e)}
-          />
-          <Label htmlFor='description2'>Description 2</Label>
-          <Textarea
-            value={stateProduct.description2 ?? ''}
-            type='text'
-            name='description2'
-            id='description2'
-            placeholder='Description 2'
-            rows={4}
-            onChange={(e) => handleInputChange(e)}
-          />
-        </div>
-      </div>
+      </Form>
       <Loader isLoading={categoryLoading && brandLoading} />
     </AppLayout>
   )

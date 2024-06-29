@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import newAxios from '@/lib/new-axios'
 import axios from 'axios'
 
+import { toast } from 'sonner'
+
 export function productAPI() {
   const { isLoading, error, data } = useQuery({
     queryKey: ['products'],
@@ -41,7 +43,7 @@ export async function storeProductAPI(data) {
     const response = await newAxios.post('/api/products', data)
     return response.data
   } catch (error) {
-    throw new Error(error)
+    throw 'Something went wrong.'
   }
 }
 
