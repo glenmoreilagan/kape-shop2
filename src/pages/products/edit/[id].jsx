@@ -5,8 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 // API's
-import { productFindOneAPI, updateProductAPI } from '@/api/products'
-import { DropDownCategoryAPI, DropDownBrandAPI } from '@/api/dropdown-menus'
+import { productFindOneAPI, updateProductAPI } from '@/components/hooks/products'
+import { DropDownCategoryAPI, DropDownBrandAPI } from '@/components/hooks/dropdown-menus'
 
 import AppLayout from '@/components/layouts/AppLayout'
 import Loader from '@/components/reusable/Loader'

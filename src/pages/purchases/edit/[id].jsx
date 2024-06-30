@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 import { useRouter, useSearchParams } from 'next/navigation'
 
-import { purchaseFindOneAPI } from '@/api/purchases'
+import { purchaseFindOneAPI } from '@/components/hooks/purchases'
 
 import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 import AppLayout from '@/components/layouts/AppLayout'

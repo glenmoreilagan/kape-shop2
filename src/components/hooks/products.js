@@ -3,8 +3,6 @@ import { useQuery } from '@tanstack/react-query'
 import newAxios from '@/lib/new-axios'
 import axios from 'axios'
 
-import { toast } from 'sonner'
-
 export function productAPI() {
   const { isLoading, error, data } = useQuery({
     queryKey: ['products'],

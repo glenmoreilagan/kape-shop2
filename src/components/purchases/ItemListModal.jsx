@@ -32,7 +32,7 @@ import { toast } from 'react-toastify'
 import moment from 'moment'
 
 // API's
-import { productAPI } from '@/api/products'
+import { productAPI } from '@/components/hooks/products'
 
 const PHPFormatter = new Intl.NumberFormat('en-PH', {
   style: 'currency',
@@ -42,7 +42,7 @@ const PHPFormatter = new Intl.NumberFormat('en-PH', {
 import usePurchaseStore from '@/store/usePurchaseStore'
 import newAxios from '@/lib/new-axios'
 
-import { addPurchaseProduct } from '@/api/purchases'
+import { addPurchaseProduct } from '@/components/hooks/purchases'
 
 export default function ItemListModal({ open, handleClose, documentState }) {
   const { isLoading, error, data: products } = productAPI()

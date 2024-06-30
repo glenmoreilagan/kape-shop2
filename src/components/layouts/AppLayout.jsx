@@ -17,9 +17,8 @@ import useUserStore from '@/store/useUserStore'
 // https://stackoverflow.com/questions/64622494/usepreventscroll-causes-uselayouteffect-warning-in-nextjs
 const SideNav = dynamic(() => import('./navigation/SideNav'), { ssr: false })
 
-import { usersAPI } from '@/api/users'
+import { usersAPI } from '@/components/hooks/users'
 
-import { Toaster } from '@/components/ui/sonner'
 
 export default function AppLayout({ children }) {
   const { isLoading, error, data: users } = usersAPI()
@@ -52,7 +51,6 @@ export default function AppLayout({ children }) {
           </div>
         </div>
       </div>
-      <Toaster position='top-right' richColors />
     </>
   )
 }

@@ -5,15 +5,11 @@ import useCartStore from '@/store/useCartStore'
 
 import { FaShoppingCart } from 'react-icons/fa'
 
-import { toast } from 'sonner'
-
 export default function ProductDisplay({ products }) {
   const addToCart = useCartStore((state) => state.addToCart)
 
   const handleAddToCart = async (product) => {
     addToCart(product)
-
-    // toast.success('Event has been created.')
   }
 
   return (

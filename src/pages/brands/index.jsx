@@ -11,7 +11,7 @@ import AddEditBrandModal from '@/components/brands/AddEditBrandModal'
 import Loader from '@/components/reusable/Loader'
 
 // API's
-import { brandAPI } from '@/api/brands'
+import { brandAPI } from '@/components/hooks/brands'
 
 // store
 import useBrandStore from '@/store/useBrandStore'

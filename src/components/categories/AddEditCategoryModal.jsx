@@ -19,13 +19,18 @@ import {
 // store
 import useCategoryStore from '@/store/useCategoryStore'
 
-// react hook form
-import { useForm, Controller } from 'react-hook-form'
-
-import { addCategoryAPI, updateCategoryAPI } from '@/api/categories'
+import { addCategoryAPI, updateCategoryAPI } from '@/components/hooks/categories'
 
 import MessageAlert from '@/components/MessageAlert'
 import { toast } from 'react-toastify'
+
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const CATEGORY_SCHEMA = z.object({
+  category: z.string().min(1, 'Category is required.'),
+})
 
 export default function AddEditCategoryModal({ actionStatus }) {
   const { mutateAsync: addCategory } = addCategoryAPI()
@@ -34,10 +39,16 @@ export default function AddEditCategoryModal({ actionStatus }) {
   const { openModal, setShowHideModal } = useCategoryStore((state) => state)
   const selectedCategory = useCategoryStore((state) => state.selectedCategory)
 
-  const { register, handleSubmit, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       category: actionStatus === 'edit' ? selectedCategory.category : '',
     },
+    resolver: zodResolver(CATEGORY_SCHEMA),
   })
 
   const handleClose = () => {
@@ -49,7 +60,7 @@ export default function AddEditCategoryModal({ actionStatus }) {
       case 'add':
         try {
           await addCategory(data) // this is mutations only 1 parameters needed
-          toast.success(<MessageAlert header='Success!' body='Success.' />)
+          toast.success(<MessageAlert header='Success!' body='Insert success.' />)
         } catch (error) {
           toast.error(<MessageAlert header='Error!' body='Something Wrong.' />)
           throw error
@@ -58,7 +69,7 @@ export default function AddEditCategoryModal({ actionStatus }) {
       case 'edit':
         try {
           await updateCategory({ catId: selectedCategory.id, category: data }) // this is mutations only 1 parameters needed
-          toast.success(<MessageAlert header='Success!' body='Success.' />)
+          toast.success(<MessageAlert header='Success!' body='Update success.' />)
         } catch (error) {
           toast.error(<MessageAlert header='Error!' body='Something Wrong.' />)
           throw error
@@ -74,6 +85,8 @@ export default function AddEditCategoryModal({ actionStatus }) {
     setShowHideModal()
   }
 
+  console.log(errors)
+
   return (
     <React.Fragment>
       <AlertDialog open={openModal}>
@@ -84,6 +97,7 @@ export default function AddEditCategoryModal({ actionStatus }) {
               <AlertDialogDescription>
                 <Label htmlFor='category'>Category</Label>
                 <Input id='category' placeholder='Category' {...register('category')} />
+                <p className='text-red-600 text-xs'>{errors?.category?.message}</p>
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

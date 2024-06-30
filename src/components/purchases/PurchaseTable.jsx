@@ -7,7 +7,7 @@ import { BiEditAlt } from 'react-icons/bi'
 import { Button } from '../ui/button'
 
 // API's
-import { purchaseAPI } from '@/api/purchases'
+import { purchaseAPI } from '@/components/hooks/purchases'
 
 import { useRouter } from 'next/navigation'
 import moment from 'moment'

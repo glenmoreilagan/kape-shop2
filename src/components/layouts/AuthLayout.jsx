@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 
-import { usersAPI } from '@/api/users'
-import { logout } from '@/api/auth'
+import { usersAPI } from '@/components/hooks/users'
+import { logout } from '@/components/hooks/auth'
 
 import useUserStore from '@/store/useUserStore'
 

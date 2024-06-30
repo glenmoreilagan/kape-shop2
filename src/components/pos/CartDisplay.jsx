@@ -16,7 +16,7 @@ import CartTable from './CartTable'
 
 import useCartStore from '@/store/useCartStore'
 
-import { checkout } from '@/api/sales'
+import { checkout } from '@/components/hooks/sales'
 
 export default function CartDisplay({ open, setOpen }) {
   const cartItems = useCartStore((state) => state.cart)

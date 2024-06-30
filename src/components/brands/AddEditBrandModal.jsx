@@ -20,28 +20,39 @@ import {
 // store
 import useBrandStore from '@/store/useBrandStore'
 
-// react hook form
-import { useForm, Controller } from 'react-hook-form'
-
-import { addBrandAPI, updateBrandAPI } from '@/api/brands'
+import { addBrandAPI, updateBrandAPI } from '@/components/hooks/brands'
 
 import MessageAlert from '@/components/MessageAlert'
 import { toast } from 'react-toastify'
 
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+const BRAND_SCHEMA = z.object({
+  brand: z.string().min(1, 'Brand is required.'),
+})
+
 export default function AddEditBrandModal({ actionStatus }) {
   const router = useRouter()
   const params = useSearchParams()
-  
+
   const { mutateAsync: addBrand } = addBrandAPI()
   const { mutateAsync: updateBrand } = updateBrandAPI()
 
   const { openModal, setShowHideModal } = useBrandStore((state) => state)
   const selectedBrand = useBrandStore((state) => state.selectedBrand)
 
-  const { register, handleSubmit, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       brand: actionStatus === 'edit' ? selectedBrand.brand : '',
     },
+    resolver: zodResolver(BRAND_SCHEMA),
   })
 
   const handleClose = () => {
@@ -53,7 +64,7 @@ export default function AddEditBrandModal({ actionStatus }) {
       case 'add':
         try {
           await addBrand(data) // this is mutations only 1 parameters needed
-          toast.success(<MessageAlert header='Success!' body='Success.' />)
+          toast.success(<MessageAlert header='Success!' body='Insert success.' />)
         } catch (error) {
           toast.error(<MessageAlert header='Error!' body='Something Wrong.' />)
           throw error
@@ -62,7 +73,7 @@ export default function AddEditBrandModal({ actionStatus }) {
       case 'edit':
         try {
           await updateBrand({ brandId: selectedBrand.id, brand: data }) // this is mutations only 1 parameters needed
-          toast.success(<MessageAlert header='Success!' body='Success.' />)
+          toast.success(<MessageAlert header='Success!' body='Update success.' />)
         } catch (error) {
           toast.error(<MessageAlert header='Error!' body='Something Wrong.' />)
           throw error
@@ -88,6 +99,7 @@ export default function AddEditBrandModal({ actionStatus }) {
               <AlertDialogDescription>
                 <Label htmlFor='brand'>Brand</Label>
                 <Input id='brand' placeholder='Brand' {...register('brand')} />
+                <p className='text-red-600 text-xs'>{errors?.brand?.message}</p>
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

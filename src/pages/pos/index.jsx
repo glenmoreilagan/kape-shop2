@@ -9,12 +9,10 @@ import Loader from '@/components/reusable/Loader'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 
-import { toast } from 'sonner'
-
 import { MdOutlineShoppingCart } from 'react-icons/md'
 
-import { productAPI } from '@/api/products'
-import { categoryAPI } from '@/api/categories'
+import { productAPI } from '@/components/hooks/products'
+import { categoryAPI } from '@/components/hooks/categories'
 
 // store
 import useCartStore from '@/store/useCartStore'

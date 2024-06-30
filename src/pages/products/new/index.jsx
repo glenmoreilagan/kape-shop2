@@ -1,17 +1,14 @@
 'use client'
-import React, { useState, useEffect, useReducer } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 
 // API's
-import { storeProductAPI } from '@/api/products'
-import { DropDownCategoryAPI, DropDownBrandAPI } from '@/api/dropdown-menus'
+import { storeProductAPI } from '@/components/hooks/products'
+import { DropDownCategoryAPI, DropDownBrandAPI } from '@/components/hooks/dropdown-menus'
 
 import AppLayout from '@/components/layouts/AppLayout'
 import Loader from '@/components/reusable/Loader'
-
-import { toast } from 'sonner'
 
 import {
   Select,
@@ -31,27 +28,30 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
+import MessageAlert from '@/components/MessageAlert'
+import { toast } from 'react-toastify'
+
 import { BiSave } from 'react-icons/bi'
 
-const ACTIONS = {
-  STOREPRODUCTINFO: 'storeteProductInfo',
-  FILLFROMAPI: 'fillFromApi',
-  SUBMIT: 'submit',
-}
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-function reducer(state, action) {
-  switch (action.type) {
-    case ACTIONS.STOREPRODUCTINFO: {
-      return {
-        ...state,
-        [action.field]: action.payload,
-      }
-    }
-    default: {
-      throw new Error('Action not found')
-    }
-  }
-}
+const PRODUCT_SCHEMA = z.object({
+  name: z.string().min(1, 'Product name is required.'),
+  sku: z.string().min(1, 'SKU is required.'),
+  price: z.coerce
+    .number({
+      required_error: 'Price is required',
+      invalid_type_error: 'Price must be a number',
+    })
+    .gt(0, 'Price must be greater than 0'),
+  description1: z.string(),
+  description2: z.string(),
+  category_id: z.string().optional(),
+  brand_id: z.string().optional(),
+  product_status: z.number(),
+})
 
 const initialState = {
   name: '',
@@ -68,25 +68,15 @@ export default function IndexNewProduct() {
   const router = useRouter()
   const { isLoading: categoryLoading, error: categoryError, data: categories } = DropDownCategoryAPI()
   const { isLoading: brandLoading, error: brandError, data: brands } = DropDownBrandAPI()
-  const searchParams = useSearchParams()
 
-  const [stateProduct, dispatch] = useReducer(reducer, initialState)
-
-  const forms = useForm({ defaultValues: initialState })
+  const forms = useForm({ defaultValues: initialState, resolver: zodResolver(PRODUCT_SCHEMA) })
+  const formsErrors = forms.formState.errors
   const watchAllFields = forms.watch()
-
-  const handleInputChange = (e) => {
-    dispatch({ type: ACTIONS.STOREPRODUCTINFO, field: e.target.name, payload: e.target.value })
-  }
-
-  const handleSelectChange = (params) => {
-    dispatch({ type: ACTIONS.STOREPRODUCTINFO, field: params.field, payload: params.value })
-  }
 
   const submitForm = async (data) => {
     try {
       const response = await storeProductAPI(data)
-      toast.success(response.message)
+      toast.success(<MessageAlert header='Success!' body={response.message} />)
       forms.reset()
     } catch (error) {
       // toast.error(error)
@@ -110,30 +100,11 @@ export default function IndexNewProduct() {
           <div className='md:w-1/4'>
             <Label htmlFor='name'>Product Name</Label>
             <Input type='text' name='name' id='name' placeholder='Product Name' {...forms.register('name')} />
+            <p className='text-red-600 text-xs'>{formsErrors.name?.message}</p>
 
             <Label htmlFor='sku'>SKU</Label>
             <Input type='text' name='sku' id='sku' placeholder='SKU' {...forms.register('sku')} />
-
-            {/* <Label htmlFor='category'>Select Category</Label> */}
-            {/* <Select
-              value={!isNaN(watchAllFields?.category_id) ? parseInt(watchAllFields?.category_id) : undefined}
-              onValueChange={(value) => setValue('category_id', parseInt(value))}
-            >
-              <SelectTrigger id='category'>
-                <SelectValue placeholder='Select Category' />
-              </SelectTrigger>
-              <SelectContent>
-                <ScrollArea className='h-[200px]'>
-                  <SelectGroup>
-                    {categories?.map((row) => (
-                      <SelectItem key={row.value} value={row.value}>
-                        {row.label}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </ScrollArea>
-              </SelectContent>
-            </Select> */}
+            <p className='text-red-600 text-xs'>{formsErrors.sku?.message}</p>
 
             <FormField
               control={forms.control}
@@ -205,6 +176,7 @@ export default function IndexNewProduct() {
               // onChange={(e) => handleInputChange(e)}
               {...forms.register('price')}
             />
+            <p className='text-red-600 text-xs'>{formsErrors.price?.message}</p>
 
             <FormField
               control={forms.control}

@@ -1,8 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-import { toast } from 'sonner'
-
 const initialState = {
   cart: [],
   // cartCount: 0,
@@ -38,8 +36,6 @@ const useCartStore = create(
           }
         }
       })
-
-      toast.success('Add to cart success.')
     },
     removeToCart: (product) => {
       set((state) => ({

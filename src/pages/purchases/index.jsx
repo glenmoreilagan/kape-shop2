@@ -12,7 +12,7 @@ import Loader from '@/components/reusable/Loader'
 import { BiPlus } from 'react-icons/bi'
 import { Button } from '@/components/ui/button'
 
-import { purchaseAPI } from '@/api/purchases'
+import { purchaseAPI } from '@/components/hooks/purchases'
 
 export default function IndexPurhcase() {
   const router = useRouter()

@@ -10,7 +10,7 @@ import AddEditCategoryModal from '@/components/categories/AddEditCategoryModal'
 import Loader from '@/components/reusable/Loader'
 
 // API's
-import { categoryAPI } from '@/api/categories'
+import { categoryAPI } from '@/components/hooks/categories'
 
 // store
 import useCategoryStore from '@/store/useCategoryStore'

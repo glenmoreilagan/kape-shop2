@@ -29,7 +29,7 @@ import { MdOutlineSave } from 'react-icons/md'
 import moment from 'moment'
 
 import usePurchaseStore from '@/store/usePurchaseStore'
-import { purchaseFindOneAPI } from '@/api/purchases'
+import { purchaseFindOneAPI } from '@/components/hooks/purchases'
 import { useSearchParams } from 'next/navigation'
 
 const ACTIONS = {

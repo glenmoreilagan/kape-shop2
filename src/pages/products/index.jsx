@@ -13,7 +13,7 @@ import { BiPlus } from 'react-icons/bi'
 import { Button } from '@/components/ui/button'
 
 // API's
-import { productAPI } from '@/api/products'
+import { productAPI } from '@/components/hooks/products'
 
 export default function IndexProducts() {
   const router = useRouter()
