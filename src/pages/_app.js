@@ -58,7 +58,7 @@ export default function App({ Component, pageProps }) {
               />
             </AuthLayout>
           </QueryClientProvider>
-          <Footer />
+          {/* <Footer /> */}
         </ProSidebarProvider>
       </GoogleOAuthProvider>
     </>

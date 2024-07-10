@@ -26,7 +26,7 @@ function NavBar({ path }) {
       label: 'Home',
     },
     {
-      path: '#products',
+      path: '/#products',
       label: 'Products',
     },
     {

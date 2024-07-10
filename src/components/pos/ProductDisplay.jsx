@@ -4,6 +4,7 @@ import React from 'react'
 import useCartStore from '@/store/useCartStore'
 
 import { FaShoppingCart } from 'react-icons/fa'
+import { NumberFormatter } from '@/lib/number-formatter'
 
 export default function ProductDisplay({ products }) {
   const addToCart = useCartStore((state) => state.addToCart)
@@ -33,7 +34,7 @@ export default function ProductDisplay({ products }) {
                 </div>
                 <div className='flex justify-between items-center'>
                   <div>
-                    <span className='text-xs font-thin'>PHP {product.price}</span>
+                    <span className='text-xs font-thin'>PHP {NumberFormatter(product.price)}</span>
                   </div>
                   <div>
                     <button title='Add to cart' onClick={() => handleAddToCart(product)}>

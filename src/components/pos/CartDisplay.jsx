@@ -10,6 +10,17 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog'
 
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
+
 import { Button } from '../ui/button'
 import { ScrollArea } from '../ui/scroll-area'
 import CartTable from './CartTable'
@@ -17,6 +28,7 @@ import CartTable from './CartTable'
 import useCartStore from '@/store/useCartStore'
 
 import { checkout } from '@/components/hooks/sales'
+import { NumberFormatter } from '@/lib/number-formatter'
 
 export default function CartDisplay({ open, setOpen }) {
   const cartItems = useCartStore((state) => state.cart)
@@ -27,39 +39,43 @@ export default function CartDisplay({ open, setOpen }) {
   }, 0)
 
   const handleCheckout = async (payload) => {
-    const isSuccess = await checkout({ ...payload })
-    if (isSuccess) {
-      resetCart()
-    }
+    await checkout({ ...payload, resetCart: resetCart })
   }
 
   return (
     <>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className='max-w-[50rem]'>
-          <DialogHeader className='mb-3'>
-            <DialogTitle className='text-xl mb-3'>Shopping Cart</DialogTitle>
-            <ScrollArea className='max-h-96'>
-              <div>
-                {cartItems?.map((item, index) => {
-                  return <CartTable key={item.id} item={item} />
-                })}
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Cart</SheetTitle>
+            <SheetDescription>List of items</SheetDescription>
+          </SheetHeader>
+          {/* <ScrollArea className='min-h-96'> */}
+          <div>
+            {cartItems?.map((item, index) => {
+              return <CartTable key={item.id} item={item} />
+            })}
+          </div>
+          {/* </ScrollArea> */}
+
+          <div className='mt-3 mb-3'>
+            <div className='flex gap-3 justify-between'>
+              <div className='text-sm'>
+                <p className='inline-block'>Total Items:</p> <span className=''>{cartItems.length}</span>
               </div>
-            </ScrollArea>
-          </DialogHeader>
-          {/* <DialogFooter> */}
-            <div className='flex justify-between items-center gap-1'>
-              <div>
-              <div><p className='inline-block'>Number of Items:</p> <span className='text-green-600 font-bold text-lg'>{cartItems.length}</span></div>
-              <div><p className='inline-block'>Grand Total:</p> <span className='text-red-600 font-bold text-lg'>{grandTotal.toFixed(2)}</span></div>
-              </div>
-              <div>
-                <Button disabled={cartItems.length <= 0} onClick={() => handleCheckout({ payload: cartItems, setOpen })}>Checkout</Button>
+              <div className='text-sm'>
+                <p className='inline-block'>Grand Total:</p> <span className=''>{NumberFormatter(grandTotal)}</span>
               </div>
             </div>
-          {/* </DialogFooter> */}
-        </DialogContent>
-      </Dialog>
+            <div></div>
+          </div>
+          <SheetFooter>
+            <Button disabled={cartItems.length <= 0} onClick={() => handleCheckout({ payload: cartItems, setOpen })}>
+              Checkout
+            </Button>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
     </>
   )
 }
