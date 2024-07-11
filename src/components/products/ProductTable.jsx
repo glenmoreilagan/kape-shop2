@@ -9,6 +9,7 @@ import moment from 'moment'
 
 import { useRouter } from 'next/navigation'
 import Loader from '../reusable/Loader'
+import { NumberFormatter } from '@/lib/number-formatter'
 
 const PHPFormatter = new Intl.NumberFormat('en-PH', {
   style: 'currency',
@@ -26,8 +27,10 @@ export default function ProductTable({ products }) {
             <TableHead className='w-[200px]'>Product</TableHead>
             <TableHead className='w-[200px]'>Category</TableHead>
             <TableHead className='w-[200px]'>Brand</TableHead>
+            <TableHead className='w-[200px]'>Total Sales Count</TableHead>
+            <TableHead className='w-[200px]'>Total Sales Amout</TableHead>
             <TableHead className='w-[500px]'>Description</TableHead>
-            <TableHead className='w-[200px]'>CreatedAt</TableHead>
+            <TableHead className='w-[200px]'>Created At</TableHead>
             <TableHead className='w-[200px] text-center'>Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -37,6 +40,8 @@ export default function ProductTable({ products }) {
               <TableCell className='font-medium'>{row.name}</TableCell>
               <TableCell>{row.categories?.category}</TableCell>
               <TableCell>{row.brands?.brand}</TableCell>
+              <TableCell className='text-right'>{parseInt(row.sales_count ?? 0)}</TableCell>
+              <TableCell className='text-right'>{NumberFormatter(parseInt(row.sales_sum_price ?? 0))}</TableCell>
               <TableCell>
                 <p>1. {row.description1}</p>
                 <p>2. {row.description2}</p>

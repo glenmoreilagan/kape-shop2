@@ -12,6 +12,7 @@ import { purchaseAPI } from '@/components/hooks/purchases'
 import { useRouter } from 'next/navigation'
 import moment from 'moment'
 import Loader from '../reusable/Loader'
+import { NumberFormatter } from '@/lib/number-formatter'
 
 const PHPFormatter = new Intl.NumberFormat('en-PH', {
   style: 'currency',
@@ -38,8 +39,8 @@ export default function PurchaseTable({ purchases }) {
             {purchases?.map((row) => (
               <TableRow key={row.id}>
                 <TableCell className='font-medium'>{row.document_no}</TableCell>
-                <TableCell>{row.purchases_count}</TableCell>
-                <TableCell>{Number(row.purchases_sum_price)}</TableCell>
+                <TableCell className='text-right'>{parseInt(row.purchases_count ?? 0)}</TableCell>
+                <TableCell className='text-right'>{NumberFormatter(parseInt(row.purchases_sum_price ?? 0))}</TableCell>
                 <TableCell>{moment(row.transaction_date).format('MMMM DD, YYYY')}</TableCell>
                 <TableCell className='text-center'>
                   <Button

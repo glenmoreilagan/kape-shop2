@@ -34,7 +34,7 @@ export default function ProductDisplay({ products }) {
                 </div>
                 <div className='flex justify-between items-center'>
                   <div>
-                    <span className='text-xs font-thin'>PHP {NumberFormatter(product.price)}</span>
+                    <span className='text-xs font-thin'>PHP {NumberFormatter(parseInt(product.price))}</span>
                   </div>
                   <div>
                     <button title='Add to cart' onClick={() => handleAddToCart(product)}>

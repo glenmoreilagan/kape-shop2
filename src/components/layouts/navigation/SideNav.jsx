@@ -17,65 +17,72 @@ import {
   MdOutlineManageAccounts,
   MdOutlineBrandingWatermark,
   MdOutlineCategory,
+  MdOutlineShowChart,
 } from 'react-icons/md'
+
+const navss = [
+  { path: '/dashboard', label: 'Dashboard', icon: <MdOutlineBarChart className='text-xl' /> },
+  {
+    path: '',
+    label: 'Categories',
+    icon: <MdOutlineCategory className='text-xl' />,
+    children: [{ path: '/categories', label: 'Categories', icon: <MdOutlineRemove className='text-sm' /> }],
+  },
+  {
+    path: '',
+    label: 'Brands',
+    icon: <MdOutlineBrandingWatermark className='text-xl' />,
+    children: [{ path: '/brands', label: 'Brands', icon: <MdOutlineRemove className='text-sm' /> }],
+  },
+  {
+    path: '',
+    label: 'Products',
+    icon: <MdWorkspacesOutline className='text-xl' />,
+    children: [
+      { path: '/products', label: 'Products', icon: <MdOutlineRemove className='text-sm' /> },
+      // {
+      //   path: '/products/new',
+      //   label: 'Add Product',
+      //   icon: <MdOutlineRemove className='text-sm' />,
+      // },
+    ],
+  },
+  {
+    path: '',
+    label: 'Purchases',
+    icon: <MdOutlineShoppingCart className='text-xl' />,
+    children: [{ path: '/purchases', label: 'Purchases', icon: <MdOutlineRemove className='text-sm' /> }],
+  },
+  {
+    path: '',
+    label: 'Sales',
+    icon: <MdOutlineShowChart className='text-xl' />,
+    children: [{ path: '/sales', label: 'Sales', icon: <MdOutlineRemove className='text-sm' /> }],
+  },
+  {
+    path: '',
+    label: 'POS',
+    icon: <MdOutlineSell className='text-xl' />,
+    children: [{ path: '/pos', label: 'Point of Sale', icon: <MdOutlineRemove className='text-sm' /> }],
+  },
+  {
+    path: '',
+    label: 'Users',
+    icon: <MdOutlineManageAccounts className='text-xl' />,
+    children: [{ path: '/users', label: 'Users', icon: <MdOutlineRemove className='text-sm' /> }],
+  },
+  {
+    path: '',
+    label: 'Settings',
+    icon: <MdOutlineManageAccounts className='text-xl' />,
+    children: [{ path: '/settings', label: 'Settings', icon: <MdOutlineRemove className='text-sm' /> }],
+  },
+]
 
 export default function SideNav() {
   const { collapsed } = useProSidebar()
   const router = useRouter()
   const pathname = usePathname()
-
-  const navss = [
-    { path: '/dashboard', label: 'Dashboard', icon: <MdOutlineBarChart className='text-xl' /> },
-    {
-      path: '',
-      label: 'Categories',
-      icon: <MdOutlineCategory className='text-xl' />,
-      children: [{ path: '/categories', label: 'Categories', icon: <MdOutlineRemove className='text-sm' /> }],
-    },
-    {
-      path: '',
-      label: 'Brands',
-      icon: <MdOutlineBrandingWatermark className='text-xl' />,
-      children: [{ path: '/brands', label: 'Brands', icon: <MdOutlineRemove className='text-sm' /> }],
-    },
-    {
-      path: '',
-      label: 'Products',
-      icon: <MdWorkspacesOutline className='text-xl' />,
-      children: [
-        { path: '/products', label: 'Products', icon: <MdOutlineRemove className='text-sm' /> },
-        // {
-        //   path: '/products/new',
-        //   label: 'Add Product',
-        //   icon: <MdOutlineRemove className='text-sm' />,
-        // },
-      ],
-    },
-    {
-      path: '',
-      label: 'Purchases',
-      icon: <MdOutlineShoppingCart className='text-xl' />,
-      children: [{ path: '/purchases', label: 'Purchases', icon: <MdOutlineRemove className='text-sm' /> }],
-    },
-    {
-      path: '',
-      label: 'POS',
-      icon: <MdOutlineSell className='text-xl' />,
-      children: [{ path: '/pos', label: 'Point of Sale', icon: <MdOutlineRemove className='text-sm' /> }],
-    },
-    {
-      path: '',
-      label: 'Users',
-      icon: <MdOutlineManageAccounts className='text-xl' />,
-      children: [{ path: '/users', label: 'Users', icon: <MdOutlineRemove className='text-sm' /> }],
-    },
-    {
-      path: '',
-      label: 'Settings',
-      icon: <MdOutlineManageAccounts className='text-xl' />,
-      children: [{ path: '/settings', label: 'Settings', icon: <MdOutlineRemove className='text-sm' /> }],
-    },
-  ]
 
   return (
     <>

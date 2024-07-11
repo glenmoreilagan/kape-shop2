@@ -27,7 +27,7 @@ const ContactPage = () => {
     reset,
     setValue,
     formState: { errors, isValidating },
-  } = useForm({ mode: 'onBlur', resolver: zodResolver(CONTACT_SCHEMA) })
+  } = useForm({ resolver: zodResolver(CONTACT_SCHEMA) })
 
   const submitForm = (data) => {
     console.log(data)
