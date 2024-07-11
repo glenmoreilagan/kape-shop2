@@ -40,7 +40,7 @@ export default function PurchaseTable({ purchases }) {
               <TableRow key={row.id}>
                 <TableCell className='font-medium'>{row.document_no}</TableCell>
                 <TableCell className='text-right'>{parseInt(row.purchases_count ?? 0)}</TableCell>
-                <TableCell className='text-right'>{NumberFormatter(parseInt(row.purchases_sum_price ?? 0))}</TableCell>
+                <TableCell className='text-right'>{NumberFormatter(parseInt(row.purchases_sum_total ?? 0))}</TableCell>
                 <TableCell>{moment(row.transaction_date).format('MMMM DD, YYYY')}</TableCell>
                 <TableCell className='text-center'>
                   <Button

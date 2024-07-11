@@ -41,7 +41,7 @@ export default function ProductTable({ products }) {
               <TableCell>{row.categories?.category}</TableCell>
               <TableCell>{row.brands?.brand}</TableCell>
               <TableCell className='text-right'>{parseInt(row.sales_count ?? 0)}</TableCell>
-              <TableCell className='text-right'>{NumberFormatter(parseInt(row.sales_sum_price ?? 0))}</TableCell>
+              <TableCell className='text-right'>{NumberFormatter(parseInt(row.sales_sum_total ?? 0))}</TableCell>
               <TableCell>
                 <p>1. {row.description1}</p>
                 <p>2. {row.description2}</p>

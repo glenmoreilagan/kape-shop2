@@ -42,7 +42,7 @@ export default function SalesTable() {
             <TableRow key={item.id}>
               <TableCell className='font-medium'>{item.document_no}</TableCell>
               <TableCell className='text-right'>{parseInt(item.sales_count ?? 0)}</TableCell>
-              <TableCell className='text-right'>{NumberFormatter(parseInt(item.sales_sum_price ?? 0))}</TableCell>
+              <TableCell className='text-right'>{NumberFormatter(parseInt(item.sales_sum_total ?? 0))}</TableCell>
               <TableCell>{moment(item.transaction_date).format('MMMM DD, YYYY')}</TableCell>
               <TableCell className='text-center'>
                 <Button
