@@ -13,11 +13,11 @@ export default function IndexSales() {
         <div>
           <h1 className='scroll-m-20 text-xl font-semibold tracking-tight'>Sales</h1>
         </div>
-        <div>
+        {/* <div>
           <Button size='sm' onClick={() => router.push('/purchases/new')}>
             <BiPlus className='mr-2 h-4 w-4' /> New
           </Button>
-        </div>
+        </div> */}
       </div>
 
       <div className='p-3 bg-white rounded-md'>

@@ -80,8 +80,11 @@ export default function IndexNewProduct() {
       forms.reset()
     } catch (error) {
       // toast.error(error)
+      console.log(error)
     }
   }
+
+  console.log(formsErrors)
 
   return (
     <AppLayout>
