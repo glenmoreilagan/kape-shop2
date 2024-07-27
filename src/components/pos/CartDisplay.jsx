@@ -31,7 +31,7 @@ import { checkout } from '@/components/hooks/sales'
 import { NumberFormatter } from '@/lib/number-formatter'
 import { Input } from '../ui/input'
 import { toast } from 'react-toastify'
-import { MessageAlert } from '@/components/MessageAlert'
+import MessageAlert from '../MessageAlert'
 
 export default function CartDisplay({ open, setOpen }) {
   const cartItems = useCartStore((state) => state.cart)
@@ -57,8 +57,10 @@ export default function CartDisplay({ open, setOpen }) {
 
   const handleCheckout = async (payload) => {
     try {
+      const response = await checkout({ ...payload })
+      setOpen(false)
+      resetCart()
       toast.success(<MessageAlert header='Success!' body='Checkout Success.' />)
-      const response = await checkout({ ...payload, resetCart: resetCart })
     } catch (error) {
       console.log(error)
     }
