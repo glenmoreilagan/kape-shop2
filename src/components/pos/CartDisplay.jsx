@@ -31,6 +31,7 @@ import { checkout } from '@/components/hooks/sales'
 import { NumberFormatter } from '@/lib/number-formatter'
 import { Input } from '../ui/input'
 import { toast } from 'react-toastify'
+import { MessageAlert } from '@/components/MessageAlert'
 
 export default function CartDisplay({ open, setOpen }) {
   const cartItems = useCartStore((state) => state.cart)
