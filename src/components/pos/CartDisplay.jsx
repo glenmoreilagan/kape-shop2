@@ -57,7 +57,7 @@ export default function CartDisplay({ open, setOpen }) {
 
   const handleCheckout = async (payload) => {
     try {
-      const response = await checkout({ payload })
+      const response = await checkout({ ...payload })
       setOpen(false)
       resetCart()
       toast.success(<MessageAlert header='Success!' body='Checkout Success.' />)
