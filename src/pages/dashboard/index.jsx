@@ -27,9 +27,9 @@ export default function IndexDashboard() {
             </BreadcrumbsComponent>
           </div>
         </div>
-        <div className='flex gap-3'>
+        <div className='flex flex-col lg:flex-row gap-3'>
           <AnnualSalesChart />
-          <div className='w-1/4 flex flex-wrap gap-3'>
+          <div className='lg:w-1/4 flex flex-wrap gap-3'>
             <TopProductSalesChart />
             <WeeklySalesChart />
           </div>
