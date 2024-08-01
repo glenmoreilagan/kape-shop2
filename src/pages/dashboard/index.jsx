@@ -27,7 +27,7 @@ export default function IndexDashboard() {
           </div>
         </div>
 
-        <div className='mb-3 grid lg:grid-cols-4 gap-3'>
+        <div className='mb-3 grid md:grid-cols-2 lg:grid-cols-4 gap-3'>
           <SummaryPanel />
         </div>
         <div className='flex flex-col lg:flex-row gap-3'>

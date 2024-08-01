@@ -76,7 +76,7 @@ export default function IndexSales() {
 
       <div className='bg-white p-3'>
         <section>
-          <div className='grid grid-cols-6 place-items-center gap-3'>
+          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 place-items-center gap-3'>
             <ProductDisplay products={products?.data} />
           </div>
         </section>
