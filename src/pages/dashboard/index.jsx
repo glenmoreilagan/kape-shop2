@@ -5,8 +5,6 @@ import React from 'react'
 import AppLayout from '@/components/layouts/AppLayout'
 import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 
-
-
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
 import { usersAPI } from '@/components/hooks/users'
@@ -15,6 +13,7 @@ import { NumberFormatter } from '@/lib/number-formatter'
 import AnnualSalesChart from '@/components/dashboard/AnnualSalesChart'
 import WeeklySalesChart from '@/components/dashboard/WeeklySalesChart'
 import TopProductSalesChart from '@/components/dashboard/TopProductSalesChart'
+import SummaryPanel from '@/components/dashboard/SummaryPanel'
 
 export default function IndexDashboard() {
   return (
@@ -27,9 +26,13 @@ export default function IndexDashboard() {
             </BreadcrumbsComponent>
           </div>
         </div>
+
+        <div className='mb-3 grid lg:grid-cols-4 gap-3'>
+          <SummaryPanel />
+        </div>
         <div className='flex flex-col lg:flex-row gap-3'>
           <AnnualSalesChart />
-          <div className='lg:w-1/4 flex flex-wrap gap-3'>
+          <div className='flex-1 flex flex-wrap lg:flex-nowrap gap-3'>
             <TopProductSalesChart />
             <WeeklySalesChart />
           </div>

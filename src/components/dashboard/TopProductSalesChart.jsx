@@ -41,11 +41,11 @@ export default function TopProductSalesChart() {
   return (
     <Card className='w-full shadow-none border-none'>
       <CardHeader>
-        <CardTitle>Top Sales</CardTitle>
-        <CardDescription>Bestseller product</CardDescription>
+        <CardTitle>Top 5 products</CardTitle>
+        {/* <CardDescription>Bestseller product</CardDescription> */}
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfigTopSales} className='mx-auto aspect-square max-h-[250px]'>
+        <ChartContainer config={chartConfigTopSales} className='mx-auto aspect-square'>
           <PieChart>
             <ChartTooltip content={<ChartTooltipContent />} indicator='line' />
             <Pie
@@ -73,13 +73,13 @@ export default function TopProductSalesChart() {
                   }
                 }}
               />
-              <LabelList
+              {/* <LabelList
                 dataKey='sales'
                 className='fill-background'
                 stroke='none'
                 fontSize={12}
                 formatter={(value) => value}
-              />
+              /> */}
             </Pie>
           </PieChart>
         </ChartContainer>

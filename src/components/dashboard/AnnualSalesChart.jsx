@@ -29,10 +29,10 @@ export default function AnnualSalesChart() {
     },
   }
   return (
-    <Card className='flex-1 shadow-none border-none'>
+    <Card className='lg:w-1/2 shadow-none border-none'>
       <CardHeader>
-        <CardTitle>Summary</CardTitle>
-        <CardDescription>Annual Sales</CardDescription>
+        <CardTitle>Sales Overview</CardTitle>
+        {/* <CardDescription>Annual Sales</CardDescription> */}
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -47,7 +47,7 @@ export default function AnnualSalesChart() {
             />
             {/* <YAxis /> */}
             <Bar dataKey='sales' fill='var(--color-sales)' radius={8}>
-              <LabelList position='top' offset={12} className='fill-foreground' fontSize={11} />
+              {/* <LabelList position='top' offset={12} className='fill-foreground' fontSize={11} /> */}
             </Bar>
           </BarChart>
         </ChartContainer>
