@@ -23,7 +23,7 @@ import {
 
 import useUserStore from '@/store/useUserStore'
 
-import { logout } from '@/components/hooks/auth'
+import { logout } from '@/hooks/auth'
 
 export default function HeadNav() {
   const { collapseSidebar } = useProSidebar()

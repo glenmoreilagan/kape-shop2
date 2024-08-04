@@ -25,7 +25,7 @@ export default function AnnualSalesChart() {
   const chartConfig = {
     sales: {
       label: 'Sales',
-      color: 'hsl(var(--chart-1))',
+      color: 'hsl(var(--chart-3))',
     },
   }
   return (

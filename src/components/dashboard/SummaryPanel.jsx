@@ -10,7 +10,7 @@ export default function SummaryPanel() {
       <Card className='flex-1 shadow-none border-none'>
         <CardHeader>
           <CardTitle className='flex items-center gap-6'>
-            <div className='bg-foreground py-2 w-14 rounded-md flex justify-center'>
+            <div className='bg-chart-3 py-2 w-14 rounded-md flex justify-center'>
               <BiDollar className='text-white' size={24} />
             </div>
 
@@ -26,7 +26,7 @@ export default function SummaryPanel() {
       <Card className='flex-1 shadow-none border-none'>
         <CardHeader>
           <CardTitle className='flex items-center gap-6'>
-            <div className='bg-foreground py-2 w-14 rounded-md flex justify-center'>
+            <div className='bg-chart-3 py-2 w-14 rounded-md flex justify-center'>
               <BiFile className='text-white' size={24} />
             </div>
 
@@ -42,7 +42,7 @@ export default function SummaryPanel() {
       <Card className='flex-1 shadow-none border-none'>
         <CardHeader>
           <CardTitle className='flex items-center gap-6'>
-            <div className='bg-foreground py-2 w-14 rounded-md flex justify-center'>
+            <div className='bg-chart-3 py-2 w-14 rounded-md flex justify-center'>
               <BiDollar className='text-white' size={24} />
             </div>
 
@@ -58,7 +58,7 @@ export default function SummaryPanel() {
       <Card className='flex-1 shadow-none border-none'>
         <CardHeader>
           <CardTitle className='flex items-center gap-6'>
-            <div className='bg-foreground py-2 w-14 rounded-md flex justify-center'>
+            <div className='bg-chart-3 py-2 w-14 rounded-md flex justify-center'>
               <BiDollar className='text-white' size={24} />
             </div>
 

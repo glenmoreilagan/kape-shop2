@@ -11,8 +11,8 @@ import { Badge } from '@/components/ui/badge'
 
 import { MdOutlineShoppingCart } from 'react-icons/md'
 
-import { productAPI } from '@/components/hooks/products'
-import { categoryAPI } from '@/components/hooks/categories'
+import { productAPI } from '@/hooks/products'
+import { categoryAPI } from '@/hooks/categories'
 
 // store
 import useCartStore from '@/store/useCartStore'

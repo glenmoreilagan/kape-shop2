@@ -20,7 +20,7 @@ import {
 // store
 import useBrandStore from '@/store/useBrandStore'
 
-import { addBrandAPI, updateBrandAPI } from '@/components/hooks/brands'
+import { addBrandAPI, updateBrandAPI } from '@/hooks/brands'
 
 import MessageAlert from '@/components/MessageAlert'
 import { toast } from 'react-toastify'
@@ -32,6 +32,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 const BRAND_SCHEMA = z.object({
   brand: z.string().min(1, 'Brand is required.'),
 })
+
+type BrandType = {
+  id?: number
+  brand: string
+}
 
 export default function AddEditBrandModal({ actionStatus }) {
   const router = useRouter()
@@ -48,7 +53,7 @@ export default function AddEditBrandModal({ actionStatus }) {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm({
+  } = useForm<BrandType>({
     defaultValues: {
       brand: actionStatus === 'edit' ? selectedBrand.brand : '',
     },

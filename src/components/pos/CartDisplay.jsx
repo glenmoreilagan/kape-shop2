@@ -27,7 +27,7 @@ import CartTable from './CartTable'
 
 import useCartStore from '@/store/useCartStore'
 
-import { checkout } from '@/components/hooks/sales'
+import { checkout } from '@/hooks/sales'
 import { NumberFormatter } from '@/lib/number-formatter'
 import { Input } from '../ui/input'
 import { toast } from 'react-toastify'

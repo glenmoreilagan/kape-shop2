@@ -19,7 +19,7 @@ import {
 // store
 import useCategoryStore from '@/store/useCategoryStore'
 
-import { addCategoryAPI, updateCategoryAPI } from '@/components/hooks/categories'
+import { addCategoryAPI, updateCategoryAPI } from '@/hooks/categories'
 
 import MessageAlert from '@/components/MessageAlert'
 import { toast } from 'react-toastify'

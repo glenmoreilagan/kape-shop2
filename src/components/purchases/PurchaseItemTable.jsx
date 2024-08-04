@@ -13,7 +13,7 @@ const PHPFormatter = new Intl.NumberFormat('en-PH', {
   currency: 'PHP',
 })
 
-import { purchaseFindOneAPI, purchaseUpdateQuantity } from '@/components/hooks/purchases'
+import { purchaseFindOneAPI, purchaseUpdateQuantity } from '@/hooks/purchases'
 import PurchaseItemRow from './PurchaseItemRow'
 
 export default function PurchaseItemTable({ purchases, handleAddItem, dispatchReducer }) {

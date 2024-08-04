@@ -7,8 +7,8 @@ import BreadcrumbsComponent from '@/components/reusable/Breadcrumbs'
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
-import { usersAPI } from '@/components/hooks/users'
-import { logout } from '@/components/hooks/auth'
+import { usersAPI } from '@/hooks/users'
+import { logout } from '@/hooks/auth'
 import { NumberFormatter } from '@/lib/number-formatter'
 import AnnualSalesChart from '@/components/dashboard/AnnualSalesChart'
 import WeeklySalesChart from '@/components/dashboard/WeeklySalesChart'

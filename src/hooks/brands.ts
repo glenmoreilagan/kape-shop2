@@ -19,16 +19,27 @@ export function brandAPI() {
   }
 }
 
+type oldQueryDataTypes = {
+  status: string
+  message: string
+  data: [
+    {
+      id: number
+      brand: string
+    }
+  ]
+}
+
 export function addBrandAPI() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async (brand) => {
+    mutationFn: async (brand: string) => {
       return await newAxios.post('/api/brands', brand)
     },
     onSuccess: (data) => {
       // this will be trigger another request
       // queryClient.invalidateQueries('brands')
-      queryClient.setQueryData(['brands'], (oldQueryData) => {
+      queryClient.setQueryData(['brands'], (oldQueryData: oldQueryDataTypes) => {
         return {
           status: oldQueryData.status,
           message: oldQueryData.message,
@@ -42,7 +53,7 @@ export function addBrandAPI() {
 export function updateBrandAPI() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async (brand) => {
+    mutationFn: async (brand: { brandId: number; brand: string }) => {
       return await newAxios.put(`/api/brands/${brand.brandId}`, brand.brand)
     },
     onSuccess: (data, variables) => {
@@ -50,7 +61,7 @@ export function updateBrandAPI() {
       // queryClient.invalidateQueries('brands')
 
       // this is not trigger new request
-      queryClient.setQueryData(['brands'], (oldQueryData) => {
+      queryClient.setQueryData(['brands'], (oldQueryData: oldQueryDataTypes) => {
         // https://bobbyhadz.com/blog/javascript-update-property-of-object-in-array
         // this if for single row updating need to find the item to change the key/value pair
 

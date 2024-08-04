@@ -10,13 +10,13 @@ import NavBar from '@/components/NavBar'
 import newAxios from '@/lib/new-axios'
 
 import useUserStore from '@/store/useUserStore'
-import { usersAPI } from '@/components/hooks/users'
+import { usersAPI } from '@/hooks/users'
 
 import { FaGoogle, FaGithub } from 'react-icons/fa'
 
 import axios from 'axios'
 
-import { login } from '@/components/hooks/auth'
+import { login } from '@/hooks/auth'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 

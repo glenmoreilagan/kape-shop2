@@ -1,6 +1,11 @@
 import React from 'react'
 
-export default function MessageAlert({ closeToast, toastProps, header, body }) {
+interface PageProps {
+  header: string
+  body: string
+}
+
+export default function MessageAlert({ header, body }: PageProps) {
   return (
     <div>
       <h1 className='font-bold'>{header}</h1>

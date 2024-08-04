@@ -17,7 +17,7 @@ import useUserStore from '@/store/useUserStore'
 // https://stackoverflow.com/questions/64622494/usepreventscroll-causes-uselayouteffect-warning-in-nextjs
 const SideNav = dynamic(() => import('./navigation/SideNav'), { ssr: false })
 
-import { usersAPI } from '@/components/hooks/users'
+import { usersAPI } from '@/hooks/users'
 
 
 export default function AppLayout({ children }) {

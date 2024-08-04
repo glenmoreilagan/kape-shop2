@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 // API's
-import { storeProductAPI } from '@/components/hooks/products'
-import { DropDownCategoryAPI, DropDownBrandAPI } from '@/components/hooks/dropdown-menus'
+import { storeProductAPI } from '@/hooks/products'
+import { DropDownCategoryAPI, DropDownBrandAPI } from '@/hooks/dropdown-menus'
 
 import AppLayout from '@/components/layouts/AppLayout'
 import Loader from '@/components/reusable/Loader'
