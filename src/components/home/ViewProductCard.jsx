@@ -12,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button'
 
 import { ModalStateViewProductCard, SelectProductToView } from '@/store/useViewProductCardStore'
+import { ScrollArea } from '../ui/scroll-area'
 
 export default function ViewProductCard({ item }) {
   const { showViewProduct, SetShowViewProduct } = ModalStateViewProductCard()
@@ -38,29 +39,31 @@ export default function ViewProductCard({ item }) {
             <DialogTitle className='text-xl'>Product Details</DialogTitle>
           </DialogHeader>
 
-          <div className='w-[48rem]'>
-            {/* {JSON.stringify(selectedProduct)} */}
-            <div className='flex gap-3'>
-              <div className='w-96'>
-                <img src={selectedProduct?.image} alt='product-image' className='w-fit' />
-              </div>
-              <div>
-                <div className='mb-3'>
-                  <h4 className='text-lg font-bold'>{selectedProduct?.title}</h4>
-                  <p className='text-sm'>{selectedProduct?.description}</p>
+          <ScrollArea className='h-[75vh] md:h-full w-[80vw]'>
+            <div className='w-full lg:w-[48rem]'>
+              {/* {JSON.stringify(selectedProduct)} */}
+              <div className='flex flex-col md:flex-row gap-3'>
+                <div className='w-96'>
+                  <img src={selectedProduct?.image} alt='product-image' className='w-fit' />
                 </div>
-
                 <div>
-                  <h4 className='text-lg font-bold'>Ingredients:</h4>
-                  <ul className='sm list-disc list-inside'>
-                    {selectedProduct?.ingredients?.map((ingredient) => (
-                      <li key={selectedProduct?.id}>{ingredient}</li>
-                    ))}
-                  </ul>
+                  <div className='mb-3'>
+                    <h4 className='text-lg font-bold'>{selectedProduct?.title}</h4>
+                    <p className='text-sm'>{selectedProduct?.description}</p>
+                  </div>
+
+                  <div>
+                    <h4 className='text-lg font-bold'>Ingredients:</h4>
+                    <ul className='sm list-disc list-inside'>
+                      {selectedProduct?.ingredients?.map((ingredient) => (
+                        <li key={selectedProduct?.id}>{ingredient}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </ScrollArea>
 
           <DialogFooter>
             <Button onClick={handleClose}>Close</Button>

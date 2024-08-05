@@ -7,6 +7,8 @@ import themes from '@/configs/themes'
 // import { AuthConfig } from '@/lib/auth'
 
 import { Button } from '@/components/ui/button'
+import { BiMenu, BiX } from 'react-icons/bi'
+
 // import { AuthConfig } from '@/auth';
 
 import useUserStore from '@/store/useUserStore'
@@ -15,6 +17,8 @@ function NavBar({ path }) {
   const router = useRouter()
   const pathname = usePathname()
   const user = useUserStore((state) => state.user)
+
+  const [burgerIconOpen, setBurgerIconOpen] = useState(false)
 
   // useEffect(() => {
   //   console.log(user)
@@ -39,10 +43,14 @@ function NavBar({ path }) {
     },
   ]
 
+  const handlenavBurgerIcon = () => {
+    setBurgerIconOpen((prev) => !prev)
+  }
+
   return (
     <>
-      <div className='hidden md:block bg-white shadow-sm sticky top-0 z-50'>
-        <nav className={`flex justify-evenly px-3 items-center max-w-7xl mx-auto default-nav-height`}>
+      <div className='bg-white shadow-sm sticky top-0 z-50'>
+        <nav className={`hidden md:flex justify-evenly px-3 items-center max-w-7xl mx-auto default-nav-height`}>
           <div className='flex-1'>
             <h1 className='font-extrabold text-[#616161]'>KAPE-SHOP</h1>
           </div>
@@ -75,11 +83,65 @@ function NavBar({ path }) {
                 Login
               </Button>
             ) : (
-              <Link href='/dashboard' className='text-sm text-[#333333] font-semibold'>
-                Dashboard
+              <Link href='/dashboard' className='text-sm text-primary font-semibold'>
+                Go To Dashboard
               </Link>
             )}
           </div>
+        </nav>
+
+        <nav className='p-6 md:hidden relative'>
+          <div className='flex justify-between '>
+            <div>
+              <span className='font-extrabold text-[#616161]'>KAPE=SHOP</span>
+            </div>
+            <div>
+              <button onClick={handlenavBurgerIcon}>{burgerIconOpen ? <BiX size={28} /> : <BiMenu size={28} />}</button>
+            </div>
+          </div>
+          {burgerIconOpen && (
+            <div className='absolute w-full bg-white left-0 px-6 py-6'>
+              <ul className='space-y-3'>
+                {path === 'login' ? (
+                  <li>
+                    <Link href={navLinks[0].path} className='text-sm hover:text-primary/90'>
+                      Back To Home Page
+                    </Link>
+                  </li>
+                ) : (
+                  navLinks.map((nav) => {
+                    return (
+                      <li key={nav.label}>
+                        <Link href={nav.path} className='text-sm hover:text-primary/90'>
+                          {nav.label}
+                        </Link>
+                      </li>
+                    )
+                  })
+                )}
+
+                {!user ? (
+                  <li>
+                    {' '}
+                    <Button
+                      className={`${pathname === '/login' ? 'invisible' : 'visible'} w-full`}
+                      onClick={() => router.replace('/login')}
+                      // variant='contained'
+                      // size='small'
+                    >
+                      Login
+                    </Button>
+                  </li>
+                ) : (
+                  <li>
+                    <Link href='/dashboard' className='text-sm text-primary font-semibold'>
+                      Go To Dashboard
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
         </nav>
       </div>
     </>

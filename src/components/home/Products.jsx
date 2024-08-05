@@ -21,15 +21,19 @@ const Products = () => {
   const [filter, setFilter] = useState('hot')
 
   const [products, setProducts] = useState(null)
+  const [loading, setIsLoading] = useState(false)
 
   const fetchProducts = async () => {
     try {
+      setIsLoading(true)
       const response = await axios.get(`https://api.sampleapis.com/coffee/${filter}`)
       if (response.data?.message) {
         throw response.data?.message
       }
       setProducts(response.data)
+      setIsLoading(false)
     } catch (error) {
+      setIsLoading(false)
       throw error
     }
   }
@@ -40,17 +44,17 @@ const Products = () => {
 
   return (
     <>
-      <section id='products' className='bg-[#FFF]'>
+      <section id='products' className='bg-white mb-[50px]'>
         <div className='max-w-7xl mx-auto px-3'>
           <div className='mb-14 flex justify-between'>
-            <h1 className='text-2xl font-semibold'>Products</h1>
+            <h1 className='text-2xl font-semibold text-primary'>Products</h1>
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant='outline'>Filter</Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='w-56'>
-                  <DropdownMenuLabel>Filter by type of drink</DropdownMenuLabel>
+                  {/* <DropdownMenuLabel>Filter by type of drink</DropdownMenuLabel> */}
                   <DropdownMenuSeparator />
                   <DropdownMenuRadioGroup value={filter} onValueChange={setFilter}>
                     <DropdownMenuRadioItem value='hot'>Hot</DropdownMenuRadioItem>
@@ -60,7 +64,9 @@ const Products = () => {
               </DropdownMenu>
             </div>
           </div>
-          <div className='grid grid-cols-4 gap-6'>{products && <Carousel items={products?.slice(0, 10)} />}</div>
+          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+            {loading ? <h1>Loading...</h1> : <Carousel items={products?.slice(0, 10)} />}
+          </div>
         </div>
         <ViewProductCard />
       </section>

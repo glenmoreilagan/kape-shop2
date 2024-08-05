@@ -10,17 +10,17 @@ const Hero = () => {
         <div className='flex justify-center items-center max-w-7xl mx-auto'>
           <div className='w-full md:w-1/2'>
             <div className='px-3'>
-              <h1 className='text-center md:text-left mb-6 text-4xl md:text-[3.5rem] leading-[3.5rem] uppercase font-bold text-[#191919]'>
-                We are more than just a place to sip.
+              <h1 className='text-center md:text-left mb-6 text-4xl md:text-[6.5rem] leading-[5rem] uppercase font-bold text-primary'>
+                Everyday With <span className='text-5xl md:text-8xl capitalize parisienne-regular text-[#BE8A5E]'>coffee</span>
               </h1>
 
-              <p className='mb-6 text-gray-500 text-center md:text-left'>
+              <p className='mb-6 text-gray-400 text-center md:text-left'>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit a et expedita nemo quaerat perferendis
                 molestiae consectetur aliquid.
               </p>
 
               <div className='flex justify-center md:block'>
-                <button className='text-white bg-[#191919] w-32 px-3 py-3 text-xs transition hover:scale-110 rounded-full flex gap-3 items-center justify-around font-medium'>
+                <button className='text-white bg-[#191919] w-32 px-3 py-3 text-xs transition delay-150 hover:scale-110 rounded-md flex gap-3 items-center justify-around font-medium'>
                   View More
                   <span className='bg-orange-600 p-1 rounded-full'>
                     <BiLeftArrow className='rotate-180' />
