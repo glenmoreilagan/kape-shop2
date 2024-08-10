@@ -10,13 +10,13 @@ import useUserStore from '@/store/useUserStore'
 export default function AuthLayout({ children }) {
   const router = useRouter()
   const pathname = usePathname()
-  const { isLoading, error, data: loggedUser } = usersAPI()
-  const user = useUserStore((state) => state.user)
-  const setUser = useUserStore((state) => state.setUser)
+  // const { isLoading, error, data: loggedUser } = usersAPI()
+  // const user = useUserStore((state) => state.user)
+  // const setUser = useUserStore((state) => state.setUser)
 
-  useEffect(() => {
-    setUser(loggedUser)
-  }, [loggedUser])
+  // useEffect(() => {
+  //   setUser(loggedUser)
+  // }, [loggedUser])
 
   return <>{children}</>
 }

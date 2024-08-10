@@ -23,34 +23,38 @@ import {
 
 import useUserStore from '@/store/useUserStore'
 
-import { logout } from '@/hooks/auth'
+// import { logout } from '@/hooks/auth'
+
+import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
 
 export default function HeadNav() {
   const { collapseSidebar } = useProSidebar()
+  const { isSignedIn, user, isLoaded } = useUser()
+
   const router = useRouter()
-  const user = useUserStore((state) => state.user)
-  const setUser = useUserStore((state) => state.setUser)
+  // const user = useUserStore((state) => state.user)
+  // const setUser = useUserStore((state) => state.setUser)
 
-  const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
+  // const [anchorEl, setAnchorEl] = useState(null)
+  // const open = Boolean(anchorEl)
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget)
+  // }
 
-  const handleClose = () => {
-    setAnchorEl(false)
-  }
+  // const handleClose = () => {
+  //   setAnchorEl(false)
+  // }
 
-  const handleProfile = () => {
-    alert('Profile')
-    setAnchorEl(null)
-  }
+  // const handleProfile = () => {
+  //   alert('Profile')
+  //   setAnchorEl(null)
+  // }
 
-  const handleLogout = async () => {
-    await logout()
-    setAnchorEl(null)
-  }
+  // const handleLogout = async () => {
+  //   await logout()
+  //   setAnchorEl(null)
+  // }
 
   return (
     <>
@@ -76,22 +80,26 @@ export default function HeadNav() {
             </Button>
           </div>
           <div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant='ghost' size='icon'>
-                  {/* {user?.name} */}
-                  <BiUser />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className='w-56'>
-                {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-                {/* <DropdownMenuSeparator /> */}
-                {/* <DropdownMenuItem disabled>API</DropdownMenuItem> */}
-                <DropdownMenuItem onClick={handleProfile}>Profile</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {/* <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant='ghost' size='icon'> */}
+            {/* {user?.name} */}
+            {/* <BiUser />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className='w-56'> */}
+            {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
+            {/* <DropdownMenuSeparator /> */}
+            {/* <DropdownMenuItem disabled>API</DropdownMenuItem> */}
+            {/* <DropdownMenuItem onClick={handleProfile}>Profile</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu> */}
+
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
         </div>
       </div>

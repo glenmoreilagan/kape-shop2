@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Input } from '@/components/ui/input'
@@ -17,9 +17,7 @@ import { purchaseFindOneAPI, purchaseUpdateQuantity } from '@/hooks/purchases'
 import PurchaseItemRow from './PurchaseItemRow'
 
 export default function PurchaseItemTable({ purchases, handleAddItem, dispatchReducer }) {
-  const searchParams = useSearchParams()
-  const purchase_uuid = searchParams.get('id')
-
+  const router = useRouter()
   const { mutateAsync: purchaseUpdateQuantityMutate } = purchaseUpdateQuantity()
   const removeItem = usePurchaseStore((state) => state.removeItem)
   const [purchasedProduct, setPurchasedProduct] = useState([])

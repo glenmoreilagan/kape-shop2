@@ -33,7 +33,11 @@ import { Input } from '../ui/input'
 import { toast } from 'react-toastify'
 import MessageAlert from '../MessageAlert'
 
+import { useUser } from '@clerk/nextjs'
+
 export default function CartDisplay({ open, setOpen }) {
+  const { isSignedIn, user, isLoaded } = useUser()
+
   const cartItems = useCartStore((state) => state.cart)
   const resetCart = useCartStore((state) => state.resetCart)
 
@@ -56,8 +60,9 @@ export default function CartDisplay({ open, setOpen }) {
   }, [cash])
 
   const handleCheckout = async (payload) => {
+    console.log(user?.id)
     try {
-      const response = await checkout({ ...payload })
+      const response = await checkout({ ...payload, user_id: user?.id })
       setOpen(false)
       resetCart()
       toast.success(<MessageAlert header='Success!' body='Checkout Success.' />)

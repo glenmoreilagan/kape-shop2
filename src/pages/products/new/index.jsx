@@ -48,8 +48,8 @@ const PRODUCT_SCHEMA = z.object({
     .gt(0, 'Price must be greater than 0'),
   description1: z.string(),
   description2: z.string(),
-  category_id: z.string().optional(),
-  brand_id: z.string().optional(),
+  category_id: z.number().optional(),
+  brand_id: z.number().optional(),
   product_status: z.number(),
 })
 
@@ -125,7 +125,7 @@ export default function IndexNewProduct() {
                       <ScrollArea className='h-[200px]'>
                         <SelectGroup>
                           {categories?.map((row) => (
-                            <SelectItem key={row.value} value={row.value}>
+                            <SelectItem key={row.value} value={parseInt(row.value)}>
                               {row.label}
                             </SelectItem>
                           ))}
@@ -154,7 +154,7 @@ export default function IndexNewProduct() {
                       <ScrollArea className='h-[200px]'>
                         <SelectGroup>
                           {brands?.map((row) => (
-                            <SelectItem key={row.value} value={row.value}>
+                            <SelectItem key={row.value} value={parseInt(row.value)}>
                               {row.label}
                             </SelectItem>
                           ))}

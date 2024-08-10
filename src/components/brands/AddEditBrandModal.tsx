@@ -1,5 +1,5 @@
 import React, { useState, forwardRef } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -40,7 +40,6 @@ type BrandType = {
 
 export default function AddEditBrandModal({ actionStatus }) {
   const router = useRouter()
-  const params = useSearchParams()
 
   const { mutateAsync: addBrand } = addBrandAPI()
   const { mutateAsync: updateBrand } = updateBrandAPI()
@@ -64,7 +63,7 @@ export default function AddEditBrandModal({ actionStatus }) {
     setShowHideModal()
   }
 
-  const handleSaveBrand = async (data) => {
+  const handleSaveBrand = async (data: any) => {
     switch (actionStatus) {
       case 'add':
         try {
@@ -108,7 +107,7 @@ export default function AddEditBrandModal({ actionStatus }) {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel onClick={setShowHideModal}>Cancel</AlertDialogCancel>
+              <AlertDialogCancel onClick={handleClose}>Cancel</AlertDialogCancel>
               <AlertDialogAction type='submit'>Save</AlertDialogAction>
             </AlertDialogFooter>
           </form>

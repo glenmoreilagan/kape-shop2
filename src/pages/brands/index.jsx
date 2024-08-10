@@ -41,7 +41,6 @@ export default function IndexBrand() {
   }
 
   const handleEditBrandModal = (data) => {
-    router.push(`${pathname}?id=${data.id}`)
     resetSelectedBrand()
     setActionStatus('edit')
     editBrand(data)

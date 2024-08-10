@@ -13,12 +13,16 @@ import { BiMenu, BiX } from 'react-icons/bi'
 
 import useUserStore from '@/store/useUserStore'
 
+import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
+
 function NavBar({ path }) {
   const router = useRouter()
   const pathname = usePathname()
-  const user = useUserStore((state) => state.user)
+  // const user = useUserStore((state) => state.user)
 
   const [burgerIconOpen, setBurgerIconOpen] = useState(false)
+
+  const { isSignedIn, user, isLoaded } = useUser()
 
   // useEffect(() => {
   //   console.log(user)
@@ -74,18 +78,29 @@ function NavBar({ path }) {
             )}
 
             {!user ? (
-              <Button
-                className={`${pathname === '/login' ? 'invisible' : 'visible'}`}
-                onClick={() => router.replace('/login')}
-                // variant='contained'
-                // size='small'
-              >
-                Login
-              </Button>
+              // <Button
+              //   className={`${pathname === '/login' ? 'invisible' : 'visible'}`}
+              //   onClick={() => router.replace('/login')}
+              //   // variant='contained'
+              //   // size='small'
+              // >
+              //   Login
+              // </Button>
+
+              <>
+                <SignedOut>
+                  <SignInButton />
+                </SignedOut>
+              </>
             ) : (
-              <Link href='/dashboard' className='text-sm text-primary font-semibold'>
-                Go To Dashboard
-              </Link>
+              <>
+                <Link href='/dashboard' className='text-sm text-primary font-semibold'>
+                  Go To Dashboard
+                </Link>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+              </>
             )}
           </div>
         </nav>

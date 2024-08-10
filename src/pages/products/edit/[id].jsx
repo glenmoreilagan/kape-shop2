@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect, useReducer } from 'react'
 
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
 // API's
@@ -69,8 +69,8 @@ export default function IndexEditProduct() {
   const router = useRouter()
   const { isLoading: categoryLoading, error: categoryError, data: categories } = DropDownCategoryAPI()
   const { isLoading: brandLoading, error: brandError, data: brands } = DropDownBrandAPI()
-  const searchParams = useSearchParams()
-  const { data: product, isLoading, error } = productFindOneAPI(searchParams.get('id'))
+  const { id: product_uuid } = router.query
+  const { data: product, isLoading, error } = productFindOneAPI(product_uuid)
 
   const [stateProduct, dispatch] = useReducer(reducer, initialState)
 

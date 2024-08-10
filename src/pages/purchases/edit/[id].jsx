@@ -1,7 +1,9 @@
+'use client'
+
 import React, { useEffect, useState, useReducer } from 'react'
 import Link from 'next/link'
 
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 import { purchaseFindOneAPI } from '@/hooks/purchases'
 
@@ -67,8 +69,7 @@ const initailState = {
 
 export default function IndexEditPurchases() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const purchase_uuid = searchParams.get('id')
+  const { id: purchase_uuid } = router.query
   const [state, dispatch] = useReducer(reducer, initailState)
   const { isLoading, error, data: purchases } = purchaseFindOneAPI(purchase_uuid)
   // const setItems = usePurchaseStore((state) => state.setItems)

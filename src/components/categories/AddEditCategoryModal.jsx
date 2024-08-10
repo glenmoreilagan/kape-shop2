@@ -1,4 +1,5 @@
 import React, { useState, forwardRef, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -33,6 +34,7 @@ const CATEGORY_SCHEMA = z.object({
 })
 
 export default function AddEditCategoryModal({ actionStatus }) {
+  const router = useRouter()
   const { mutateAsync: addCategory } = addCategoryAPI()
   const { mutateAsync: updateCategory } = updateCategoryAPI()
 
@@ -85,8 +87,6 @@ export default function AddEditCategoryModal({ actionStatus }) {
     setShowHideModal()
   }
 
-  console.log(errors)
-
   return (
     <React.Fragment>
       <AlertDialog open={openModal}>
@@ -101,7 +101,7 @@ export default function AddEditCategoryModal({ actionStatus }) {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel onClick={setShowHideModal}>Cancel</AlertDialogCancel>
+              <AlertDialogCancel onClick={handleClose}>Cancel</AlertDialogCancel>
               <AlertDialogAction type='submit'>Save</AlertDialogAction>
             </AlertDialogFooter>
           </form>

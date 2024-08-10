@@ -24,8 +24,8 @@ export default function Home() {
               <h1 className='uppercase font-bold text-2xl text-primary text-center'>What clients say</h1>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
-              {Array.from({ length: 6 }).map((item) => (
-                <div className='bg-white w-full p-8 shadow-sm rounded-md'>
+              {Array.from({ length: 6 }).map((item, i) => (
+                <div key={i} className='bg-white w-full p-8 shadow-sm rounded-md'>
                   <div className='flex gap-3 items-center'>
                     <div>
                       <img

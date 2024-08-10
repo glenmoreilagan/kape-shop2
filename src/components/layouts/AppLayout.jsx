@@ -21,20 +21,10 @@ import { usersAPI } from '@/hooks/users'
 
 
 export default function AppLayout({ children }) {
-  const { isLoading, error, data: users } = usersAPI()
-  const user = useUserStore((state) => state.user)
-  const setUser = useUserStore((state) => state.setUser)
+  // const { isLoading, error, data: users } = usersAPI()
+  // const user = useUserStore((state) => state.user)
+  // const setUser = useUserStore((state) => state.setUser)
   const router = useRouter()
-
-  // if (error) return <UserNotLogged/>
-
-  useEffect(() => {
-    // const id = new Promise((resole))
-    // if (!user) {
-    //   router.push('/')
-    //   return
-    // }
-  }, [user])
 
   return (
     <>

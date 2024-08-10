@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^5.3.0",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.6.0",
@@ -36,7 +37,7 @@
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.407.0",
     "moment": "^2.29.4",
-    "next": "13.4.3",
+    "next": "13.5.4",
     "next-themes": "^0.2.1",
     "postcss": "8.4.23",
     "pusher-js": "^8.0.2",

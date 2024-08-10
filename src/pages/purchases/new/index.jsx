@@ -30,7 +30,6 @@ import moment from 'moment'
 
 import usePurchaseStore from '@/store/usePurchaseStore'
 import { purchaseFindOneAPI } from '@/hooks/purchases'
-import { useSearchParams } from 'next/navigation'
 
 const ACTIONS = {
   DOCUMENT: 'DOCUMENT',
@@ -72,8 +71,7 @@ const initailState = {
 
 export default function IndexNewPurchase() {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const purchase_uuid = searchParams.get('id')
+  const { id: purchase_uuid } = router.query
   const [state, dispatch] = useReducer(reducer, initailState)
   const { isLoading, error, data: purchases } = purchaseFindOneAPI(purchase_uuid)
   const [openItemListModal, setOpenItemListModal] = useState(false)
@@ -123,12 +121,12 @@ export default function IndexNewPurchase() {
   }
 
   // useEffect(() => {
-    // reset({
-    //   document_no: purchases?.document?.document_no,
-    //   description1: purchases?.document?.description1,
-    //   description2: purchases?.document?.description2,
-    // })
-    // setTransactionDate(moment(purchases?.document?.transaction_date).format('YYYY-MM-DD'))
+  // reset({
+  //   document_no: purchases?.document?.document_no,
+  //   description1: purchases?.document?.description1,
+  //   description2: purchases?.document?.description2,
+  // })
+  // setTransactionDate(moment(purchases?.document?.transaction_date).format('YYYY-MM-DD'))
   // }, [purchases])
 
   const getDocumentNumber = async () => {
