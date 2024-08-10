@@ -89,7 +89,7 @@ function NavBar({ path }) {
 
               <>
                 <SignedOut>
-                  <SignInButton />
+                  <SignInButton forceRedirectUrl='/dashboard' />
                 </SignedOut>
               </>
             ) : (
