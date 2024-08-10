@@ -10,7 +10,7 @@ const Hero = () => {
         <div className='flex justify-center items-center max-w-7xl mx-auto'>
           <div className='w-full md:w-1/2'>
             <div className='px-3'>
-              <h1 className='text-center md:text-left mb-6 text-4xl md:text-[6.5rem] leading-[5rem] uppercase font-bold text-primary'>
+              <h1 className='text-center md:text-left mb-6 text-4xl md:text-[6.5rem] leading-[5rem] uppercase font-bold text-default-foreground'>
                 Everyday With <span className='text-5xl md:text-8xl capitalize parisienne-regular text-[#BE8A5E]'>coffee</span>
               </h1>
 

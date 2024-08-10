@@ -47,7 +47,7 @@ const Products = () => {
       <section id='products' className='bg-white mb-[50px]'>
         <div className='max-w-7xl mx-auto px-3'>
           <div className='mb-14 flex justify-between'>
-            <h1 className='text-2xl font-semibold text-primary'>Products</h1>
+            <h1 className='text-2xl font-semibold text-default-foreground'>Products</h1>
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

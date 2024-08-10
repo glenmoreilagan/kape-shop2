@@ -21,7 +21,7 @@ export default function Home() {
         <div className='bg-[#FAFAFA] py-20'>
           <div className='max-w-7xl mx-auto px-3'>
             <div className='h-24'>
-              <h1 className='uppercase font-bold text-2xl text-primary text-center'>What clients say</h1>
+              <h1 className='uppercase font-bold text-2xl text-default-foreground text-center'>What clients say</h1>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
               {Array.from({ length: 6 }).map((item, i) => (
