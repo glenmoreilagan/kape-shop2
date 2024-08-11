@@ -19,6 +19,7 @@ const SideNav = dynamic(() => import('./navigation/SideNav'), { ssr: false })
 
 import { usersAPI } from '@/hooks/users'
 
+import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/nextjs'
 
 export default function AppLayout({ children }) {
   // const { isLoading, error, data: users } = usersAPI()
@@ -36,7 +37,11 @@ export default function AppLayout({ children }) {
           <HeadNav />
           <div className='p-5'>
             <LocalizationProvider dateAdapter={AdapterMoment}>
-              <div className=''>{children}</div>
+              <SignedIn>{children}</SignedIn>
+              
+              <SignedOut>
+                <RedirectToSignIn />
+              </SignedOut>
             </LocalizationProvider>
           </div>
         </div>
