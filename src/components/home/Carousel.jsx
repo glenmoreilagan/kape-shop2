@@ -81,9 +81,9 @@ const Carousel = ({ items }) => {
     <>
       {items?.map((item) => {
         return (
-          <div key={item.id} className='rounded-md bg-[#BE8A5E]/10' onClick={() => handleViewProduct(item)}>
+          <div key={item.id} className='rounded-md shadow-sm group' onClick={() => handleViewProduct(item)}>
             {/* <CardMedia sx={{ height: 250 }} image={item.image} title={item.title} /> */}
-            <img src='/product-mockup.png' alt={item.title} className='w-full' />
+            <img src='/product-mockup.png' alt={item.title} className='w-full group-hover:scale-125 duration-500 ease-in-out' />
             <div className='px-3 py-3'>
               <p className='font-bold text-md md:text-lg text-slate-600 text-center'>{item.title}</p>
               <p className=' text-gray-500 text-xs md:text-sm text-center font-medium'>129.00</p>

@@ -20,9 +20,9 @@ const Hero = () => {
               </p>
 
               <div className='flex justify-center md:block'>
-                <button className='text-white bg-[#191919] w-32 px-3 py-3 text-xs transition delay-150 hover:scale-110 rounded-md flex gap-3 items-center justify-around font-medium'>
+                <button className='text-white bg-default-foreground w-32 px-3 py-3 text-xs transition delay-150 hover:scale-110 rounded-md flex gap-3 items-center justify-around font-medium'>
                   View More
-                  <span className='bg-orange-600 p-1 rounded-full'>
+                  <span className='bg-[#BE8A5E] p-1 rounded-full'>
                     <BiLeftArrow className='rotate-180' />
                   </span>
                 </button>
