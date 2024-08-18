@@ -5,7 +5,8 @@ import { toast } from 'sonner'
 import axios from 'axios'
 
 const newAxios = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? 'https://api-kape-shop.glenmore.tech' : process.env.NEXT_PUBLIC_API_URL,
+  baseURL:
+    process.env.NODE_ENV === 'production' ? 'https://api-kape-shop.glenmore.tech' : process.env.NEXT_PUBLIC_API_URL,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
   },
@@ -42,7 +43,7 @@ newAxios.interceptors.response.use(
             //   return `${data.name}`
             // },
             error: (data) => {
-              window.location.href = '/login'
+              // window.location.href = '/login'
               return `${data.text}`
             },
           })
