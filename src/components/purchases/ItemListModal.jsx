@@ -45,7 +45,7 @@ import newAxios from '@/lib/new-axios'
 import { addPurchaseProduct } from '@/hooks/purchases'
 
 export default function ItemListModal({ open, handleClose, documentState }) {
-  const { isLoading, error, data: products } = productAPI()
+  const { isLoading, error, data: products } = productAPI({search: '', offset: 0, limit: 0})
   const { mutateAsync: addPurchaseProductMutate } = addPurchaseProduct()
   const [cloneProducts, setCloneProudcts] = useState()
 

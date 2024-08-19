@@ -36,7 +36,7 @@ export default function PurchaseTable({ purchases }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {purchases?.map((row) => (
+            {purchases?.data.map((row) => (
               <TableRow key={row.id}>
                 <TableCell className='font-medium'>{row.document_no}</TableCell>
                 <TableCell className='text-right'>{parseInt(row.purchases_count ?? 0)}</TableCell>

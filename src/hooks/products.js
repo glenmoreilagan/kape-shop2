@@ -3,11 +3,11 @@ import { useQuery } from '@tanstack/react-query'
 import newAxios from '@/lib/new-axios'
 import axios from 'axios'
 
-export function productAPI() {
+export function productAPI({ search, offset, limit }) {
   const { isLoading, error, data } = useQuery({
-    queryKey: ['products'],
+    queryKey: ['products', search, offset, limit],
     queryFn: async () => {
-      const { data } = await newAxios.get('/api/products')
+      const { data } = await newAxios.get(`/api/products?search=${search}&offset=${offset}&limit=${limit}`)
       return data
     },
   })

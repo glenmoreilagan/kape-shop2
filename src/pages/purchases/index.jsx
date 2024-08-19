@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
@@ -14,9 +14,44 @@ import { Button } from '@/components/ui/button'
 
 import { purchaseAPI } from '@/hooks/purchases'
 
+import ReactPaginate from 'react-paginate'
+
+import { Input } from '@/components/ui/input'
+
+import DropDownItemPerPage from '@/components/reusable/DropDownItemPerPage'
+
+import useDebounce from '@/lib/debounce'
+
 export default function IndexPurhcase() {
   const router = useRouter()
-  const { isLoading, error, data: purchases } = purchaseAPI()
+
+  const [search, setSearch] = useState('')
+  const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [itemOffset, setItemOffset] = useState(0)
+  const endOffset = itemOffset + itemsPerPage
+
+  const debounceSearch = useDebounce(search, 500)
+  const {
+    isLoading,
+    error,
+    data: purchases,
+  } = purchaseAPI({ search: debounceSearch, offset: itemOffset, limit: itemsPerPage })
+
+  const items = useMemo(
+    () =>
+      Array.from({ length: purchases?.total_item }).map((item, index) => {
+        return index + 1
+      }),
+    [purchases?.total_item]
+  )
+
+  const currentItems = items.slice(itemOffset, endOffset)
+  const pageCount = Math.ceil(items.length / itemsPerPage)
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % items.length
+    setItemOffset(newOffset)
+  }
 
   return (
     <>
@@ -33,7 +68,34 @@ export default function IndexPurhcase() {
         </div>
 
         <div className='p-3 bg-white rounded-md'>
-          <PurchaseTable purchases={purchases} />
+          <div className='flex justify-between mb-3'>
+            <div>
+              <DropDownItemPerPage itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} />
+            </div>
+
+            <div>
+              <Input placeholder='Search' onChange={(e) => setSearch(e.target.value)} />
+            </div>
+          </div>
+
+          <div className='mb-3'>
+            <PurchaseTable purchases={purchases} />
+          </div>
+
+          <div className='flex justify-end'>
+            <ReactPaginate
+              activeClassName='border rounded-md'
+              pageClassName='px-2 py-1'
+              className='flex items-center gap-3 text-sm font-medium'
+              breakLabel='...'
+              nextLabel='Next >'
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={5}
+              pageCount={pageCount}
+              previousLabel='< Previous'
+              renderOnZeroPageCount={null}
+            />
+          </div>
         </div>
       </AppLayout>
 

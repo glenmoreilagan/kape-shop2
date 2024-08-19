@@ -5,11 +5,11 @@ import axios from 'axios'
 
 // const queryClient = useQueryClient()
 
-export function purchaseAPI() {
+export function purchaseAPI({ search, offset, limit }) {
   const { isLoading, error, data } = useQuery({
-    queryKey: ['purchases'],
+    queryKey: ['purchases', search, offset, limit],
     queryFn: async () => {
-      const { data } = await newAxios.get('/api/purchases')
+      const { data } = await newAxios.get(`/api/purchases?search=${search}&offset=${offset}&limit=${limit}`)
       return data
     },
   })

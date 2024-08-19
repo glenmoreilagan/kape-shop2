@@ -44,7 +44,7 @@ const names = [
 ]
 
 export default function IndexSales() {
-  const { isLoading, error, data: products } = productAPI()
+  const { isLoading, error, data: products } = productAPI({ search: '', offset: 0, limit: 0 })
   const { isLoading: categoriesIsLoading, error: categoriesError, data: categories } = categoryAPI()
   // if (isLoading) return <h1>Loading...</h1>
 

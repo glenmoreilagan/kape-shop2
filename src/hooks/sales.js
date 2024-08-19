@@ -10,3 +10,19 @@ export async function checkout({ payload, user_id }) {
     return 'Something went wrong.'
   }
 }
+
+export function salesAPI({ search, offset, limit }) {
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['sales', search, offset, limit],
+    queryFn: async () => {
+      const { data } = await newAxios.get(`/api/sales??search=${search}&offset=${offset}&limit=${limit}`)
+      return data
+    },
+  })
+
+  return {
+    isLoading,
+    error,
+    data,
+  }
+}

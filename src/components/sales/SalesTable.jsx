@@ -10,20 +10,9 @@ import moment from 'moment'
 import newAxios from '@/lib/new-axios'
 import { NumberFormatter } from '@/lib/number-formatter'
 
-export default function SalesTable() {
+export default function SalesTable({sales}) {
   const router = useRouter()
-  const [sales, setSales] = useState([])
 
-  const fetchSales = async () => {
-    try {
-      const response = await newAxios.get('/api/sales')
-      setSales(response.data)
-    } catch (error) {}
-  }
-
-  useEffect(() => {
-    fetchSales()
-  }, [])
 
   return (
     <div className='w-full h-[70vh]'>
@@ -38,7 +27,7 @@ export default function SalesTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sales?.map((item) => (
+          {sales?.data.map((item) => (
             <TableRow key={item.id}>
               <TableCell className='font-medium'>{item.document_no}</TableCell>
               <TableCell className='text-right'>{parseInt(item.sales_count ?? 0)}</TableCell>
