@@ -30,19 +30,19 @@ export default function IndexSales() {
     data: sales,
   } = salesAPI({ search: debounceSearch, offset: itemOffset, limit: itemsPerPage })
 
-  const items = useMemo(
-    () =>
-      Array.from({ length: sales?.total_item }).map((item, index) => {
-        return index + 1
-      }),
-    [sales?.total_item]
-  )
+  // const items = useMemo(
+  //   () =>
+  //     Array.from({ length: sales?.total_item }).map((item, index) => {
+  //       return index + 1
+  //     }),
+  //   [sales?.total_item]
+  // )
 
-  const currentItems = items.slice(itemOffset, endOffset)
-  const pageCount = Math.ceil(items.length / itemsPerPage)
+  // const currentItems = items.slice(itemOffset, endOffset)
+  const pageCount = Math.ceil(sales?.total_item / itemsPerPage)
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % items.length
+    const newOffset = (event.selected * itemsPerPage) % sales?.total_item
     setItemOffset(newOffset)
   }
 

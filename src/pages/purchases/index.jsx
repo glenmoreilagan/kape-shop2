@@ -37,19 +37,19 @@ export default function IndexPurhcase() {
     data: purchases,
   } = purchaseAPI({ search: debounceSearch, offset: itemOffset, limit: itemsPerPage })
 
-  const items = useMemo(
-    () =>
-      Array.from({ length: purchases?.total_item }).map((item, index) => {
-        return index + 1
-      }),
-    [purchases?.total_item]
-  )
+  // const items = useMemo(
+  //   () =>
+  //     Array.from({ length: purchases?.total_item }).map((item, index) => {
+  //       return index + 1
+  //     }),
+  //   [purchases?.total_item]
+  // )
 
-  const currentItems = items.slice(itemOffset, endOffset)
-  const pageCount = Math.ceil(items.length / itemsPerPage)
+  // const currentItems = items.slice(itemOffset, endOffset)
+  const pageCount = Math.ceil(purchases?.total_item / itemsPerPage)
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % items.length
+    const newOffset = (event.selected * itemsPerPage) % purchases?.total_item
     setItemOffset(newOffset)
   }
 

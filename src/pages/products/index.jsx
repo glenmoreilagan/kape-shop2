@@ -38,19 +38,19 @@ export default function IndexProducts() {
     data: products,
   } = productAPI({ search: debounceSearch, offset: itemOffset, limit: itemsPerPage })
 
-  const items = useMemo(
-    () =>
-      Array.from({ length: products?.total_item }).map((item, index) => {
-        return index + 1
-      }),
-    [products?.total_item]
-  )
+  // const items = useMemo(
+  //   () =>
+  //     Array.from({ length: products?.total_item }).map((item, index) => {
+  //       return index + 1
+  //     }),
+  //   [products?.total_item]
+  // )
 
-  const currentItems = items.slice(itemOffset, endOffset)
-  const pageCount = Math.ceil(items.length / itemsPerPage)
+  // const currentItems = items.slice(itemOffset, endOffset)
+  const pageCount = Math.ceil(products?.total_item / itemsPerPage)
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % items.length
+    const newOffset = (event.selected * itemsPerPage) % products?.total_item
     setItemOffset(newOffset)
   }
 
