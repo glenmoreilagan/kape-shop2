@@ -44,8 +44,8 @@ const Products = () => {
 
   return (
     <>
-      <section id='products' className='bg-white mb-[50px]'>
-        <div className='max-w-7xl mx-auto px-3'>
+      <section id='products' className='bg-[#F0EEED]'>
+        <div className='max-w-7xl mx-auto px-3 py-10'>
           <div className='mb-14 flex justify-between'>
             <h1 className='text-2xl font-semibold text-default-foreground'>Products</h1>
             <div>

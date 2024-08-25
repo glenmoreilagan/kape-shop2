@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import ItemsCarousel from 'react-items-carousel'
 // https://kareemaly.github.io/react-items-carousel/
 
@@ -51,7 +51,17 @@ const items = [
   },
 ]
 
-const Carousel = ({ items }) => {
+type ItemsProps = {
+  items: [
+    {
+      id: number
+      image: string
+      title: string
+    }
+  ]
+}
+
+const Carousel: FC<ItemsProps> = ({ items }) => {
   const { SetShowViewProduct } = ModalStateViewProductCard()
   const { SetSelectedProduct } = SelectProductToView()
 
@@ -66,7 +76,7 @@ const Carousel = ({ items }) => {
     }
   }
 
-  const handleViewProduct = (item) => {
+  const handleViewProduct = (item: { id: number; image: string; title: string }) => {
     SetShowViewProduct(true)
     SetSelectedProduct(item)
   }
@@ -81,12 +91,18 @@ const Carousel = ({ items }) => {
     <>
       {items?.map((item) => {
         return (
-          <div key={item.id} className='rounded-md shadow-sm group' onClick={() => handleViewProduct(item)}>
+          <div key={item.id} className='rounded-md bg-[#FAF9F6] group' onClick={() => handleViewProduct(item)}>
             {/* <CardMedia sx={{ height: 250 }} image={item.image} title={item.title} /> */}
-            <img src='/product-mockup.png' alt={item.title} className='w-full group-hover:scale-125 duration-500 ease-in-out' />
-            <div className='px-3 py-3'>
-              <p className='font-bold text-md md:text-lg text-slate-600 text-center'>{item.title}</p>
-              <p className=' text-gray-500 text-xs md:text-sm text-center font-medium'>129.00</p>
+            <div className='overflow-hidden'>
+              <img
+                src={item.image}
+                alt={item.title}
+                className='aspect-square group-hover:scale-125 duration-500 ease-in-out rounded-t-md'
+              />
+            </div>
+            <div className='px-3 py-3 space-y-3'>
+              <p className='font-bold text-md md:text-sm text-slate-600'>{item.title}</p>
+              <p className=' text-gray-500 text-xs md:text-sm font-medium'>129.00</p>
             </div>
           </div>
         )

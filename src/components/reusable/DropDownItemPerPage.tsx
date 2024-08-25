@@ -19,7 +19,9 @@ export default function DropDownItemPerPage({ itemsPerPage, setItemsPerPage }) {
       <DropdownMenuContent className='w-56'>
         <DropdownMenuRadioGroup value={itemsPerPage} onValueChange={setItemsPerPage}>
           {showItemsPerPage.map((item) => (
-            <DropdownMenuRadioItem value={item}>{item}</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem key={item} value={item}>
+              {item}
+            </DropdownMenuRadioItem>
           ))}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>

@@ -46,7 +46,7 @@ export default function IndexPurhcase() {
   // )
 
   // const currentItems = items.slice(itemOffset, endOffset)
-  const pageCount = Math.ceil(purchases?.total_item / itemsPerPage)
+  const pageCount = useMemo(() => Math.ceil(purchases?.total_item / itemsPerPage), [purchases?.total_item])
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % purchases?.total_item

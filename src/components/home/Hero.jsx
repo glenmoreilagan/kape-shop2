@@ -6,7 +6,7 @@ import { BiLeftArrow } from 'react-icons/bi'
 const Hero = () => {
   return (
     <>
-      <section id='home' className='h-screen flex justify-center bg-[#FAFAFA] mb-[50px]'>
+      <section id='home' className='h-screen flex justify-center bg-[#FAFAFA]'>
         <div className='flex justify-center items-center max-w-7xl mx-auto'>
           <div className='w-full md:w-1/2'>
             <div className='px-3'>

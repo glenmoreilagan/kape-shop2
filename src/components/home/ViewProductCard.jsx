@@ -39,12 +39,12 @@ export default function ViewProductCard({ item }) {
             <DialogTitle className='text-xl'>Product Details</DialogTitle>
           </DialogHeader>
 
-          <ScrollArea className='h-[75vh] md:h-full w-[80vw]'>
+          <ScrollArea className='h-[75vh] md:h-full lg:w-[80vw]'>
             <div className='w-full lg:w-[48rem]'>
               {/* {JSON.stringify(selectedProduct)} */}
-              <div className='flex flex-col md:flex-row gap-3'>
-                <div className='w-96'>
-                  <img src={selectedProduct?.image} alt='product-image' className='w-fit' />
+              <div className='flex flex-col md:flex-row gap-3 lg:gap-12'>
+                <div>
+                  <img src={selectedProduct?.image} alt='product-image' className='aspect-square' />
                 </div>
                 <div>
                   <div className='mb-3'>
