@@ -15,7 +15,7 @@ export default function SalesTable({sales}) {
 
 
   return (
-    <div className='w-full h-[70vh]'>
+    <div className='flex w-full h-[70vh]'>
       <Table>
         <TableHeader>
           <TableRow>
