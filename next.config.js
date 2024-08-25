@@ -14,6 +14,7 @@ const nextConfig = {
   env: {
     google_client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
   },
+  swcMinify: false,
 }
 
 module.exports = nextConfig
