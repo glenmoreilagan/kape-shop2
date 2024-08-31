@@ -7,7 +7,7 @@ import moment from 'moment'
 
 export default function CategoryTable({ categories, edit }) {
   return (
-    <div className='w-full'>
+    <div className='w-full flex h-[70vh]'>
       <Table>
         <TableHeader>
           <TableRow>

@@ -2,11 +2,11 @@ import React from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import newAxios from '@/lib/new-axios'
 
-export function categoryAPI() {
+export function categoryAPI({ search, offset, limit }) {
   return useQuery({
-    queryKey: ['categories'],
+    queryKey: ['categories', search, offset, limit],
     queryFn: async () => {
-      const { data } = await newAxios.get('/api/categories')
+      const { data } = await newAxios.get(`/api/categories?search=${search}&offset=${offset}&limit=${limit}`)
       return data
     },
   })

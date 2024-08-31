@@ -20,9 +20,26 @@ import moment from 'moment'
 import { Button } from '@/components/ui/button'
 
 import CategoryTable from '@/components/categories/CategoryTable'
+import ReactPaginate from 'react-paginate'
+import useDebounce from '@/lib/debounce'
+import DropDownItemPerPage from '@/components/reusable/DropDownItemPerPage'
+import { Input } from '@/components/ui/input'
+import ListingLayout from '@/components/layouts/ListingLayout'
 
 export default function IndexCategory() {
-  const { isLoading, error, data: categories } = categoryAPI()
+  const [search, setSearch] = useState('')
+  const [itemsPerPage, setItemsPerPage] = useState(10)
+  const [itemOffset, setItemOffset] = useState(0)
+  const endOffset = itemOffset + itemsPerPage
+
+  const debounceSearch = useDebounce(search, 500)
+
+  const {
+    isLoading,
+    error,
+    data: categories,
+  } = categoryAPI({ search: debounceSearch, offset: itemOffset, limit: itemsPerPage })
+
   const { openModal, setShowHideModal } = useCategoryStore((state) => state)
   const editCategory = useCategoryStore((state) => state.editCategory)
   const resetSelectedCategory = useCategoryStore((state) => state.resetSelectedCategory)
@@ -48,6 +65,13 @@ export default function IndexCategory() {
     console.log(row)
   }
 
+  const pageCount = Math.ceil(categories?.total_item / itemsPerPage)
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % categories?.total_item
+    setItemOffset(newOffset)
+  }
+
   return (
     <>
       <AppLayout>
@@ -62,9 +86,36 @@ export default function IndexCategory() {
           </div>
         </div>
 
-        <div className='p-3 bg-white rounded-md'>
-          <CategoryTable categories={categories} edit={handleEditCategoryModal} />
-        </div>
+        <ListingLayout>
+          <div className='flex justify-between mb-3'>
+            <div>
+              <DropDownItemPerPage itemsPerPage={itemsPerPage} setItemsPerPage={setItemsPerPage} />
+            </div>
+
+            <div>
+              <Input placeholder='Search' onChange={(e) => setSearch(e.target.value)} />
+            </div>
+          </div>
+
+          <div className='mb-3'>
+            <CategoryTable categories={categories} edit={handleEditCategoryModal} />
+          </div>
+
+          <div className='flex justify-end'>
+            <ReactPaginate
+              activeClassName='border rounded-md'
+              pageClassName='px-2 py-1'
+              className='flex items-center gap-3 text-sm font-medium'
+              breakLabel='...'
+              nextLabel='Next >'
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={5}
+              pageCount={pageCount}
+              previousLabel='< Previous'
+              renderOnZeroPageCount={null}
+            />
+          </div>
+        </ListingLayout>
 
         {openModal && <AddEditCategoryModal actionStatus={actionStatus} />}
         <Loader isLoading={isLoading} />
