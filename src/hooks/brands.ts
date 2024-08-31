@@ -2,7 +2,15 @@ import React from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import newAxios from '@/lib/new-axios'
 
-export function brandAPI({ search, offset, limit }) {
+export function brandAPI({
+  search,
+  offset,
+  limit,
+}: {
+  search: string | number
+  offset: string | number
+  limit: string | number
+}) {
   const { isLoading, error, data, isFetching } = useQuery({
     queryKey: ['brands', search, offset, limit],
     queryFn: async () => {
