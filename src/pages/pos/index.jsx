@@ -45,8 +45,11 @@ const names = [
 
 export default function IndexSales() {
   const { isLoading, error, data: products } = productAPI({ search: '', offset: 0, limit: 0 })
-  // const { isLoading: categoriesIsLoading, error: categoriesError, data: categories } = categoryAPI()
-  // if (isLoading) return <h1>Loading...</h1>
+  const {
+    isLoading: categoryIsLoading,
+    error: categoryError,
+    data: categories,
+  } = categoryAPI({ search: '', offset: 0, limit: 0 })
 
   const { removeToCart, cartCount } = useCartStore((state) => state)
   const [openCart, setOpenCart] = useState(false)
@@ -74,13 +77,20 @@ export default function IndexSales() {
         </div>
       </div>
 
-      <div className='bg-white p-3'>
-        <section>
-          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 place-items-center gap-3'>
-            <ProductDisplay products={products?.data} />
+      <div className='grid grid-cols-8 gap-3 mb-3'>
+        {/* {categories?.data.map((item) => (
+          <div className='bg-white shadow rounded-md p-6 min-w-[6rem]'>
+            <p className='uppercase font-medium text-xs text-center'>{item.category}</p>
           </div>
-        </section>
+        ))} */}
+
+          <button className='uppercase font-medium text-xs text-center bg-white hover:bg-gray-100 shadow rounded-md p-6 min-w-[6rem]'>Choose Categories</button>
       </div>
+      <section className='bg-white p-3'>
+        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 place-items-center gap-3'>
+          <ProductDisplay products={products?.data} />
+        </div>
+      </section>
 
       <CartDisplay open={openCart} setOpen={setOpenCart} />
       <Loader isLoading={isLoading} />

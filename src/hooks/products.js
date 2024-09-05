@@ -38,8 +38,8 @@ export function productFindOneAPI(id) {
 
 export async function storeProductAPI(data) {
   try {
-    const response = await newAxios.post('/api/products', data)
-    return response.data
+    const { data } = await newAxios.post('/api/products', data)
+    return data
   } catch (error) {
     throw 'Something went wrong.'
   }
@@ -47,8 +47,8 @@ export async function storeProductAPI(data) {
 
 export async function updateProductAPI(id, data) {
   try {
-    const response = await newAxios.put(`/api/products/${id}`, data)
-    return response.data
+    const { data } = await newAxios.put(`/api/products/${id}`, data)
+    return data
   } catch (error) {
     throw new Error(error)
   }

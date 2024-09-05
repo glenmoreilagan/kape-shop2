@@ -35,8 +35,18 @@ import MessageAlert from '../MessageAlert'
 
 import { useUser } from '@clerk/nextjs'
 
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+
 export default function CartDisplay({ open, setOpen }) {
   const { isSignedIn, user, isLoaded } = useUser()
+
+  const queryClient = useQueryClient()
+
+  const { isLoading, mutate: mutateCheckout } = useMutation(checkout, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['products', '', 0, 0])
+    },
+  })
 
   const cartItems = useCartStore((state) => state.cart)
   const resetCart = useCartStore((state) => state.resetCart)
@@ -59,10 +69,15 @@ export default function CartDisplay({ open, setOpen }) {
     return parseFloat(cash) - parseFloat(total)
   }, [cash])
 
-  const handleCheckout = async (payload) => {
+  const handleCheckout = async (data) => {
     console.log(user?.id)
     try {
-      const response = await checkout({ ...payload, user_id: user?.id })
+      // const response = await checkout({ ...payload, user_id: user?.id })
+
+      const payload = { ...data, user_id: user?.id }
+
+      mutateCheckout(payload)
+
       setOpen(false)
       resetCart()
       toast.success(<MessageAlert header='Success!' body='Checkout Success.' />)

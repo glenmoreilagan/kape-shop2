@@ -26,19 +26,25 @@ export default function ProductDisplay({ products }) {
                   className='w-full h-32 group-hover:scale-125 transition-transform duration-500 ease-in-out'
                 />
               </div>
-              <div className='px-3 mb-3'>
+              <div className='px-3 mb-3 space-y-4'>
                 <div>
-                  <span className='text-sm font-medium'>
+                  <span className='text-sm font-medium uppercase'>
                     {product.name?.length > 50 ? product.name.slice(0, 25) + '...' : product.name}
                   </span>
                 </div>
                 <div className='flex justify-between items-center'>
                   <div>
-                    <span className='text-xs font-thin'>PHP {NumberFormatter(parseInt(product.price))}</span>
+                    <p className='text-xs font-thin text-gray-500'>x{parseInt(product.stocks)}</p>
+                    <p className='text-xs font-semibold text-gray-600'>
+                      PHP {NumberFormatter(parseInt(product.price))}
+                    </p>
                   </div>
                   <div>
-                    <button title='Add to cart' onClick={() => handleAddToCart(product)}>
-                      <FaShoppingCart size={'22px'} className='text-blue-700 hover:text-blue-000 cursor-pointer' />
+                    <button disabled={product.stocks <= 0} title='Add to cart' onClick={() => handleAddToCart(product)}>
+                      <FaShoppingCart
+                        size={'22px'}
+                        className={`${product.stocks > 0 ? 'text-blue-700 cursor-pointer' : 'text-gray-600'} hover:text-blue-000 `}
+                      />
                     </button>
                   </div>
                 </div>
