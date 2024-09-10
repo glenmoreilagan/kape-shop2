@@ -36,11 +36,9 @@ import MessageAlert from '../MessageAlert'
 import { useUser } from '@clerk/nextjs'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import useEcho from './../../hooks/echo'
 
 export default function CartDisplay({ open, setOpen }) {
   const { isSignedIn, user, isLoaded } = useUser()
-  const echo = useEcho()
 
   const queryClient = useQueryClient()
 
@@ -88,13 +86,7 @@ export default function CartDisplay({ open, setOpen }) {
     }
   }
 
-  useEffect(() => {
-    if (echo) {
-      echo.channel(`checkout.success`).listen('.checkout.success.event', (event) => {
-        console.log('Real-time event received: ', event)
-      })
-    }
-  }, [echo])
+
 
   return (
     <>
