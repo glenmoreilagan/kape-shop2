@@ -88,4 +88,10 @@
   body {
     @apply bg-background text-foreground;
   }
+
+}
+
+.cl-internal-1j7ahlv {
+  width: 2.75rem !important;
+  height: 2.75rem !important;
 }
