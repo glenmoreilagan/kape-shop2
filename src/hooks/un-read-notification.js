@@ -13,7 +13,7 @@ export default function UnReadNotification() {
   }
 
   useEffect(() => {
-    if (echo) {
+    if (echo && process.env.NODE_ENV === 'development') {
       echo.channel(`checkout.success`).listen('.checkout.success.event', (event) => {
         console.log('Real-time event received: ', event)
         handleEchoCallback()
