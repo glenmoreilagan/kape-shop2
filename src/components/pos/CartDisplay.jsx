@@ -33,12 +33,12 @@ import { Input } from '../ui/input'
 import { toast } from 'react-toastify'
 import MessageAlert from '../MessageAlert'
 
-import { useUser } from '@clerk/nextjs'
+// import { useUser } from '@clerk/nextjs'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export default function CartDisplay({ open, setOpen }) {
-  const { isSignedIn, user, isLoaded } = useUser()
+  // const { isSignedIn, user, isLoaded } = useUser()
 
   const queryClient = useQueryClient()
 

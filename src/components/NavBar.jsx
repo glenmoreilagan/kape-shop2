@@ -18,11 +18,11 @@ import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/n
 function NavBar({ path }) {
   const router = useRouter()
   const pathname = usePathname()
-  // const user = useUserStore((state) => state.user)
+  const user = useUserStore((state) => state.user)
 
   const [burgerIconOpen, setBurgerIconOpen] = useState(false)
 
-  const { isSignedIn, user, isLoaded } = useUser()
+  // const { isSignedIn, user, isLoaded } = useUser()
 
   // useEffect(() => {
   //   console.log(user)
@@ -97,9 +97,9 @@ function NavBar({ path }) {
                 <Link href='/dashboard' className='text-sm text-primary font-semibold'>
                   Go To Dashboard
                 </Link>
-                <SignedIn>
+                {/* <SignedIn>
                   <UserButton />
-                </SignedIn>
+                </SignedIn> */}
               </>
             )}
           </div>
