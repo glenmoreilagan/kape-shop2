@@ -38,7 +38,7 @@ const theme = createTheme({
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <ClerkProvider>
+      {/* <ClerkProvider> */}
         <ProSidebarProvider>
           <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={theme}>
@@ -59,7 +59,7 @@ export default function App({ Component, pageProps }) {
             />
           </QueryClientProvider>
         </ProSidebarProvider>
-      </ClerkProvider>
+      {/* </ClerkProvider> */}
     </>
   )
 }

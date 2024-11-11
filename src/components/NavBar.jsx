@@ -78,20 +78,20 @@ function NavBar({ path }) {
             )}
 
             {!user ? (
-              // <Button
-              //   className={`${pathname === '/login' ? 'invisible' : 'visible'}`}
-              //   onClick={() => router.replace('/login')}
-              //   // variant='contained'
-              //   // size='small'
-              // >
-              //   Login
-              // </Button>
+              <Button
+                className={`${pathname === '/login' ? 'invisible' : 'visible'}`}
+                onClick={() => router.replace('/login')}
+                // variant='contained'
+                // size='small'
+              >
+                Login
+              </Button>
 
-              <>
-                <SignedOut>
-                  <SignInButton forceRedirectUrl='/dashboard' className='text-sm font-semibold hover:text-primary/90 text-default-foreground' />
-                </SignedOut>
-              </>
+              // <>
+              //   <SignedOut>
+              //     <SignInButton forceRedirectUrl='/dashboard' className='text-sm font-semibold hover:text-primary/90 text-default-foreground' />
+              //   </SignedOut>
+              // </>
             ) : (
               <>
                 <Link href='/dashboard' className='text-sm text-primary font-semibold'>

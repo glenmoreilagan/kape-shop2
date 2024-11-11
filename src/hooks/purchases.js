@@ -21,14 +21,14 @@ export function purchaseAPI({ search, offset, limit }) {
   }
 }
 
-export function purchaseFindOneAPI(uuid) {
+export function purchaseFindOneAPI(document_number_params) {
   const { isLoading, error, data } = useQuery({
-    queryKey: ['purchases', { uuid }],
+    queryKey: ['purchases', { document_number_params }],
     queryFn: async () => {
-      const { data } = await newAxios.get(`/api/purchases/${uuid}`)
+      const { data } = await newAxios.get(`/api/purchases/${document_number_params}`)
       return data
     },
-    enabled: !!uuid,
+    enabled: !!document_number_params,
   })
 
   return {

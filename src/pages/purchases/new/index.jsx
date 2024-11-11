@@ -30,6 +30,7 @@ import moment from 'moment'
 
 import usePurchaseStore from '@/store/usePurchaseStore'
 import { purchaseFindOneAPI } from '@/hooks/purchases'
+import { generateDocumentNumberApi } from '@/hooks/generate-document-number'
 
 const ACTIONS = {
   DOCUMENT: 'DOCUMENT',
@@ -71,11 +72,12 @@ const initailState = {
 
 export default function IndexNewPurchase() {
   const router = useRouter()
-  const { id: purchase_uuid } = router.query
+  const { uuid } = router.query
   const [state, dispatch] = useReducer(reducer, initailState)
-  const { isLoading, error, data: purchases } = purchaseFindOneAPI(purchase_uuid)
+  const { isLoading, error, data: purchases } = purchaseFindOneAPI(uuid)
   const [openItemListModal, setOpenItemListModal] = useState(false)
   const [transactionDate, setTransactionDate] = useState(moment().format('YYYY-MM-DD'))
+  const { data: document_number_generated } = generateDocumentNumberApi()
 
   const {
     register,
@@ -93,15 +95,16 @@ export default function IndexNewPurchase() {
       document_no: document_no,
       description1: description1,
       description2: description2,
-      transaction_date: moment(transactionDate).format(),
+      transaction_date: moment(transactionDate).format('YYYY-MM-DD'),
     }
 
     try {
-      const response = await newAxios.post('api/purchases', payload)
-      dispatch({ type: ACTIONS.DOCUMENT, payload: { document: response.data } })
-      alert('Saving Success.')
-      // router.push(`${router.pathname}?id=${response.data.uuid}`)
-      router.push(`edit/${response.data.uuid}`)
+      if (uuid) {
+        const response = await newAxios.put(`api/purchases/${purchases?.document?.id}`, payload)
+      } else {
+        const response = await newAxios.post('api/purchases', payload)
+        router.replace(`/purchases/new?uuid=${response.data.uuid}`)
+      }
     } catch (error) {
       // alert('Something wrong.')
       throw error
@@ -120,33 +123,22 @@ export default function IndexNewPurchase() {
     setOpenItemListModal(false)
   }
 
-  // useEffect(() => {
-  // reset({
-  //   document_no: purchases?.document?.document_no,
-  //   description1: purchases?.document?.description1,
-  //   description2: purchases?.document?.description2,
-  // })
-  // setTransactionDate(moment(purchases?.document?.transaction_date).format('YYYY-MM-DD'))
-  // }, [purchases])
-
-  const getDocumentNumber = async () => {
-    try {
-      const response = await newAxios.get('/api/purchases/generate-document-number')
-
-      reset({
-        document_no: response.data,
-        description1: purchases?.document?.description1,
-        description2: purchases?.document?.description2,
-        transaction_date: moment().format('Y-MM-DD'),
-      })
-    } catch (error) {
-      throw new Error('Something went wrong.')
-    }
-  }
+  useEffect(() => {
+    reset({
+      document_no: purchases?.document?.document_no ?? document_number_generated,
+    })
+  }, [document_number_generated])
 
   useEffect(() => {
-    getDocumentNumber()
-  }, [])
+    reset({
+      document_no: purchases?.document?.document_no,
+      description1: purchases?.document?.description1,
+      description2: purchases?.document?.description2,
+      // transaction_date: moment(purchases?.document?.transaction_date).format('Y-MM-DD'),
+    })
+
+    setTransactionDate(moment(purchases?.document?.transaction_date).format('YYYY-MM-DD'))
+  }, [uuid, purchases?.document?.id])
 
   return (
     <AppLayout>
@@ -187,10 +179,9 @@ export default function IndexNewPurchase() {
               /> */}
 
               <DefaultDatePicker
-                // value={transactionDate}
-                // onChange={(e) => setTransactionDate(e.target.value)}
+                value={transactionDate}
+                onChange={(e) => setTransactionDate(e.target.value)}
                 id='transaction_date'
-                {...register('transaction_date')}
               />
             </div>
             {/* <div className='flex flex-col w-full md:w-3/12 gap-3'></div> */}
@@ -225,12 +216,14 @@ export default function IndexNewPurchase() {
         <PurchaseItemTable purchases={purchases} handleAddItem={handleAddItem} dispatchReducer={dispatch} />
       </div>
 
-      <ItemListModal
-        open={openItemListModal}
-        handleClose={handleClose}
-        documentState={state}
-        dispatchReducer={dispatch}
-      />
+      {openItemListModal && (
+        <ItemListModal
+          open={openItemListModal}
+          handleClose={handleClose}
+          documentState={state}
+          dispatchReducer={dispatch}
+        />
+      )}
     </AppLayout>
   )
 }

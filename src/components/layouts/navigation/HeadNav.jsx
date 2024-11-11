@@ -25,41 +25,41 @@ import useUserStore from '@/store/useUserStore'
 
 // import { logout } from '@/hooks/auth'
 
-import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
-import useEcho from '@/hooks/echo'
-import UnReadNotification from '@/hooks/un-read-notification'
+// import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
+// import useEcho from '@/hooks/echo'
+// import UnReadNotification from '@/hooks/un-read-notification'
 
 export default function HeadNav() {
   const { collapseSidebar } = useProSidebar()
-  const { isSignedIn, user, isLoaded } = useUser()
+  // const { isSignedIn, user, isLoaded } = useUser()
 
   const router = useRouter()
 
-  const unReadNotif = UnReadNotification()
+  // const unReadNotif = UnReadNotification()
 
-  // const user = useUserStore((state) => state.user)
-  // const setUser = useUserStore((state) => state.setUser)
+  const user = useUserStore((state) => state.user)
+  const setUser = useUserStore((state) => state.setUser)
 
-  // const [anchorEl, setAnchorEl] = useState(null)
-  // const open = Boolean(anchorEl)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const open = Boolean(anchorEl)
 
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget)
-  // }
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
 
-  // const handleClose = () => {
-  //   setAnchorEl(false)
-  // }
+  const handleClose = () => {
+    setAnchorEl(false)
+  }
 
-  // const handleProfile = () => {
-  //   alert('Profile')
-  //   setAnchorEl(null)
-  // }
+  const handleProfile = () => {
+    alert('Profile')
+    setAnchorEl(null)
+  }
 
-  // const handleLogout = async () => {
-  //   await logout()
-  //   setAnchorEl(null)
-  // }
+  const handleLogout = async () => {
+    await logout()
+    setAnchorEl(null)
+  }
 
   return (
     <>
@@ -85,32 +85,32 @@ export default function HeadNav() {
             </Button>
           </div>
           <div>
-            {/* <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant='ghost' size='icon'> */}
-            {/* {user?.name} */}
-            {/* <BiUser />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className='w-56'> */}
-            {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
-            {/* <DropdownMenuSeparator /> */}
-            {/* <DropdownMenuItem disabled>API</DropdownMenuItem> */}
-            {/* <DropdownMenuItem onClick={handleProfile}>Profile</DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu> */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant='ghost' size='icon'>
+                  {user?.name}
+                  <BiUser />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className='w-56'>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem disabled>API</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleProfile}>Profile</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <div className='flex gap-2'>
-              <div className='relative h-[2.75rem] w-[2.75rem] rounded-full bg-[#F3F3F3] hover:bg-gray-200 p-2 group'>
+              {/* <div className='relative h-[2.75rem] w-[2.75rem] rounded-full bg-[#F3F3F3] hover:bg-gray-200 p-2 group'>
                 <BiBell className='text-[#333333] w-full h-full group-hover:scale-110 transition-transform duration-500 ease-in-out' />
                 <span className='absolute -top-[.5rem] -right-[.5rem] inline-flex items-center rounded-full bg-pink-600 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-pink-700/10'>
                   {unReadNotif > 99 ? '99+' : unReadNotif}
                 </span>
-              </div>
-              <SignedIn className='h-24'>
+              </div> */}
+              {/* <SignedIn className='h-24'>
                 <UserButton />
-              </SignedIn>
+              </SignedIn> */}
             </div>
           </div>
         </div>
