@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -6,6 +6,8 @@ import Hero from '@/components/home/Hero'
 import NavBar from '@/components/NavBar'
 import Products from '@/components/home/Products'
 import Footer from '@/components/Footer'
+
+import Testimony from '@/components/Testimony'
 
 export default function Home() {
   const router = useRouter()
@@ -25,31 +27,7 @@ export default function Home() {
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
               {Array.from({ length: 6 }).map((item, i) => (
-                <div key={i} className='bg-white w-full p-8 shadow-sm rounded-md'>
-                  <div className='flex gap-3 items-center'>
-                    <div>
-                      <img
-                        src='https://th.bing.com/th/id/OIP.6Q8RT0hh7ld6AaJeoZb_MAHaHa?w=500&h=500&rs=1&pid=ImgDetMain'
-                        alt='avatar'
-                        width={50}
-                        height={50}
-                        className='rounded-full'
-                      />
-                    </div>
-
-                    <div>
-                      <p>Juan Dela Cruz</p>
-                      <small className='text-gray-400'>Customer</small>
-                    </div>
-                  </div>
-
-                  <div className='mt-6'>
-                    <p className='text-gray-600 text-[.9em] leading-7'>
-                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia laborum aliquid delectus vero
-                      consequatur fugiat eaque, reiciendis sit voluptates recusandae.
-                    </p>
-                  </div>
-                </div>
+                <Testimony key={i} />
               ))}
             </div>
           </div>
